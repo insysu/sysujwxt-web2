@@ -33,7 +33,7 @@ cd py-sysu-jwxt
 python server.py
 ```
 
-然后在浏览器中访问[http://localhost:4000](http://localhost:4000)即可
+然后在浏览器中访问[http://localhost:5000](http://localhost:5000)即可
 
 
 Todo
