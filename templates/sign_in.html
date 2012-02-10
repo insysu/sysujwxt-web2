@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Sign In{% endblock title %}
+{% block content %}
+<form action="/sign_in" method="post" class="form-horizontal"> 
+  <fieldset>
+    <legend>登录</legend>
+    <div class="control-group">
+      <label class="control-label" for="username">学号</label>
+      <div class="controls">
+        <div class="input-prepend">
+          <span class="add-on">
+            <i class="icon-user"></i>
+          </span>
+          <input type="text" name="username" value="{{ username }}" placeholder="填入学号，如0938ooxx" />
+        </div>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="password">密码</label>
+      <div class="controls">
+        <div class="input-prepend">
+          <span class="add-on">
+            <i class="icon-qrcode"></i>
+          </span>
+          <input type="password" name="password" placeholder="填入教务系统密码" />
+        </div>
+      </div>
+      <div class="form-actions">
+          <button class="btn btn-primary"><i class="icon-plane icon-white"></i> 登录</button>
+
+      </div>
+    </div>
+  </div>
+</fieldset>
+</form>
+{% endblock content %}

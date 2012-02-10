@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block header %}
+<span class="label label-notice">Welcome,</span><i class="icon-music"></i><span class="label label-success">
+  {{ sno }}!</span><i class="icon-music"></i>
+<a href="./sign_out">退出<i class="icon-share-alt"></i></a>
+{% endblock %}
+
+{% block content %}
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#tabs-1">分数查询</a></li>
+    <li><a data-toggle="tab" href="#tabs-2">课表查询</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="active tab-pane" id="tabs-1">
+      <form class="form-horizontal">
+        <div class="control-group">
+          <label class="control-label" for="score-year">学年</label>
+          <div class="controls">
+            <select class="span2" name="score-year" id="score-year">
+              <option>2005-2006</option>
+              <option>2006-2007</option>
+              <option>2007-2008</option>
+              <option>2008-2009</option>
+              <option>2009-2010</option>
+              <option>2010-2011</option>
+              <option selected="selected">2011-2012</option>
+              <option>2012-2013</option>
+              <option>2013-2014</option>
+              <option>2014-2015</option>
+              <option>2015-2016</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="score-term">学期</label>
+          <div class="controls">
+            <div class="btn-group active" data-toggle="buttons-checkbox">
+              <button class="btn btn-primary">上学期</button>
+              <button class="btn btn-primary">下学期</button>
+              <button class="btn btn-primary">小学期</button>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="score-query-btn"><i class="icon-search icon-white"></i> 查询</button>
+        </div>
+      </form>
+      <div id="score-result"></div>
+    </div>
+
+    <div class="tab-pane" id="tabs-2">
+      <form class="form-horizontal" method="post" action="./get_class" target="_blank">
+        <div class="control-group">
+          <label class="control-label" for="class-year">学年</label>
+          <div class="controls">
+            <select class="span2" name="class-year" id="class-year">
+              <option>2005-2006</option>
+              <option>2006-2007</option>
+              <option>2007-2008</option>
+              <option>2008-2009</option>
+              <option>2009-2010</option>
+              <option>2010-2011</option>
+              <option selected="selected">2011-2012</option>
+              <option>2012-2013</option>
+              <option>2013-2014</option>
+              <option>2014-2015</option>
+              <option>2015-2016</option>
+            </select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="class-term">学期</label>
+          <div class="controls">
+            <select class="span2" name="class-term" id="class-term">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="class-query-btn"><i class="icon-list-alt icon-white"></i> 新窗口中查看</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% endblock %}

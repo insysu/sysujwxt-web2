@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{% block title %}{% endblock %} - SYSU JWXT</title>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-tabs.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-button.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/query.js')}}"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="alert alert-info">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <li>{{ message|safe }}</li>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+      </div>
+      <div id="header">
+        <span class="label label-warning">Tips</span> 推荐使用
+        <a href="http://firefox.com.cn/download/">Firefox</a>或
+        <a href="http://www.google.cn/chrome">Chrome</a>或
+        <a href="http://www.apple.com.cn/safari/">Safari</a>以获得更好的体验
+  <br />
+        {% block header %}{% endblock %}</div>
+      <div id="content">{% block content %}{% endblock %}</div>
+      <div id="footer">
+        <div class="pull-right">
+          <p>欢迎提出意见或者提交bug，更多功能敬请期待。</p>
+          <p>联系方式：<a href="http://weibo.com/maplevalley8">性浪微博</a></p>
+          <p>Android版 <a href="http://bepanda.me/mysysu/SYSU_jw.apk">下载</a> ，感谢<a href="http://weibo.com/erweiyu">尔威404</a>!</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
