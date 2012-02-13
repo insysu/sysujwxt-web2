@@ -32,8 +32,18 @@ git clone git://github.com/humiaozuzu/py-sysu-jwxt.git
 cd py-sysu-jwxt
 python server.py
 ```
+### 访问
 
-然后在浏览器中访问[http://localhost:5000](http://localhost:5000)即可
+支持浏览器为:
+
+* Firefox
+* Chrome
+* safari
+* IE8+
+* opera
+* UC（及主流的手机浏览器）
+
+然后访问[http://localhost:5000](http://localhost:5000)即可。如果需要手机访问得到，需要在你的服务器中部署服务。
 
 
 Todo

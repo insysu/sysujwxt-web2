@@ -42,7 +42,7 @@ def sign_in():
 
     if ret:
         # if succeed
-        flash('Login Successfully')
+        flash('登录成功'.decode('utf-8'))
         print "successfully logged in"
         # set cookie here
         response = make_response(redirect(url_for('index')))
@@ -50,13 +50,13 @@ def sign_in():
         response.set_cookie('JSESSIONID', ret, 60*15)
         return response
     else:
-        flash('Error password')
+        flash(u'密码错误')
         print "wrong password"
         return render_template('sign_in.html', username=username)
 
 @app.route('/sign_out')
 def sign_out():
-    flash('Logout Successfully')
+    flash(u'登出成功')
     response = make_response(redirect(url_for('sign_in')))
     response.set_cookie('sno', '', -3600)
     response.set_cookie('JSESSIONID', '', -3600)
