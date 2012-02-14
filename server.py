@@ -35,15 +35,12 @@ def sign_in():
     username, password = [request.form[x] for x in ['username', 'password']]
 
     #login in with jwxt module here
-    print 'begin'
     ret = jwxt.login(username, password)
-    print 'end'
-    print ret
 
     if ret:
         # if succeed
         flash('登录成功'.decode('utf-8'))
-        print "successfully logged in"
+        #print "successfully logged in"
         # set cookie here
         response = make_response(redirect(url_for('index')))
         response.set_cookie('sno', username, 60*15)
@@ -51,7 +48,7 @@ def sign_in():
         return response
     else:
         flash(u'密码错误')
-        print "wrong password"
+        #print "wrong password"
         return render_template('sign_in.html', username=username)
 
 @app.route('/sign_out')
@@ -67,26 +64,19 @@ def get_score():
     sno = request.cookies.get('sno') 
     cookie = request.cookies.get('JSESSIONID')
     year, term = [request.args[x] for x in ['year', 'term']]
-    print sno, year, term, cookie
-    print type(cookie)
     ret = jwxt.get_score(sno.encode('ascii'),
             year.encode('ascii'),
             term.encode('ascii'),
             cookie.encode('ascii'))
-    print ret
     return ret
 
 @app.route('/get_class', methods=['POST', 'GET'])
 def get_class():
-    print 'asads'
     cookie = request.cookies.get('JSESSIONID')
     year, term = [request.form[x] for x in ['class-year', 'class-term']]
-    print year, term, cookie
-    print type(cookie)
     ret = jwxt.get_class(year.encode('ascii'),
             term.encode('ascii'),
             cookie.encode('ascii'))
-    print ret
     return ret
 
 
