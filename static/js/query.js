@@ -1,10 +1,25 @@
+var debug;
+var courseTypeTable = {
+  '30': '公选',
+  '21': '专选',
+  '11': '专必',
+  '10': '公必'
+};
+
 $(document).ready(function(event) {
-  // load tabs
-  //$('.tabs').tabs('show');
   $('.btn-group').click(function(event) {
     event.preventDefault();
   });
 
+  $('.add-class-btn').click(function(){
+    alert('add!');
+  });
+
+  $('.remove-class-btn').live('click', function(){
+    $.get('./remove_course', {'id': $(this).val()});
+  });
+
+  // get score results
   $('#score-query-btn').click(function(event) {
     event.preventDefault();
     $('#score-result').empty().append($('<img>').attr('src', './static/img/loading.gif'));
@@ -24,13 +39,6 @@ $(document).ready(function(event) {
                        $('<td>').text('教学班排名'))
     );
 
-    var courceType = {
-      '30': '公选',
-      '21': '专选',
-      '11': '专必',
-      '10': '公必'
-    }
-
     // create table body
     var $tblBody = $('<tbody>');
 
@@ -39,7 +47,7 @@ $(document).ready(function(event) {
     for (var termIdx = 0; termIdx < 3; termIdx++) {
       if ($($btnGroup[termIdx]).hasClass('active')) {
         // get score and fill in body
-        $.get('./get_score', {'year': year, 'term': termIdx+1}, 
+        $.get('./score', {'year': year, 'term': termIdx+1}, 
               function(data) {
                 //console.log(data);
                 eval('data = ' + data);
@@ -50,7 +58,7 @@ $(document).ready(function(event) {
                     $('<tr>').append($('<td>').text(score[i].kcmc),
                                      $('<td>').text(score[i].xq),
                                      $('<td>').text(score[i].xf),
-                                     $('<td>').text(courceType[score[i].kclb]),
+                                     $('<td>').text(courseTypeTable[score[i].kclb]),
                                      $('<td>').text(score[i].zpcj),
                                      $('<td>').text(score[i].zzcj),
                                      $('<td>').text(score[i].jd),
@@ -60,9 +68,136 @@ $(document).ready(function(event) {
               });
       }
     }
-          // combine head and body of the form
-          var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
-          .append($tblHead, $tblBody);
-          $('#score-result').empty().append($tbl);
+    // combine head and body of the form
+    var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
+    .append($tblHead, $tblBody);
+    $('#score-result').empty().append($tbl);
+  });
+
+  // bind event to btn select course
+  $('#select-course-query-btn').click(function(event) {
+    event.preventDefault();
+    var courseType = $('#select-course-type').val(); 
+
+    // get course to be selected 
+    $.get('./selecting_course', {'year': '2011-2012', 'term': 2, 'course_type': courseType}, 
+          function(data) {
+            eval('data=' + data);
+            debug = data;
+
+            var $tblHead = $('<thead>');
+            $tblHead.append(
+              $('<tr>').append($('<td>').text('操作'),
+                               $('<td>').text('课程名称'),
+                               $('<td>').text('上课时间地点'),
+                               $('<td>').text('任课老师'),
+                               $('<td>').text('学分'),
+                               $('<td>').text('课容量'),
+                               $('<td>').text('待筛选人数'),
+                               $('<td>').text('空位'))
+            );
+
+            // create table body
+            var $tblBody = $('<tbody>');
+            var courses = data.body.dataStores.table1kxkcStore.rowSet.primary;
+
+            for (var i=0; i < courses.length; i++) {
+              $tblBody.append(
+                $('<tr>').append($('<td>').html($('<button>').addClass('add-class-btn').text('选课')),
+                                 $('<td>').text(courses[i].kcmc),
+                                 $('<td>').text(courses[i].sksjdd),
+                                 $('<td>').text(courses[i].zjjszc),
+                                 $('<td>').text(courses[i].xf),
+                                 $('<td>').text(courses[i].xdrs),
+                                 $('<td>').text(courses[i].syrs),
+                                 $('<td>').text(courses[i].syrs))
+              );
+            };
+            // combine head and body of the form
+            var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
+            .append($tblHead, $tblBody);
+            $('#selecting-course-result').empty().append($tbl);
+          });
+
+          // get course have been selected 
+          $.get('./selected_course', {'year': '2011-2012', 'term': 2, 'course_type': courseType}, 
+                function(data) {
+                  eval('data=' + data);
+                  debug = data;
+
+                  var $tblHead = $('<thead>');
+                  $tblHead.append(
+                    $('<tr>').append($('<td>').text('操作'),
+                                     $('<td>').text('课程名称'),
+                                     $('<td>').text('上课时间地点'),
+                                     $('<td>').text('任课老师'),
+                                     $('<td>').text('学分'),
+                                     $('<td>').text('课容量'),
+                                     $('<td>').text('待筛选人数'),
+                                     $('<td>').text('空位'))
+                  );
+
+                  // create table body
+                  var $tblBody = $('<tbody>');
+                  var courses = data.body.dataStores.table1yxkcStore.rowSet.primary;
+
+                  for (var i=0; i < courses.length; i++) {
+                    $tblBody.append(
+                      $('<tr>').append($('<td>').html($('<button>').addClass('remove-class-btn').text('退选').val(courses[i].resourceID)),
+                                       $('<td>').text(courses[i].kcmc),
+                                       $('<td>').text(courses[i].sksjjd),
+                                       $('<td>').text(courses[i].zjjszc),
+                                       $('<td>').text(courses[i].xf),
+                                       $('<td>').text(courses[i].xdrs),
+                                       $('<td>').text(courses[i].syrs),
+                                       $('<td>').text(courses[i].syrs))
+                    );
+                  };
+                  // combine head and body of the form
+                  var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
+                  .append($tblHead, $tblBody);
+                  $('#selected-course-result').empty().append($tbl);
+                });
+  });
+
+  // bing event to btn get course result
+  $('#course-result-query-btn').click(function(event) {
+    event.preventDefault();
+    $.get('./course_result', {'year': '2011-2012', 'term': 2}, 
+          function(data) {
+            eval('data=' + data);
+            debug = data;
+
+            var $tblHead = $('<thead>');
+            $tblHead.append(
+              $('<tr>').append($('<td>').text('课程名称'),
+                               $('<td>').text('培养类别'),
+                               $('<td>').text('课程类别'),
+                               $('<td>').text('学分'),
+                               $('<td>').text('选课状态'),
+                               $('<td>').text('考核方式'),
+                               $('<td>').text('记录方式'))
+            );
+
+            // create table body
+            var $tblBody = $('<tbody>');
+            var courses = data.body.dataStores.xsxkjgStore.rowSet.primary;
+
+            for (var i=0; i < courses.length; i++) {
+              $tblBody.append(
+                $('<tr>').append($('<td>').text(courses[i].kcmc),
+                                 $('<td>').text(courses[i].pylbm),
+                                 $('<td>').text(courseTypeTable[courses[i].kclbm]),
+                                 $('<td>').text(courses[i].xf),
+                                 $('<td>').text(courses[i].xkjd),
+                                 $('<td>').text(courses[i].khfs),
+                                 $('<td>').text(courses[i].jlfs))
+              );
+            };
+            // combine head and body of the form
+            var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
+            .append($tblHead, $tblBody);
+            $('#course-result').empty().append($tbl);
+          });
   });
 });

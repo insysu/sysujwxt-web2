@@ -11,6 +11,7 @@
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#tabs-1">分数查询</a></li>
     <li><a data-toggle="tab" href="#tabs-2">课表查询</a></li>
+    <li><a data-toggle="tab" href="#tabs-4">选课结果</a></li>
   </ul>
   <div class="tab-content">
     <div class="active tab-pane" id="tabs-1">
@@ -52,7 +53,7 @@
     </div>
 
     <div class="tab-pane" id="tabs-2">
-      <form class="form-horizontal" method="post" action="./get_class" target="_blank">
+      <form class="form-horizontal" method="post" action="./course_schedule" target="_blank">
         <div class="control-group">
           <label class="control-label" for="class-year">学年</label>
           <div class="controls">
@@ -76,7 +77,7 @@
           <div class="controls">
             <select class="span2" name="class-term" id="class-term">
               <option>1</option>
-              <option>2</option>
+              <option selected="selected">2</option>
               <option>3</option>
             </select>
           </div>
@@ -85,6 +86,15 @@
           <button type="submit" class="btn btn-primary" id="class-query-btn"><i class="icon-list-alt icon-white"></i> 新窗口中查看</button>
         </div>
       </form>
+    </div>
+
+    <div class="tab-pane" id="tabs-4">
+      <form class="form-horizontal">
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="course-result-query-btn"><i class="icon-search icon-white"></i> 查询</button>
+        </div>
+      </form>
+      <div id="course-result"></div>
     </div>
   </div>
   {% endblock %}
