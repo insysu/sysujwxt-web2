@@ -146,3 +146,4 @@ def get_course_result(year, term, cookie):
 if __name__ == '__main__':
     c = login('09388448', '8453100')
     print get_score('09388448', '2011-2012', '1', c)
+    print get_course_schedule('2011-2012', '2', c)
