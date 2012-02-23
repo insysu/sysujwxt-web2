@@ -220,9 +220,9 @@ $(document).ready(function(event) {
          var $tblBody = $('<tbody>');
          var $tblHead = $('<thead>');
          $tblHead.append(
-           $('<tr>').append($('<td>').text('课程类别'),
-                            $('<td>').text('总学分'),
+           $('<tr>').append($('<td>').text(''),
                             $('<td>').text('专必'),
+                            $('<td>').text('专选'),
                             $('<td>').text('公选'),
                             $('<td>').text('公必'),
                             $('<td>').text('实践'))
@@ -235,14 +235,17 @@ $(document).ready(function(event) {
                  debug = data;
 
                  data = data.body.dataStores.zxzyxfStore.rowSet.primary;
-                 $tblBody.append(
-                   $('<tr>').append($('<td>').text('总学分'),
-                                    $('<td>').text(data[0].twoColumn),
-                                    $('<td>').text(data[1].twoColumn),
-                                    $('<td>').text(data[2].twoColumn),
-                                    $('<td>').text(data[3].twoColumn),
-                                    $('<td>').text(data[4].twoColumn))
-                 );
+                           var $tblHead = $('<thead>');
+                           var $tblBody = $('<tbody>');
+                           for (var i=0; i < data.length; i++) {
+                             $tblBody.append(
+                               $('<tr>').append($('<td>').text(data[i].oneColumn),
+                                                $('<td>').text(data[i].twoColumn))
+                             );
+                           }
+                           var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
+                           .append($tblHead, $tblBody);
+                           $('#overall-credit-result').empty().append($tbl);
                }
               );
 
@@ -253,14 +256,17 @@ $(document).ready(function(event) {
                       debug2 = data;
 
                       data = data.body.dataStores.allJdStore.rowSet.primary;
-                      $tblBody.append(
-                        $('<tr>').append($('<td>').text('已修学分'),
-                                         $('<td>').text(data[0].twoColumn),
-                                         $('<td>').text(data[1].twoColumn),
-                                         $('<td>').text(data[2].twoColumn),
-                                         $('<td>').text(data[3].twoColumn),
-                                         $('<td>').text(typeof(data[4] == 'undefined') ? 0 : data[4].twoColumn))
-                      );
+                           var $tblHead = $('<thead>');
+                           var $tblBody = $('<tbody>');
+                           for (var i=0; i < data.length; i++) {
+                             $tblBody.append(
+                               $('<tr>').append($('<td>').text(data[i].oneColumn),
+                                                $('<td>').text(data[i].twoColumn))
+                             );
+                           }
+                           var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
+                           .append($tblHead, $tblBody);
+                           $('#obtained-credit-result').empty().append($tbl);
                     }
                    );
 
@@ -271,20 +277,19 @@ $(document).ready(function(event) {
                            debug3 = data;
 
                            data = data.body.dataStores.allJdStore.rowSet.primary;
-                           $tblBody.append(
-                             $('<tr>').append($('<td>').text('绩点'),
-                                              $('<td>').text(data[0].twoColumn),
-                                              $('<td>').text(data[1].twoColumn),
-                                              $('<td>').text(data[2].twoColumn),
-                                              $('<td>').text(data[3].twoColumn),
-                                              $('<td>').text(typeof(data[4] == 'undefined') ? 0 : data[4].twoColumn))
-                           );
+                           var $tblHead = $('<thead>');
+                           var $tblBody = $('<tbody>');
+                           for (var i=0; i < data.length; i++) {
+                             $tblBody.append(
+                               $('<tr>').append($('<td>').text(data[i].oneColumn),
+                                                $('<td>').text(data[i].twoColumn))
+                             );
+                           }
+                           var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
+                           .append($tblHead, $tblBody);
+                           $('#gpa-result').empty().append($tbl);
                          }
                         );
 
-
-                        var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
-                        .append($tblHead, $tblBody);
-                        $('#credit-gpa-result').empty().append($tbl);
   });
 });
