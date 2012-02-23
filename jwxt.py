@@ -197,7 +197,6 @@ def get_overall_credit(grade, tno, cookie):
     ret_code = ch.getinfo(pycurl.HTTP_CODE)
     ret_body = ret.getvalue() 
     ch.close()
-    print ret_body
     return ret_body
 
 obtained_credit_url = 'http://uems.sysu.edu.cn//jwxt/xscjcxAction/xscjcxAction.action?method=getAllXf'

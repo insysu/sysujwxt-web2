@@ -212,60 +212,79 @@ $(document).ready(function(event) {
             info = data.body.parameters.result.split(',');
           }
          );
-    grade = info[1];
-    tno = info[2];
+         grade = info[1];
+         tno = info[2];
 
-    var overallCredit, obtainedCredit, gpa;
-    // get overall credit
-    $.get('./overall_credit', {'grade': grade, 'tno': tno}, 
-          function(data) {
-            eval('data=' + data);
-            debug = data;
+         $.ajaxSetup({async:true});
 
-            overallCredit = data.body.dataStores.zxzyxfStore.rowSet.primary;
-          }
+         var $tblBody = $('<tbody>');
+         var $tblHead = $('<thead>');
+         $tblHead.append(
+           $('<tr>').append($('<td>').text('课程类别'),
+                            $('<td>').text('总学分'),
+                            $('<td>').text('专必'),
+                            $('<td>').text('公选'),
+                            $('<td>').text('公必'),
+                            $('<td>').text('实践'))
          );
 
-    // get obtained credit
-    $.get('./obtained_credit',
-          function(data) {
-            eval('data=' + data);
-            debug2 = data;
+         // get overall credit
+         $.get('./overall_credit', {'grade': grade, 'tno': tno}, 
+               function(data) {
+                 eval('data=' + data);
+                 debug = data;
 
-            obtainedCredit = data.body.dataStores.allJdStore.rowSet.primary;
-          }
-         );
-
-    // get gpa
-    $.get('./gpa',
-          function(data) {
-            eval('data=' + data);
-            debug3 = data;
-
-            gpa = data.body.dataStores.allJdStore.rowSet.primary;
-          }
-         );
-
-    $.ajaxSetup({async:true});
-
-    var $tblBody = $('<tbody>');
-            for (var i=0; i < 5; i++) {
-              $tblBody.append(
-                $('<tr>').append($('<td>').text(overallCredit[i].oneColumn.substr(0, overallCredit[i].oneColumn.length-2)),
-                                 $('<td>').text(typeof(overallCredit[i]) == 'undefined' ? 0 : overallCredit[i].twoColumn),
-                                 $('<td>').text(typeof(obtainedCredit[i]) == 'undefined' ? 0 : obtainedCredit[i].twoColumn),
-                                 $('<td>').text(typeof(gpa[i]) == 'undefined' ? 0 : gpa[i].twoColumn))
+                 data = data.body.dataStores.zxzyxfStore.rowSet.primary;
+                 $tblBody.append(
+                   $('<tr>').append($('<td>').text('总学分'),
+                                    $('<td>').text(data[0].twoColumn),
+                                    $('<td>').text(data[1].twoColumn),
+                                    $('<td>').text(data[2].twoColumn),
+                                    $('<td>').text(data[3].twoColumn),
+                                    $('<td>').text(data[4].twoColumn))
+                 );
+               }
               );
-            };
-    var $tblHead = $('<thead>');
-    $tblHead.append(
-      $('<tr>').append($('<td>').text('课程类别'),
-                       $('<td>').text('总学分'),
-                       $('<td>').text('已修学分'),
-                       $('<td>').text('绩点'))
-    );
-    var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
-    .append($tblHead, $tblBody);
-    $('#credit-gpa-result').empty().append($tbl);
+
+              // get obtained credit
+              $.get('./obtained_credit',
+                    function(data) {
+                      eval('data=' + data);
+                      debug2 = data;
+
+                      data = data.body.dataStores.allJdStore.rowSet.primary;
+                      $tblBody.append(
+                        $('<tr>').append($('<td>').text('已修学分'),
+                                         $('<td>').text(data[0].twoColumn),
+                                         $('<td>').text(data[1].twoColumn),
+                                         $('<td>').text(data[2].twoColumn),
+                                         $('<td>').text(data[3].twoColumn),
+                                         $('<td>').text(typeof(data[4] == 'undefined') ? 0 : data[4].twoColumn))
+                      );
+                    }
+                   );
+
+                   // get gpa
+                   $.get('./gpa',
+                         function(data) {
+                           eval('data=' + data);
+                           debug3 = data;
+
+                           data = data.body.dataStores.allJdStore.rowSet.primary;
+                           $tblBody.append(
+                             $('<tr>').append($('<td>').text('绩点'),
+                                              $('<td>').text(data[0].twoColumn),
+                                              $('<td>').text(data[1].twoColumn),
+                                              $('<td>').text(data[2].twoColumn),
+                                              $('<td>').text(data[3].twoColumn),
+                                              $('<td>').text(typeof(data[4] == 'undefined') ? 0 : data[4].twoColumn))
+                           );
+                         }
+                        );
+
+
+                        var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
+                        .append($tblHead, $tblBody);
+                        $('#credit-gpa-result').empty().append($tbl);
   });
 });
