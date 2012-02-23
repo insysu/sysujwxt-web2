@@ -26,12 +26,27 @@ python实现的SYSU教务第三方查询网站，作为替代[jwxt.lovemaple.inf
 
 ### 安装
 
+Linux和OS X下安装上面的需要的依赖文件即可
+
+Ubuntu下:
+
 ``` bash
 sudo apt-get install python python-flask pycurl
 git clone git://github.com/humiaozuzu/py-sysu-jwxt.git
 cd py-sysu-jwxt
 python server.py
 ```
+
+OS X下在终端(搜索bash)中输入:
+
+``` bash
+sudo easy_install flask
+sudo easy_install pycurl
+git clone git://github.com/humiaozuzu/py-sysu-jwxt.git
+cd py-sysu-jwxt
+python server.py
+```
+
 ### 访问
 
 支持浏览器为:
@@ -45,10 +60,23 @@ python server.py
 
 然后访问[http://localhost:5000](http://localhost:5000)即可。如果需要手机访问得到，需要在你的服务器中部署服务。
 
+updates
+-------
+
+Ver 0.2
+
+* 添加了查询选课结果的功能
+* 添加了选课的接口，但是在web端未实现
+
+Ver 0.1
+
+* 添加了查询分数和课表的功能
+
 
 Todo
 ----
 
  * windows平台部署教程
  * 选课功能（因为不评教也可以查询和选课，所以不需要实现这个功能）
+ * 研究生支持
 

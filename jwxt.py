@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import urllib
 import pycurl
 import re
@@ -18,14 +21,11 @@ def login(username, passward):
     ch.perform()
     ret_code = ch.getinfo(pycurl.HTTP_CODE)
     ch.close()
-    print type(ret_code)
     if ret_code == 200:
-        print 'asdds'
         return 
     else:
         ret_header = ret.getvalue() 
         #print ret_header
-        #print type(ret_header)
         cookies = re.findall(r'^Set-Cookie: (.*);', ret_header, re.MULTILINE)
         cookie = cookies[0][11:]
         return cookie
@@ -84,7 +84,6 @@ def get_selecting_course(year, term, course_type, cookie):
     ret_code = ch.getinfo(pycurl.HTTP_CODE)
     ret_body = ret.getvalue() 
     ch.close()
-    print ret_body
     return ret_body
 
 selected_course_url = 'http://uems.sysu.edu.cn/jwxt/xsxk/xsxk.action?method=getTab1YxkcByxndxqkclbmpylbmxh'
@@ -102,7 +101,6 @@ def get_selected_course(year, term, course_type, cookie):
     ret_code = ch.getinfo(pycurl.HTTP_CODE)
     ret_body = ret.getvalue() 
     ch.close()
-    print ret_body
     return ret_body
 
 remove_course_url = 'http://uems.sysu.edu.cn/jwxt/xsxk/xsxk.action?method=delXsxkjgFuncChanged'
@@ -120,7 +118,6 @@ def remove_course(id, cookie):
     ret_code = ch.getinfo(pycurl.HTTP_CODE)
     ret_body = ret.getvalue() 
     ch.close()
-    print ret_body
     return ret_body
 
 
@@ -140,7 +137,109 @@ def get_course_result(year, term, cookie):
     ret_code = ch.getinfo(pycurl.HTTP_CODE)
     ret_body = ret.getvalue() 
     ch.close()
+    return ret_body
+
+info_url = 'http://uems.sysu.edu.cn/jwxt/xscjcxAction/xscjcxAction.action?method=judgeStu'
+def get_info(cookie):
+    """
+    获取[学号], [年级], [教学号]
+    """
+    srt = """{header:{
+    "code": -100, 
+    "message": {"title": "", "detail": ""}},
+    body:{
+        dataStores:{
+            tempStore:{
+                rowSet:{
+                    "primary":[],
+                    "filter":[],
+                    "delete":[]},
+                name:"tempStore",
+                pageNumber:1,
+                pageSize:2147483647,
+                recordCount:0,
+                rowSetName:"pojo_com.neusoft.education.sysu.xy.xyjy.model.OnecolumModel"}},
+        parameters:{
+            "args": [], 
+            "responseParam": 
+            "result"}}}"""
+    ch = pycurl.Curl()
+    ch.setopt(pycurl.URL, info_url)
+    ch.setopt(pycurl.POST, True)
+    ch.setopt(pycurl.POSTFIELDS, srt)
+    ret = StringIO.StringIO()
+    ch.setopt(pycurl.WRITEFUNCTION, ret.write)
+    ch.setopt(pycurl.HTTPHEADER, ['Content-Type: multipart/form-data', 'render: unieap'])
+    ch.setopt(pycurl.COOKIE, "JSESSIONID="+cookie)
+
+    ch.perform()
+    ret_code = ch.getinfo(pycurl.HTTP_CODE)
+    ret_body = ret.getvalue() 
+    ch.close()
+    return ret_body
+
+overall_credit_url = 'http://uems.sysu.edu.cn/jwxt/xscjcxAction/xscjcxAction.action?method=getZyxf'
+def get_overall_credit(grade, tno, cookie):
+    """
+    获取总学分
+    """
+    srt = '{header:{"code": -100, "message": {"title": "", "detail": ""}},body:{dataStores:{zxzyxfStore:{rowSet:{"primary":[],"filter":[],"delete":[]},name:"zxzyxfStore",pageNumber:1,pageSize:2147483647,recordCount:0,rowSetName:"pojo_com.neusoft.education.sysu.djks.ksgl.model.TwoColumnModel"}},parameters:{"zxzyxfStore-params": [{"name": "pylbm", "type": "String", "value": "\'01\'", "condition": " = ", "property": "x.pylbm"}, {"name": "nj", "type": "String", "value": "\''+grade+'\'", "condition": " = ", "property": "x.nj"}, {"name": "zyh", "type": "String", "value": "\''+tno+'\'", "condition": " = ", "property": "x.zyh"}], "args": []}}}'
+    ch = pycurl.Curl()
+    ch.setopt(pycurl.URL, overall_credit_url)
+    ch.setopt(pycurl.POST, True)
+    ch.setopt(pycurl.POSTFIELDS, srt)
+    ret = StringIO.StringIO()
+    ch.setopt(pycurl.WRITEFUNCTION, ret.write)
+    ch.setopt(pycurl.HTTPHEADER, ['Content-Type: multipart/form-data', 'render: unieap'])
+    ch.setopt(pycurl.COOKIE, "JSESSIONID="+cookie)
+
+    ch.perform()
+    ret_code = ch.getinfo(pycurl.HTTP_CODE)
+    ret_body = ret.getvalue() 
+    ch.close()
     print ret_body
+    return ret_body
+
+obtained_credit_url = 'http://uems.sysu.edu.cn//jwxt/xscjcxAction/xscjcxAction.action?method=getAllXf'
+def get_obtained_credit(sno, cookie):
+    """
+    获取已取得的学分
+    """
+    srt = '{header:{"code": -100, "message": {"title": "", "detail": ""}},body:{dataStores:{allJdStore:{rowSet:{"primary":[],"filter":[],"delete":[]},name:"allJdStore",pageNumber:1,pageSize:2147483647,recordCount:0,rowSetName:"pojo_com.neusoft.education.sysu.djks.ksgl.model.TwoColumnModel"}},parameters:{"args": ["'+sno+'", "", "", ""]}}}'
+    ch = pycurl.Curl()
+    ch.setopt(pycurl.URL, obtained_credit_url)
+    ch.setopt(pycurl.POST, True)
+    ch.setopt(pycurl.POSTFIELDS, srt)
+    ret = StringIO.StringIO()
+    ch.setopt(pycurl.WRITEFUNCTION, ret.write)
+    ch.setopt(pycurl.HTTPHEADER, ['Content-Type: multipart/form-data', 'render: unieap'])
+    ch.setopt(pycurl.COOKIE, "JSESSIONID="+cookie)
+
+    ch.perform()
+    ret_code = ch.getinfo(pycurl.HTTP_CODE)
+    ret_body = ret.getvalue() 
+    ch.close()
+    return ret_body
+
+gpa_url = 'http://uems.sysu.edu.cn/jwxt/xscjcxAction/xscjcxAction.action?method=getAllJd'
+def get_gpa(sno, cookie):
+    """
+    获取已取得的总基点: 专必 公必 公选 专选
+    """
+    srt = '{header:{"code": -100, "message": {"title": "", "detail": ""}},body:{dataStores:{allJdStore:{rowSet:{"primary":[],"filter":[],"delete":[]},name:"allJdStore",pageNumber:1,pageSize:2147483647,recordCount:0,rowSetName:"pojo_com.neusoft.education.sysu.djks.ksgl.model.TwoColumnModel"}},parameters:{"args": ["'+sno+'", "", "", ""]}}}'
+    ch = pycurl.Curl()
+    ch.setopt(pycurl.URL, gpa_url)
+    ch.setopt(pycurl.POST, True)
+    ch.setopt(pycurl.POSTFIELDS, srt)
+    ret = StringIO.StringIO()
+    ch.setopt(pycurl.WRITEFUNCTION, ret.write)
+    ch.setopt(pycurl.HTTPHEADER, ['Content-Type: multipart/form-data', 'render: unieap'])
+    ch.setopt(pycurl.COOKIE, "JSESSIONID="+cookie)
+
+    ch.perform()
+    ret_code = ch.getinfo(pycurl.HTTP_CODE)
+    ret_body = ret.getvalue() 
+    ch.close()
     return ret_body
 
 if __name__ == '__main__':

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block header %}
-<span class="label label-notice">Welcome,</span><i class="icon-music"></i><span class="label label-success">
-  {{ sno }}!</span><i class="icon-music"></i>
+<span class="label label-notice">Welcome,
+    </span><span class="label label-success">{{ sno }}!</span>
 <a href="./sign_out">退出<i class="icon-share-alt"></i></a>
 {% endblock %}
 
@@ -10,7 +10,8 @@
 <div class="tabbable">
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#tabs-1">分数查询</a></li>
-    <li><a data-toggle="tab" href="#tabs-2">课表查询</a></li>
+    <li><a data-toggle="tab" href="#tabs-2">学分绩点</a></li>
+    <li><a data-toggle="tab" href="#tabs-3">课表查询</a></li>
     <li><a data-toggle="tab" href="#tabs-4">选课结果</a></li>
   </ul>
   <div class="tab-content">
@@ -53,6 +54,15 @@
     </div>
 
     <div class="tab-pane" id="tabs-2">
+      <form class="form-horizontal">
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="credit-gpa-query-btn"><i class="icon-search icon-white"></i> 查询</button>
+        </div>
+      </form>
+      <div id="credit-gpa-result"></div>
+    </div>
+
+    <div class="tab-pane" id="tabs-3">
       <form class="form-horizontal" method="post" action="./course_schedule" target="_blank">
         <div class="control-group">
           <label class="control-label" for="class-year">学年</label>

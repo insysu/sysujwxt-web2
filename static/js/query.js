@@ -1,10 +1,15 @@
 var debug;
+var debug2;
+var debug3;
 var courseTypeTable = {
   '30': '公选',
   '21': '专选',
   '11': '专必',
   '10': '公必'
 };
+var courseStatusTable = {
+  '01': '选课成功',
+}
 
 $(document).ready(function(event) {
   $('.btn-group').click(function(event) {
@@ -49,7 +54,6 @@ $(document).ready(function(event) {
         // get score and fill in body
         $.get('./score', {'year': year, 'term': termIdx+1}, 
               function(data) {
-                //console.log(data);
                 eval('data = ' + data);
                 var score = data.body.dataStores.kccjStore.rowSet.primary;
 
@@ -171,12 +175,9 @@ $(document).ready(function(event) {
             var $tblHead = $('<thead>');
             $tblHead.append(
               $('<tr>').append($('<td>').text('课程名称'),
-                               $('<td>').text('培养类别'),
                                $('<td>').text('课程类别'),
                                $('<td>').text('学分'),
-                               $('<td>').text('选课状态'),
-                               $('<td>').text('考核方式'),
-                               $('<td>').text('记录方式'))
+                               $('<td>').text('选课状态'))
             );
 
             // create table body
@@ -186,12 +187,9 @@ $(document).ready(function(event) {
             for (var i=0; i < courses.length; i++) {
               $tblBody.append(
                 $('<tr>').append($('<td>').text(courses[i].kcmc),
-                                 $('<td>').text(courses[i].pylbm),
                                  $('<td>').text(courseTypeTable[courses[i].kclbm]),
                                  $('<td>').text(courses[i].xf),
-                                 $('<td>').text(courses[i].xkjd),
-                                 $('<td>').text(courses[i].khfs),
-                                 $('<td>').text(courses[i].jlfs))
+                                 $('<td>').text(courseStatusTable[courses[i].pylbm]))
               );
             };
             // combine head and body of the form
@@ -199,5 +197,75 @@ $(document).ready(function(event) {
             .append($tblHead, $tblBody);
             $('#course-result').empty().append($tbl);
           });
+  });
+
+  // bing event to btn get gpa and credit 
+  $('#credit-gpa-query-btn').click(function(event) {
+    event.preventDefault();
+    $.ajaxSetup({async:false});
+    // get tno and grade according to your sno
+    var info;
+    $.get('./info', 
+          function(data) {
+            eval('data=' + data);
+            debug = data;
+            info = data.body.parameters.result.split(',');
+          }
+         );
+    grade = info[1];
+    tno = info[2];
+
+    var overallCredit, obtainedCredit, gpa;
+    // get overall credit
+    $.get('./overall_credit', {'grade': grade, 'tno': tno}, 
+          function(data) {
+            eval('data=' + data);
+            debug = data;
+
+            overallCredit = data.body.dataStores.zxzyxfStore.rowSet.primary;
+          }
+         );
+
+    // get obtained credit
+    $.get('./obtained_credit',
+          function(data) {
+            eval('data=' + data);
+            debug2 = data;
+
+            obtainedCredit = data.body.dataStores.allJdStore.rowSet.primary;
+          }
+         );
+
+    // get gpa
+    $.get('./gpa',
+          function(data) {
+            eval('data=' + data);
+            debug3 = data;
+
+            gpa = data.body.dataStores.allJdStore.rowSet.primary;
+          }
+         );
+
+    $.ajaxSetup({async:true});
+
+    var $tblBody = $('<tbody>');
+            for (var i=0; i < 5; i++) {
+              $tblBody.append(
+                $('<tr>').append($('<td>').text(overallCredit[i].oneColumn.substr(0, overallCredit[i].oneColumn.length-2)),
+                                 $('<td>').text(typeof(overallCredit[i]) == 'undefined' ? 0 : overallCredit[i].twoColumn),
+                                 $('<td>').text(typeof(obtainedCredit[i]) == 'undefined' ? 0 : obtainedCredit[i].twoColumn),
+                                 $('<td>').text(typeof(gpa[i]) == 'undefined' ? 0 : gpa[i].twoColumn))
+              );
+            };
+    var $tblHead = $('<thead>');
+    $tblHead.append(
+      $('<tr>').append($('<td>').text('课程类别'),
+                       $('<td>').text('总学分'),
+                       $('<td>').text('已修学分'),
+                       $('<td>').text('绩点'))
+    );
+    var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
+    .append($tblHead, $tblBody);
+    $('#credit-gpa-result').empty().append($tbl);
   });
 });

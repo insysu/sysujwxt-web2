@@ -84,7 +84,7 @@ def get_selecting_course():
     sno = request.cookies.get('sno') 
     cookie = request.cookies.get('JSESSIONID')
     year, term , course_type= [request.args[x] for x in ['year', 'term', 'course_type']]
-    print 'Query seleting course with sno: ', sno
+    print 'Query seleting course with sno:', sno
     ret = jwxt.get_selecting_course(year.encode('ascii'),
             term.encode('ascii'),
             course_type.encode('ascii'),
@@ -123,10 +123,48 @@ def remove_course():
     ret = jwxt.remove_course(id.encode('ascii'), cookie.encode('ascii'))
     return ret
 
+@app.route('/info')
+def get_info():
+    sno = request.cookies.get('sno') 
+    cookie = request.cookies.get('JSESSIONID')
+    print 'Get info with sno:', sno
+    ret = jwxt.get_info(cookie.encode('ascii'))
+    return ret
+
+@app.route('/overall_credit')
+def get_overall_credit():
+    sno = request.cookies.get('sno') 
+    cookie = request.cookies.get('JSESSIONID')
+    grade, tno = [request.args[x] for x in ['grade', 'tno']]
+    print 'Query overall credit with sno:', sno
+    ret = jwxt.get_overall_credit(grade.encode('ascii'),
+            tno.encode('ascii'),
+            cookie.encode('ascii'))
+    return ret
+
+@app.route('/obtained_credit')
+def get_obtained_credit():
+    sno = request.cookies.get('sno') 
+    cookie = request.cookies.get('JSESSIONID')
+    print 'Query obtained credit with sno:', sno
+    ret = jwxt.get_obtained_credit(sno.encode('ascii'),
+            cookie.encode('ascii'))
+    return ret
+
+@app.route('/gpa')
+def get_gpa():
+    sno = request.cookies.get('sno') 
+    cookie = request.cookies.get('JSESSIONID')
+    print 'Query gpa with sno:', sno
+    ret = jwxt.get_gpa(sno.encode('ascii'),
+            cookie.encode('ascii'))
+    return ret
+
 @app.route('/course_schedule', methods=['POST', 'GET'])
 def get_course_schedule():
     cookie = request.cookies.get('JSESSIONID')
     year, term = [request.form[x] for x in ['class-year', 'class-term']]
+    sno = request.cookies.get('sno') 
     print 'Query course schedule with sno:', sno
     ret = jwxt.get_course_schedule(year.encode('ascii'),
             term.encode('ascii'),
