@@ -242,6 +242,6 @@ def get_gpa(sno, cookie):
     return ret_body
 
 if __name__ == '__main__':
-    c = login('09388448', '8453100')
-    print get_score('09388448', '2011-2012', '1', c)
+    c = login('093800xx', '00xx00xx')
+    print get_score('0938ooxx', '2011-2012', '1', c)
     print get_course_schedule('2011-2012', '2', c)
