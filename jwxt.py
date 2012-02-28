@@ -65,7 +65,12 @@ def get_course_schedule(year, term, cookie):
     ret_code = ch.getinfo(pycurl.HTTP_CODE)
     ret_body = ret.getvalue() 
     ch.close()
-    return ret_body
+
+    # add course time to schedule table
+    pat = r'^var jcshowdata.*$'
+    sub = """var jcshowdata=["","第一节<br>08:00-08:45","第二节<br>08:55-09:40","第三节<br>09:50-10:35","第四节<br>10:45-11:30","第五节<br>11:40-12:25","第六节<br>12:35-13:20","第七节<br>13:30-14:15","第八节<br>14:25-15:10","第九节<br>15:20-16:05","第十节<br>16:15-17:00","第十一节<br>17:10-17:55","第十二节<br>18:05-18:50","第十三节<br>19:00-19:45","第十四节<br>19:55-20:40","第十五节<br>20:50-21:35"];\r"""
+    html = re.sub(pat, sub, ret_body, flags=re.M)
+    return html
 
 selecting_course_url = 'http://uems.sysu.edu.cn/jwxt/xsxk/xsxk.action?method=getJxbxxFunc'
 def get_selecting_course(year, term, course_type, cookie):
