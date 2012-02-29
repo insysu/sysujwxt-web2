@@ -172,9 +172,9 @@ def get_course_schedule():
             cookie.encode('ascii'))
     return ret
 
-@app.route('/alive')
-def alive():
-    return 'yes'
+@app.route('/router.js')
+def router():
+    return 'window.location.replace("http://jwxt2.lovemaple.info");'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
