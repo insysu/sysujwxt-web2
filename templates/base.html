@@ -3,13 +3,19 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>{% block title %}{% endblock %} - SYSU JWXT</title>
-    <!--<script type="text/javascript" src="http://jwxt2.lovemaple.info/static/js/router.js"></script>-->
+
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tab.js"></script>
-    <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-button.js"></script>
+    <!--uncomment following lines to use cdn-->
+    <!--<script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tab.js"></script>-->
+    <!--<script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-button.js"></script>-->
+    <!--<link rel=stylesheet type=text/css href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">-->
+
+    <!-- use source file in local server -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-tabs.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-button.js') }}"></script>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
     <script type="text/javascript" src="{{ url_for('static', filename='js/query.js')}}"></script>
-    <!--<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">-->
-    <link rel=stylesheet type=text/css href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">
   </head>
   <body>
     <div class="container">
@@ -24,7 +30,7 @@
       </div>
       <div id="header">
           当前使用的是
-          <strong>xx服务器</strong>
+          <strong>xx服务器</strong><br />
         <span class="label label-warning">Tips</span> 推荐使用
         <a href="http://firefox.com.cn/download/">Firefox</a>或
         <a href="http://www.google.cn/chrome">Chrome</a>或

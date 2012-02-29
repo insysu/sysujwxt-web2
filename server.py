@@ -52,8 +52,8 @@ def sign_in():
 
         # set cookie here
         response = make_response(redirect(url_for('index')))
-        response.set_cookie('sno', username, 60*30)
-        response.set_cookie('JSESSIONID', ret, 60*30)
+        response.set_cookie('sno', username, 15*60)
+        response.set_cookie('JSESSIONID', ret, 15*60)
         return response
     else:
         flash(u'密码错误')
