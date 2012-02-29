@@ -172,5 +172,9 @@ def get_course_schedule():
             cookie.encode('ascii'))
     return ret
 
+@app.route('/alive')
+def alive():
+    return 'yes'
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

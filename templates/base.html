@@ -3,8 +3,8 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>{% block title %}{% endblock %} - SYSU JWXT</title>
-
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
     <!--uncomment following lines to use cdn-->
     <!--<script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tab.js"></script>-->
     <!--<script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-button.js"></script>-->
@@ -15,6 +15,14 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-button.js') }}"></script>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 
+    <!--server js files-->
+    <script type="text/javascript">
+    $.get("http://jwxt2.lovemaple.info/alive", function(data) {
+        if (data) {
+            window.location = 'http://jwxt2.lovemaple.info';
+        }
+    });
+    </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/query.js')}}"></script>
   </head>
   <body>
@@ -46,6 +54,5 @@
         </div>
       </div>
     </div>
-    <!--<script type="text/javascript" src="http://jwxt2.lovemaple.info/static/js/router.js"></script>-->
   </body>
 </html>
