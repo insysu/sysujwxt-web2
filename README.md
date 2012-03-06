@@ -49,6 +49,16 @@ cd py-sysu-jwxt
 python server.py
 ```
 
+### 部署
+
+在`templates/base.html`中：
+
+1. `<head>`中选择使用CDN或者服务器提供js/css文件
+2. 在尾部uncomment掉`route.js`可以实现外网服务器自动跳转到内网服务器以提高访问速度。
+3. '<html>'开头填入是内网or外网服务器
+
+
+
 ### 访问
 
 支持浏览器为:
