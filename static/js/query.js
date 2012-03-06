@@ -1,3 +1,4 @@
+var debug0;
 var debug;
 var debug2;
 var debug3;
@@ -202,32 +203,14 @@ $(document).ready(function(event) {
   // bing event to btn get gpa and credit 
   $('#credit-gpa-query-btn').click(function(event) {
     event.preventDefault();
-    $.ajaxSetup({async:false});
     // get tno and grade according to your sno
-    var info;
     $.get('./info', 
           function(data) {
             eval('data=' + data);
-            debug = data;
+            debug0 = data;
             info = data.body.parameters.result.split(',');
-          }
-         );
-         grade = info[1];
-         tno = info[2];
-
-         $.ajaxSetup({async:true});
-
-         var $tblBody = $('<tbody>');
-         var $tblHead = $('<thead>');
-         $tblHead.append(
-           $('<tr>').append($('<td>').text(''),
-                            $('<td>').text('专必'),
-                            $('<td>').text('专选'),
-                            $('<td>').text('公选'),
-                            $('<td>').text('公必'),
-                            $('<td>').text('实践'))
-         );
-
+            grade = info[1];
+            tno = info[2];
          // get overall credit
          $.get('./overall_credit', {'grade': grade, 'tno': tno}, 
                function(data) {
@@ -248,6 +231,8 @@ $(document).ready(function(event) {
                            $('#overall-credit-result').empty().append($tbl);
                }
               );
+          }
+         );
 
               // get obtained credit
               $.get('./obtained_credit',

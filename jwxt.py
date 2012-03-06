@@ -6,6 +6,22 @@ import pycurl
 import re
 import StringIO
 
+def retrive_data(url, cookie, request_json):
+    ch = pycurl.Curl()
+    ch.setopt(pycurl.URL, url)
+    ch.setopt(pycurl.POST, True)
+    ch.setopt(pycurl.POSTFIELDS, request_json)
+    ret = StringIO.StringIO()
+    ch.setopt(pycurl.WRITEFUNCTION, ret.write)
+    ch.setopt(pycurl.HTTPHEADER, ['Content-Type: multipart/form-data', 'render: unieap'])
+    ch.setopt(pycurl.COOKIE, "JSESSIONID="+cookie)
+
+    ch.perform()
+    ret_code = ch.getinfo(pycurl.HTTP_CODE)
+    ret_body = ret.getvalue() 
+    ch.close()
+    return ret_body
+
 login_url = 'http://uems.sysu.edu.cn/jwxt/j_unieap_security_check.do'
 def login(username, passward):
     print username, passward
@@ -37,20 +53,7 @@ def get_score(sno, year, term, cookie):
     print sno, year, term, cookie
     srt = '{body:{dataStores:{kccjStore:{rowSet:{"primary":[],"filter":[],"delete":[]},name:"kccjStore",pageNumber:1,pageSize:100,rowSetName:"pojo_com.neusoft.education.sysu.xscj.xscjcx.model.KccjModel"}},parameters:{"kccjStore-params": [{"name": "Filter_t.pylbm_0.1950409999148804", "type": "String", "value": "\'01\'", "condition": " = ", "property": "t.pylbm"}, {"name": "Filter_t.xn_0.3563793106347481", "type": "String", "value": "\''+year+'\'", "condition": " = ", "property": "t.xn"}, {"name": "Filter_t.xq_0.7983325881237213", "type": "String", "value": "\''+term+'\'", "condition": " = ", "property": "t.xq"}, {"name": "xh", "type": "String", "value": "\''+sno+'\'", "condition": " = ", "property": "t.xh"}], "args": ["student"]}}}';
 
-    ch = pycurl.Curl()
-    ch.setopt(pycurl.URL, score_url)
-    ch.setopt(pycurl.POST, True)
-    ch.setopt(pycurl.POSTFIELDS, srt)
-    ret = StringIO.StringIO()
-    ch.setopt(pycurl.WRITEFUNCTION, ret.write)
-    ch.setopt(pycurl.HTTPHEADER, ['Content-Type: multipart/form-data', 'render: unieap'])
-    ch.setopt(pycurl.COOKIE, "JSESSIONID="+cookie)
-
-    ch.perform()
-    ret_code = ch.getinfo(pycurl.HTTP_CODE)
-    ret_body = ret.getvalue() 
-    ch.close()
-    return ret_body
+    return retrive_data(score_url, cookie, srt)
 
 course_schedule_url = 'http://uems.sysu.edu.cn/jwxt/sysu/xk/xskbcx/xskbcx.jsp'
 def get_course_schedule(year, term, cookie):
@@ -130,19 +133,7 @@ course_result_url = 'http://uems.sysu.edu.cn/jwxt/xstk/xstk.action?method=getXkx
 def get_course_result(year, term, cookie):
     print year, term, cookie
     srt = '{header:{"code": -100, "message": {"title": "", "detail": ""}},body:{dataStores:{xsxkjgStore:{rowSet:{"primary":[],"filter":[],"delete":[]},name:"xsxkjgStore",pageNumber:1,pageSize:10,recordCount:0,rowSetName:"pojo_com.neusoft.education.sysu.xk.drxsxkjg.entity.XkjgEntity",order:"xnd desc,xq desc"}},parameters:{"xsxkjgStore-params": [{"name": "xnd", "type": "String", "value": "\''+year+'\'", "condition": " = ", "property": "xnd"}, {"name": "xq", "type": "String", "value": "\''+term+'\'", "condition": " = ", "property": "xq"}], "args": []}}}';
-    ch = pycurl.Curl()
-    ch.setopt(pycurl.URL, course_result_url)
-    ch.setopt(pycurl.POST, True)
-    ch.setopt(pycurl.POSTFIELDS, srt)
-    ret = StringIO.StringIO()
-    ch.setopt(pycurl.WRITEFUNCTION, ret.write)
-    ch.setopt(pycurl.HTTPHEADER, ['Content-Type: multipart/form-data', 'render: unieap'])
-    ch.setopt(pycurl.COOKIE, "JSESSIONID="+cookie)
-    ch.perform()
-    ret_code = ch.getinfo(pycurl.HTTP_CODE)
-    ret_body = ret.getvalue() 
-    ch.close()
-    return ret_body
+    return retrive_data(course_result_url, cookie, srt)
 
 info_url = 'http://uems.sysu.edu.cn/jwxt/xscjcxAction/xscjcxAction.action?method=judgeStu'
 def get_info(cookie):
@@ -168,20 +159,7 @@ def get_info(cookie):
             "args": [], 
             "responseParam": 
             "result"}}}"""
-    ch = pycurl.Curl()
-    ch.setopt(pycurl.URL, info_url)
-    ch.setopt(pycurl.POST, True)
-    ch.setopt(pycurl.POSTFIELDS, srt)
-    ret = StringIO.StringIO()
-    ch.setopt(pycurl.WRITEFUNCTION, ret.write)
-    ch.setopt(pycurl.HTTPHEADER, ['Content-Type: multipart/form-data', 'render: unieap'])
-    ch.setopt(pycurl.COOKIE, "JSESSIONID="+cookie)
-
-    ch.perform()
-    ret_code = ch.getinfo(pycurl.HTTP_CODE)
-    ret_body = ret.getvalue() 
-    ch.close()
-    return ret_body
+    return retrive_data(info_url, cookie, srt)
 
 overall_credit_url = 'http://uems.sysu.edu.cn/jwxt/xscjcxAction/xscjcxAction.action?method=getZyxf'
 def get_overall_credit(grade, tno, cookie):
@@ -189,20 +167,7 @@ def get_overall_credit(grade, tno, cookie):
     获取总学分
     """
     srt = '{header:{"code": -100, "message": {"title": "", "detail": ""}},body:{dataStores:{zxzyxfStore:{rowSet:{"primary":[],"filter":[],"delete":[]},name:"zxzyxfStore",pageNumber:1,pageSize:2147483647,recordCount:0,rowSetName:"pojo_com.neusoft.education.sysu.djks.ksgl.model.TwoColumnModel"}},parameters:{"zxzyxfStore-params": [{"name": "pylbm", "type": "String", "value": "\'01\'", "condition": " = ", "property": "x.pylbm"}, {"name": "nj", "type": "String", "value": "\''+grade+'\'", "condition": " = ", "property": "x.nj"}, {"name": "zyh", "type": "String", "value": "\''+tno+'\'", "condition": " = ", "property": "x.zyh"}], "args": []}}}'
-    ch = pycurl.Curl()
-    ch.setopt(pycurl.URL, overall_credit_url)
-    ch.setopt(pycurl.POST, True)
-    ch.setopt(pycurl.POSTFIELDS, srt)
-    ret = StringIO.StringIO()
-    ch.setopt(pycurl.WRITEFUNCTION, ret.write)
-    ch.setopt(pycurl.HTTPHEADER, ['Content-Type: multipart/form-data', 'render: unieap'])
-    ch.setopt(pycurl.COOKIE, "JSESSIONID="+cookie)
-
-    ch.perform()
-    ret_code = ch.getinfo(pycurl.HTTP_CODE)
-    ret_body = ret.getvalue() 
-    ch.close()
-    return ret_body
+    return retrive_data(overall_credit_url, cookie, srt)
 
 obtained_credit_url = 'http://uems.sysu.edu.cn//jwxt/xscjcxAction/xscjcxAction.action?method=getAllXf'
 def get_obtained_credit(sno, cookie):
@@ -210,20 +175,7 @@ def get_obtained_credit(sno, cookie):
     获取已取得的学分
     """
     srt = '{header:{"code": -100, "message": {"title": "", "detail": ""}},body:{dataStores:{allJdStore:{rowSet:{"primary":[],"filter":[],"delete":[]},name:"allJdStore",pageNumber:1,pageSize:2147483647,recordCount:0,rowSetName:"pojo_com.neusoft.education.sysu.djks.ksgl.model.TwoColumnModel"}},parameters:{"args": ["'+sno+'", "", "", ""]}}}'
-    ch = pycurl.Curl()
-    ch.setopt(pycurl.URL, obtained_credit_url)
-    ch.setopt(pycurl.POST, True)
-    ch.setopt(pycurl.POSTFIELDS, srt)
-    ret = StringIO.StringIO()
-    ch.setopt(pycurl.WRITEFUNCTION, ret.write)
-    ch.setopt(pycurl.HTTPHEADER, ['Content-Type: multipart/form-data', 'render: unieap'])
-    ch.setopt(pycurl.COOKIE, "JSESSIONID="+cookie)
-
-    ch.perform()
-    ret_code = ch.getinfo(pycurl.HTTP_CODE)
-    ret_body = ret.getvalue() 
-    ch.close()
-    return ret_body
+    return retrive_data(obtained_credit_url, cookie, srt)
 
 gpa_url = 'http://uems.sysu.edu.cn/jwxt/xscjcxAction/xscjcxAction.action?method=getAllJd'
 def get_gpa(sno, cookie):
@@ -231,22 +183,33 @@ def get_gpa(sno, cookie):
     获取已取得的总基点: 专必 公必 公选 专选
     """
     srt = '{header:{"code": -100, "message": {"title": "", "detail": ""}},body:{dataStores:{allJdStore:{rowSet:{"primary":[],"filter":[],"delete":[]},name:"allJdStore",pageNumber:1,pageSize:2147483647,recordCount:0,rowSetName:"pojo_com.neusoft.education.sysu.djks.ksgl.model.TwoColumnModel"}},parameters:{"args": ["'+sno+'", "", "", ""]}}}'
-    ch = pycurl.Curl()
-    ch.setopt(pycurl.URL, gpa_url)
-    ch.setopt(pycurl.POST, True)
-    ch.setopt(pycurl.POSTFIELDS, srt)
-    ret = StringIO.StringIO()
-    ch.setopt(pycurl.WRITEFUNCTION, ret.write)
-    ch.setopt(pycurl.HTTPHEADER, ['Content-Type: multipart/form-data', 'render: unieap'])
-    ch.setopt(pycurl.COOKIE, "JSESSIONID="+cookie)
-
-    ch.perform()
-    ret_code = ch.getinfo(pycurl.HTTP_CODE)
-    ret_body = ret.getvalue() 
-    ch.close()
-    return ret_body
+    return retrive_data(gpa_url, cookie, srt)
 
 if __name__ == '__main__':
-    c = login('093800xx', '00xx00xx')
-    print get_score('0938ooxx', '2011-2012', '1', c)
-    print get_course_schedule('2011-2012', '2', c)
+    import sys, os, webbrowser
+    try:
+        sno, passwd = sys.argv[1:] 
+    except ValueError:
+        print 'Testing using the format "python jwxt.py 0938ooxx password"'
+        exit()
+
+    print 'Tesing login:'
+    c = login(sno, passwd)
+    print 'Get cookie:', c
+
+    print 'Tesing query score:'
+    print get_score(sno, '2011-2012', '1', c)
+
+    print 'Tesing query course schedule:'
+    html = get_course_schedule('2011-2012', '2', c)
+    open('course_schedule.html', 'w').write(html)
+    webbrowser.open_new_tab('file://'+os.path.realpath('course_schedule.html'))
+
+    print 'Testing query course result:'
+    print get_course_result('2011-2012', '2', c)
+    
+    print 'Testing query gpa:'
+    print get_gpa(sno, c)
+
+    print 'Testing query credits:'
+    print get_obtained_credit(sno, c)
