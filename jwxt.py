@@ -128,6 +128,10 @@ def remove_course(id, cookie):
     ch.close()
     return ret_body
 
+#TODO: 等能选课的时候再实现吧
+def select_course():
+    pass
+
 
 course_result_url = 'http://uems.sysu.edu.cn/jwxt/xstk/xstk.action?method=getXkxkjglistByxh'
 def get_course_result(year, term, cookie):
