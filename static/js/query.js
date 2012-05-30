@@ -10,9 +10,10 @@ var courseTypeTable = {
 };
 var courseStatusTable = {
   '01': '选课成功',
-}
+};
 
 $(document).ready(function(event) {
+  $(".alert").alert();
   $('.btn-group').click(function(event) {
     event.preventDefault();
   });
@@ -39,8 +40,7 @@ $(document).ready(function(event) {
                        $('<td>').text('学期'),
                        $('<td>').text('学分'),
                        $('<td>').text('课程类别'),
-                       $('<td>').text('总评成绩'),
-                       $('<td>').text('最终成绩'),
+                       $('<td>').text('成绩'),
                        $('<td>').text('绩点'),
                        $('<td>').text('教学班排名'))
     );
@@ -64,19 +64,19 @@ $(document).ready(function(event) {
                                      $('<td>').text(score[i].xq),
                                      $('<td>').text(score[i].xf),
                                      $('<td>').text(courseTypeTable[score[i].kclb]),
-                                     $('<td>').text(score[i].zpcj),
                                      $('<td>').text(score[i].zzcj),
                                      $('<td>').text(score[i].jd),
                                      $('<td>').text(score[i].jxbpm))
                   );
                 };
+
+                // combine head and body of the form
+                var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
+                .append($tblHead, $tblBody);
+                $('#score-result').empty().append($tbl);
               });
       }
     }
-    // combine head and body of the form
-    var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
-    .append($tblHead, $tblBody);
-    $('#score-result').empty().append($tbl);
   });
 
   // bind event to btn select course
@@ -211,70 +211,70 @@ $(document).ready(function(event) {
             info = data.body.parameters.result.split(',');
             grade = info[1];
             tno = info[2];
-         // get overall credit
-         $.get('./overall_credit', {'grade': grade, 'tno': tno}, 
-               function(data) {
-                 eval('data=' + data);
-                 debug = data;
+            // get overall credit
+            $.get('./overall_credit', {'grade': grade, 'tno': tno}, 
+                  function(data) {
+                    eval('data=' + data);
+                    debug = data;
 
-                 data = data.body.dataStores.zxzyxfStore.rowSet.primary;
-                           var $tblHead = $('<thead>');
-                           var $tblBody = $('<tbody>');
-                           for (var i=0; i < data.length; i++) {
-                             $tblBody.append(
-                               $('<tr>').append($('<td>').text(data[i].oneColumn),
-                                                $('<td>').text(data[i].twoColumn))
-                             );
-                           }
-                           var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
-                           .append($tblHead, $tblBody);
-                           $('#overall-credit-result').empty().append($tbl);
-               }
-              );
+                    data = data.body.dataStores.zxzyxfStore.rowSet.primary;
+                    var $tblHead = $('<thead>');
+                    var $tblBody = $('<tbody>');
+                    for (var i=0; i < data.length; i++) {
+                      $tblBody.append(
+                        $('<tr>').append($('<td>').text(data[i].oneColumn),
+                                         $('<td>').text(data[i].twoColumn))
+                      );
+                    }
+                    var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
+                    .append($tblHead, $tblBody);
+                    $('#overall-credit-result').empty().append($tbl);
+                  }
+                 );
           }
          );
 
-              // get obtained credit
-              $.get('./obtained_credit',
+         // get obtained credit
+         $.get('./obtained_credit',
+               function(data) {
+                 eval('data=' + data);
+                 debug2 = data;
+
+                 data = data.body.dataStores.allJdStore.rowSet.primary;
+                 var $tblHead = $('<thead>');
+                 var $tblBody = $('<tbody>');
+                 for (var i=0; i < data.length; i++) {
+                   $tblBody.append(
+                     $('<tr>').append($('<td>').text(data[i].oneColumn),
+                                      $('<td>').text(data[i].twoColumn))
+                   );
+                 }
+                 var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
+                 .append($tblHead, $tblBody);
+                 $('#obtained-credit-result').empty().append($tbl);
+               }
+              );
+
+              // get gpa
+              $.get('./gpa',
                     function(data) {
                       eval('data=' + data);
-                      debug2 = data;
+                      debug3 = data;
 
                       data = data.body.dataStores.allJdStore.rowSet.primary;
-                           var $tblHead = $('<thead>');
-                           var $tblBody = $('<tbody>');
-                           for (var i=0; i < data.length; i++) {
-                             $tblBody.append(
-                               $('<tr>').append($('<td>').text(data[i].oneColumn),
-                                                $('<td>').text(data[i].twoColumn))
-                             );
-                           }
-                           var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
-                           .append($tblHead, $tblBody);
-                           $('#obtained-credit-result').empty().append($tbl);
+                      var $tblHead = $('<thead>');
+                      var $tblBody = $('<tbody>');
+                      for (var i=0; i < data.length; i++) {
+                        $tblBody.append(
+                          $('<tr>').append($('<td>').text(data[i].oneColumn),
+                                           $('<td>').text(data[i].twoColumn))
+                        );
+                      }
+                      var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
+                      .append($tblHead, $tblBody);
+                      $('#gpa-result').empty().append($tbl);
                     }
                    );
-
-                   // get gpa
-                   $.get('./gpa',
-                         function(data) {
-                           eval('data=' + data);
-                           debug3 = data;
-
-                           data = data.body.dataStores.allJdStore.rowSet.primary;
-                           var $tblHead = $('<thead>');
-                           var $tblBody = $('<tbody>');
-                           for (var i=0; i < data.length; i++) {
-                             $tblBody.append(
-                               $('<tr>').append($('<td>').text(data[i].oneColumn),
-                                                $('<td>').text(data[i].twoColumn))
-                             );
-                           }
-                           var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
-                           .append($tblHead, $tblBody);
-                           $('#gpa-result').empty().append($tbl);
-                         }
-                        );
 
   });
 });
