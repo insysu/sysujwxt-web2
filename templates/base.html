@@ -1,51 +1,56 @@
 <!DOCTYPE HTML>
 <html lang="en">
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>{% block title %}{% endblock %} - SYSU JWXT</title>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-    <!--uncomment following lines to use cdn-->
-    <!--<script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tab.js"></script>-->
-    <!--<script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-button.js"></script>-->
-    <!--<link rel=stylesheet type=text/css href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">-->
-
-    <!-- use source file in local server -->
-    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-tabs.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-button.js') }}"></script>
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-
-    <!--server js files-->
-    <script type="text/javascript" src="{{ url_for('static', filename='js/query.js')}}"></script>
-  </head>
-  <body>
-    <div class="container">
-      <div class="alert alert-info">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-        <li>{{ message|safe }}</li>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-      </div>
-      <div id="header">
-          当前使用的是
-          <strong>xx服务器</strong><br />
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  {% if g.is_handheld_device %}
+  <meta content="width=device-width; initial-scale=1.0; maximum-scale=1.5; user-scalable=1" name="viewport">
+  {% endif %}
+  <title>{% block title %}{% endblock %} - SYSU 第三方教务系统</title>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/query.js')}}"></script>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  {% if g.is_handheld_device %}
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/mobile.css') }}">
+  {% endif %}
+</head>
+<body>
+  <div class="container">
+    <div id="header">
+      {% block header %}{% endblock %}
+      <p>当前使用的是 <strong>xx服务器</strong><br /></p>
+      {% if not g.is_handheld_device %}
+      <p>
         <span class="label label-warning">Tips</span> 推荐使用
         <a href="http://firefox.com.cn/download/">Firefox</a>或
         <a href="http://www.google.cn/chrome">Chrome</a>或
         <a href="http://www.apple.com.cn/safari/">Safari</a>以获得更好的体验
-  <br />
-        {% block header %}{% endblock %}</div>
-      <div id="content">{% block content %}{% endblock %}</div>
-      <div id="footer">
-        <div class="pull-right">
-          <p>欢迎提出意见或者提交bug，更多功能敬请期待。</p>
-          <p>联系方式：<a href="http://weibo.com/maplevalley8">性浪微博</a></p>
-          <p>Android版 <a href="http://bepanda.me/mysysu/SYSU_jw.apk">下载</a> ，感谢<a href="http://weibo.com/erweiyu">尔威404</a>!</p>
-        </div>
+      </p>
+      {% endif %}
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert alert-info">
+      <button class="close" data-dismiss="alert">×</button>
+      {% for message in messages %}
+      <span>{{ message|safe }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+      <div class="pull-right">
+        {% if not g.is_handheld_device %}
+        <p>欢迎提出意见或者提交bug，更多功能敬请期待。</p>
+        {% endif %}
+        <p>联系方式：<a href="http://weibo.com/maplevalley8">性浪微博</a></p>
+        <p>Android版 <a href="http://bepanda.me/mysysu/SYSU_jw.apk">下载</a> ，感谢<a href="http://weibo.com/erweiyu">尔威404</a>!</p>
       </div>
     </div>
-    <!--<script type="text/javascript" src="http://jwxt2.lovemaple.info/router.js"></script>-->
-  </body>
+  </div>
+  <!--<script type="text/javascript" src="http://jwxt2.lovemaple.info/router.js"></script>-->
+</body>
 </html>

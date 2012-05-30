@@ -11,8 +11,6 @@ import re
 SITENAME = 'SYSU JWXT'
 DEBUG = True
 SECRET_KEY = 'development key'
-USERNAME = 'admin'
-PASSWORD = 'admin'
 
 # create application
 app = Flask(__name__)
@@ -22,8 +20,18 @@ app.config.from_object(__name__)
 def logged_in():
     return request.cookies.get('JSESSIONID') and request.cookies.get('sno')
 
+@app.before_request
+def check_handheld_device():
+    user_agent = request.headers['User-Agent']
+    if re.search('iPod|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile', user_agent):
+        g.is_handheld_device = True
+    else:
+        g.is_handheld_device = False
+
+
 @app.route('/')
 def index():
+    print request.headers['User-Agent']
     # check whether logged in
     if not logged_in():
         return redirect(url_for('sign_in'))

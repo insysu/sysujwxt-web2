@@ -1,9 +1,11 @@
 {% extends "base.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}主页{% endblock %}
 {% block header %}
-<span class="label label-notice">Welcome,
-    </span><span class="label label-success">{{ sno }}!</span>
-<a href="./sign_out">退出<i class="icon-share-alt"></i></a>
+<p>
+  Welcome,
+  <span class="badge">{{ sno }}</span>
+  <a href="./sign_out">登出<i class="icon-share-alt"></i></a>
+</p>
 {% endblock %}
 
 {% block content %}
@@ -60,9 +62,9 @@
         </div>
       </form>
       <div class="row">
-     <div class="span4" id="overall-credit-result"></div>
-     <div class="span4" id="obtained-credit-result"></div>
-     <div class="span4" id="gpa-result"></div> 
+        <div class="span4" id="overall-credit-result"></div>
+        <div class="span4" id="obtained-credit-result"></div>
+        <div class="span4" id="gpa-result"></div> 
       </div>
     </div>
 

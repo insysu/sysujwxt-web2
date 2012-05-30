@@ -189,7 +189,7 @@ def get_gpa(sno, cookie):
     srt = '{header:{"code": -100, "message": {"title": "", "detail": ""}},body:{dataStores:{allJdStore:{rowSet:{"primary":[],"filter":[],"delete":[]},name:"allJdStore",pageNumber:1,pageSize:2147483647,recordCount:0,rowSetName:"pojo_com.neusoft.education.sysu.djks.ksgl.model.TwoColumnModel"}},parameters:{"args": ["'+sno+'", "", "", ""]}}}'
     return retrive_data(gpa_url, cookie, srt)
 
-if __name__ == '__main__':
+def main():
     import sys, os, webbrowser
     try:
         sno, passwd = sys.argv[1:] 
@@ -217,3 +217,6 @@ if __name__ == '__main__':
 
     print 'Testing query credits:'
     print get_obtained_credit(sno, c)
+
+if __name__ == '__main__':
+    main()
