@@ -1,3 +1,4 @@
 *.pyc
 *.swp
-course_schedule.html
+*~
+.DS_Store
