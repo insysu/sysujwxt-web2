@@ -10,9 +10,6 @@
   <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/query.js')}}"></script>
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-  {% if g.is_handheld_device %}
-  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/mobile.css') }}">
-  {% endif %}
 </head>
 <body>
   <div class="container">
