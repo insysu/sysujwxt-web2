@@ -26,7 +26,7 @@ python实现的SYSU教务第三方查询网站，作为替代[jwxt.lovemaple.inf
  * flask
  * pycurl
 
-### 安装
+### 本地安装使用
 
 Linux和OS X下安装上面的需要的依赖文件即可
 
@@ -49,14 +49,13 @@ cd py-sysu-jwxt
 python server.py
 ```
 
-### 部署
+### 作为服务部署
 
 在`templates/base.html`中：
 
-1. `<head>`中选择使用CDN或者服务器提供js/css文件
-2. 在尾部uncomment掉`route.js`可以实现外网服务器自动跳转到内网服务器以提高访问速度。
-3. '<html>'开头填入是内网or外网服务器
-
+1. 在尾部uncomment掉`route.js`可以实现外网服务器自动跳转到内网服务器以提高访问速度。
+2. 开头填入是内网or外网服务器
+3. 修改uwsgi.xml并部署(配置uwsgi过程省略)
 
 
 ### 访问
@@ -70,10 +69,14 @@ python server.py
 * opera
 * UC（及主流的手机浏览器）
 
-部署好后访问[http://localhost:5000](http://localhost:5000)即可。如果需要手机访问得到，需要在你的服务器中部署服务。
+部署好后访问[http://localhost:5000](http://localhost:5000)即可。
 
 updates
 -------
+
+Ver 0.4
+
+* css增加对手持设备的支持
 
 Ver 0.3
 
