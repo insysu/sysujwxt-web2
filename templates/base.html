@@ -6,20 +6,6 @@
   <meta content="width=device-width; initial-scale=0.8; maximum-scale=1.5; user-scalable=1" name="viewport">
   {% endif %}
   <title>{% block title %}{% endblock %} - SYSU 第三方教务系统</title>
-  <script type="text/javascript">
-
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-25802717-1']);
-    _gaq.push(['_setDomainName', '.lovemaple.info']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-     })();
-
-   </script>
    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
    <script type="text/javascript" src="{{ url_for('static', filename='js/query.js')}}"></script>
@@ -61,6 +47,20 @@
         <p>Android版 <a href="http://bepanda.me/mysysu/SYSU_jw.apk">下载</a> ，感谢<a href="http://weibo.com/erweiyu">尔威404</a>!</p>
       </div>
     </div>
+  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-25802717-1']);
+    _gaq.push(['_setDomainName', '.lovemaple.info']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+     })();
+
+   </script>
   </div>
   <!--<script type="text/javascript" src="http://jwxt2.lovemaple.info/router.js"></script>-->
 </body>

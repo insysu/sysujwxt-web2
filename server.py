@@ -72,8 +72,8 @@ def sign_in():
 def sign_out():
     flash(u'登出成功')
     response = make_response(redirect(url_for('sign_in')))
-    response.set_cookie('sno', '', -3600)
-    response.set_cookie('JSESSIONID', '', -3600)
+    response.set_cookie('sno', '', -3600, 0)
+    response.set_cookie('JSESSIONID', '', -3600, 0)
     return response
 
 @app.route('/score')
