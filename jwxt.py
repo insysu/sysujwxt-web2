@@ -27,6 +27,7 @@ def login(username, passward):
     print username, passward
     ch = pycurl.Curl()
     ch.setopt(pycurl.URL, login_url)
+    ch.setopt(pycurl.TIMEOUT, 10)
     ch.setopt(pycurl.POST, True)
     data = urllib.urlencode({'j_username': username, 'j_password': passward})
     ch.setopt(pycurl.POSTFIELDS, data)
@@ -34,7 +35,13 @@ def login(username, passward):
     ret = StringIO.StringIO()
     ch.setopt(pycurl.WRITEFUNCTION, ret.write)
 
-    ch.perform()
+    try:
+        ch.perform()
+    except pycurl.error, e:
+        print "Error code: ", e[0]
+        print "Error message: ", e[1]
+        return 'timeout'
+
     ret_code = ch.getinfo(pycurl.HTTP_CODE)
     ch.close()
     if ret_code == 200:
