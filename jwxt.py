@@ -27,7 +27,7 @@ def login(username, passward):
     url = 'http://uems.sysu.edu.cn/jwxt/j_unieap_security_check.do'
     ch = pycurl.Curl()
     ch.setopt(pycurl.URL, url)
-    ch.setopt(pycurl.TIMEOUT, 10)
+    ch.setopt(pycurl.TIMEOUT, 100)
     ch.setopt(pycurl.POST, True)
     data = urllib.urlencode({'j_username': username, 'j_password': passward})
     ch.setopt(pycurl.POSTFIELDS, data)
@@ -71,7 +71,8 @@ def get_score(sno, year, term, cookie):
                     name: "kccjStore",
                     pageNumber: 1,
                     pageSize: 100,
-                    rowSetName: "pojo_com.neusoft.education.sysu.xscj.xscjcx.model.KccjModel"
+                    rowSetName: "pojo_com.neusoft.education.sysu.xscj.xscjcx.model.KccjModel",
+                    order: "kclb asc"
                 }
             },
             parameters: {
@@ -371,11 +372,59 @@ def select_course():
     pass
 
 
-course_result_url = 'http://uems.sysu.edu.cn/jwxt/xstk/xstk.action?method=getXkxkjglistByxh'
+
 def get_course_result(year, term, cookie):
     print year, term, cookie
-    srt = '{header:{"code": -100, "message": {"title": "", "detail": ""}},body:{dataStores:{xsxkjgStore:{rowSet:{"primary":[],"filter":[],"delete":[]},name:"xsxkjgStore",pageNumber:1,pageSize:100,recordCount:0,rowSetName:"pojo_com.neusoft.education.sysu.xk.drxsxkjg.entity.XkjgEntity",order:"xnd desc,xq desc"}},parameters:{"xsxkjgStore-params": [{"name": "xnd", "type": "String", "value": "\''+year+'\'", "condition": " = ", "property": "xnd"}, {"name": "xq", "type": "String", "value": "\''+term+'\'", "condition": " = ", "property": "xq"}], "args": []}}}';
-    return retrive_data(course_result_url, cookie, srt)
+    url = 'http://uems.sysu.edu.cn/jwxt/xstk/xstk.action?method=getXkxkjglistByxh'
+    srt = '{header:{"code": -100, "message": {"title": "", "detail": ""}},body:{dataStores:{xsxkjgStore:{rowSet:{"primary":[],"filter":[],"delete":[]},name:"xsxkjgStore",pageNumber:1,pageSize:100,recordCount:0,rowSetName:"pojo_com.neusoft.education.sysu.xk.drxsxkjg.entity.XkjgEntity",order:"xnd desc,xq desc,kclbm asc"}},parameters:{"xsxkjgStore-params": [{"name": "xnd", "type": "String", "value": "\''+year+'\'", "condition": " = ", "property": "xnd"}, {"name": "xq", "type": "String", "value": "\''+term+'\'", "condition": " = ", "property": "xq"}], "args": []}}}';
+    query_json = """
+    {
+        header: {
+            "code": -100,
+            "message": {
+                "title": "",
+                "detail": ""
+            }
+        },
+        body: {
+            dataStores: {
+                xsxkjgStore: {
+                    rowSet: {
+                        "primary": [],
+                        "filter": [],
+                        "delete": []
+                    },
+                    name: "xsxkjgStore",
+                    pageNumber: 1,
+                    pageSize: 100,
+                    recordCount: 0,
+                    rowSetName: "pojo_com.neusoft.education.sysu.xk.drxsxkjg.entity.XkjgEntity",
+                    order: "xnd desc,xq desc,kclbm asc"
+                }
+            },
+            parameters: {
+                "xsxkjgStore-params": [
+                    {
+                        "name": "xnd",
+                        "type": "String",
+                        "value": "'%s'",
+                        "condition": " = ",
+                        "property": "xnd"
+                    },
+                    {
+                        "name": "xq",
+                        "type": "String",
+                        "value": "'%s'",
+                        "condition": " = ",
+                        "property": "xq"
+                    }
+                ],
+                "args": []
+            }
+        }
+    }
+    """ %(year, term)
+    return retrive_data(url, cookie, query_json)
 
 def main():
     import sys, os, webbrowser

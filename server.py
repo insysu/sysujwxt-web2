@@ -55,13 +55,12 @@ def sign_in():
 
     if ret:
         if ret == 'timeout':
-            flash(u'哦希特, 貌似学校的系统挂了，换个时间再来试试吧')
+            flash(u'= =哦希特, 貌似学校的系统挂了，换个时间再来试试吧', 'info')
             print username, "login timeout"
-            response = make_response(redirect(url_for('index')))
-            return response
+            return render_template('sign_in.html', username=username)
 
         # if succeed
-        flash(u'登录成功')
+        flash(u'登录成功', 'success')
         print username, "successfully logged in"
 
         # set cookie here
@@ -70,13 +69,13 @@ def sign_in():
         response.set_cookie('JSESSIONID', ret, 15*60)
         return response
     else:
-        flash(u'密码错误')
+        flash(u'密码错误', 'error')
         print username, "wrong password"
         return render_template('sign_in.html', username=username)
 
 @app.route('/sign_out')
 def sign_out():
-    flash(u'登出成功')
+    flash(u'登出成功', 'success')
     response = make_response(redirect(url_for('sign_in')))
     response.set_cookie('sno', '', expires=-1)
     response.set_cookie('JSESSIONID', '', expires=-1)

@@ -9,11 +9,24 @@ var courseTypeTable = {
   '10': '公必'
 };
 var courseStatusTable = {
-  '01': '选课成功',
+  '00': '不通过',
+  '01': '待筛选',
+  '03': '待审核',
+  '04': '待确认',
+  '05': '选课成功',
+  '06': '已退课'
+};
+var examineTypeTable = {
+  '01': '笔试',
+  '02': '口试',
+  '03': '考查',
+  '04': '操作',
+  '05': '其他',
 };
 
+
+
 $(document).ready(function(event) {
-  $(".alert").alert();
   $('.btn-group').click(function(event) {
     event.preventDefault();
   });
@@ -165,7 +178,7 @@ $(document).ready(function(event) {
                 });
   });
 
-  // bing event to btn get course result
+  // bind event to btn get course result
   $('#course-result-query-btn').click(function(event) {
     event.preventDefault();
     $.get('./course_result', {'year': '2011-2012', 'term': 2}, 
@@ -178,7 +191,8 @@ $(document).ready(function(event) {
               $('<tr>').append($('<td>').text('课程名称'),
                                $('<td>').text('课程类别'),
                                $('<td>').text('学分'),
-                               $('<td>').text('选课状态'))
+                               $('<td>').text('选课状态'),
+							   $('<td>').text('考核方式'))
             );
 
             // create table body
@@ -190,7 +204,8 @@ $(document).ready(function(event) {
                 $('<tr>').append($('<td>').text(courses[i].kcmc),
                                  $('<td>').text(courseTypeTable[courses[i].kclbm]),
                                  $('<td>').text(courses[i].xf),
-                                 $('<td>').text(courseStatusTable[courses[i].pylbm]))
+                                 $('<td>').text(courseStatusTable[courses[i].xkcgbz]),
+                                 $('<td>').text(examineTypeTable[courses[i].khfs] || ''))	 
               );
             };
             // combine head and body of the form
