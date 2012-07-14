@@ -367,11 +367,53 @@ def remove_course(id, cookie):
     ch.close()
     return ret_body
 
-#TODO: 等能选课的时候再实现吧
-def select_course():
-    pass
+def select_course(cookie):
+    url = 'http://uems.sysu.edu.cn/jwxt/xsxk/xsxk.action?method=selectCoursesChanged'
+    query_json = """
+    {
+        header: {
+            "code": -100,
+            "message": {
+                "title": "",
+                "detail": ""
+            }
+        },
+        body: {
+            dataStores: {},
+            parameters: {
+                "args": [
+                    "02080023121001",
+                    "30",
+                    "",
+                    "2012-2013",
+                    "1",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ],
+                "responseParam": "dataSave"
+            }
+        }
+    }
+    """
+    return retrive_data(url, cookie, query_json)
 
+def get_aaa(cookie):
+    url = 'http://uems.sysu.edu.cn/jwxt/xsxk/xsxk.action?method=getJxjhByxh'
+    query_json = """
+{header:{"code": -100, "message": {"title": "", "detail": ""}},body:{dataStores:{},parameters:{"args": [], "responseParam": "xfms"}}}
+    """
+    return retrive_data(url, cookie, query_json)
 
+def get_bbb(cookie):
+    url = 'http://uems.sysu.edu.cn/jwxt/xsxk/xsxk.action?method=getKclb'
+    query_json = """
+{header:{"code": -100, "message": {"title": "", "detail": ""}},body:{dataStores:{fkclbStore:{rowSet:{"primary":[],"filter":[],"delete":[]},name:"fkclbStore",pageNumber:1,pageSize:2147483647,recordCount:0,rowSetName:"pojo_com.neusoft.education.sysu.xk.zxxk.entity.KclbxxModel"}},parameters:{"args": ["2012-2013", "1", "02"]}}}
+    """
+    return retrive_data(url, cookie, query_json)
 
 def get_course_result(year, term, cookie):
     print year, term, cookie

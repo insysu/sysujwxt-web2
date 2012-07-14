@@ -181,7 +181,10 @@ $(document).ready(function(event) {
   // bind event to btn get course result
   $('#course-result-query-btn').click(function(event) {
     event.preventDefault();
-    $.get('./course_result', {'year': '2011-2012', 'term': 2}, 
+    var year = $('#course-result-year').val();
+    var term = $('#course-result-term').val();
+
+    $.get('./course_result', {'year': year, 'term': term}, 
           function(data) {
             eval('data=' + data);
             debug = data;

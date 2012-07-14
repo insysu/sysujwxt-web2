@@ -61,7 +61,25 @@
      })();
 
    </script>
-  </div>
-  <!--<script type="text/javascript" src="http://jwxt2.lovemaple.info/router.js"></script>-->
+
+   {% if not g.is_handheld_device %}
+   <br>
+   <br>
+   <br>
+   <p>欢迎点击广告赞助，每月20美刀的服务器一个人hold不住了 T_T</p>
+   <script type="text/javascript"><!--
+     google_ad_client = "ca-pub-6722858117609321";
+     /* jwxt广告 */
+     google_ad_slot = "9493323507";
+     google_ad_width = 728;
+     google_ad_height = 90;
+     //-->
+   </script>
+   <script type="text/javascript"
+     src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+   </script>
+   {% endif %}
+ </div>
+ <!--<script type="text/javascript" src="http://jwxt2.lovemaple.info/router.js"></script>-->
 </body>
 </html>
