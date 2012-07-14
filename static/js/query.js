@@ -21,9 +21,14 @@ var examineTypeTable = {
   '02': '口试',
   '03': '考查',
   '04': '操作',
-  '05': '其他',
+  '05': '其他'
 };
-
+var CampusTable = {
+  '1': '南校区',
+  '2': '北校区',
+  '3': '猪海校区',
+  '4': '中东'
+};
 
 
 $(document).ready(function(event) {
@@ -31,12 +36,38 @@ $(document).ready(function(event) {
     event.preventDefault();
   });
 
-  $('.add-class-btn').click(function(){
-    alert('add!');
-  });
+  $("#selecting-course-type").change(function() {
+    if ($(this).val() == "30") {
+      $("#selecting-course-campus").attr('disabled', false);
+    }
+    else {
+      $("#selecting-course-campus").attr('disabled', true);
+    }
+  })
 
   $('.remove-class-btn').live('click', function(){
-    $.get('./remove_course', {'id': $(this).val()});
+    var choice = confirm('确定退课？');
+    var that = this;
+    if (choice) {
+      $.get('./remove_course', {'id': $(this).val()}, function(data) {
+        eval('data = ' + data);
+        $(that).replaceWith("<span>" + "退课状态:" + data.body.parameters.dataSave + "(请重新查询进行确认)" + "</span>");
+      });
+    }
+  });
+
+  $('.select-class-btn').live('click', function(){
+    var choice = confirm('确定选课？');
+    var that = this;
+    if (choice) {
+      $.get('./select_course', {'id': $(this).val(),
+                                'year': $('#selecting-course-year').val(), 
+                                'term': $('#selecting-course-term').val()}, function(data) {
+        eval('data = ' + data);
+        console.log(data);
+        $(that).replaceWith("<span>" + "选课状态:" + data.body.parameters.dataSave + "(请查询选课结果进行确认)" + "</span>");
+      });
+    }
   });
 
   // get score results
@@ -93,26 +124,35 @@ $(document).ready(function(event) {
   });
 
   // bind event to btn select course
-  $('#select-course-query-btn').click(function(event) {
+  $('#selecting-course-query-btn').click(function(event) {
     event.preventDefault();
-    var courseType = $('#select-course-type').val(); 
+
+    var year = $('#selecting-course-year').val();
+    var term = $('#selecting-course-term').val();
+    var type = $('#selecting-course-type').val();
+    var campus = 0;
+    if (type == "30") {
+      campus = $('#selecting-course-campus').val();
+    }
 
     // get course to be selected 
-    $.get('./selecting_course', {'year': '2011-2012', 'term': 2, 'course_type': courseType}, 
+    $.get('./selecting_course', {'year': year, 'term': term, 'course_type': type, 'campus': campus}, 
           function(data) {
             eval('data=' + data);
             debug = data;
 
             var $tblHead = $('<thead>');
             $tblHead.append(
-              $('<tr>').append($('<td>').text('操作'),
-                               $('<td>').text('课程名称'),
+              $('<tr>').append($('<td>').text('课程名称'),
                                $('<td>').text('上课时间地点'),
                                $('<td>').text('任课老师'),
                                $('<td>').text('学分'),
                                $('<td>').text('课容量'),
                                $('<td>').text('待筛选人数'),
-                               $('<td>').text('空位'))
+                               $('<td>').text('空位'),
+                               $('<td>').text('开课单位'),
+                               $('<td>').text('所在校区'),
+                               $('<td>').text('选课'))
             );
 
             // create table body
@@ -121,14 +161,18 @@ $(document).ready(function(event) {
 
             for (var i=0; i < courses.length; i++) {
               $tblBody.append(
-                $('<tr>').append($('<td>').html($('<button>').addClass('add-class-btn').text('选课')),
-                                 $('<td>').text(courses[i].kcmc),
+                $('<tr>').append($('<td>').text(courses[i].kcmc),
                                  $('<td>').text(courses[i].sksjdd),
-                                 $('<td>').text(courses[i].zjjszc),
+                                 $('<td>').text(courses[i].zjjszc || ""),
                                  $('<td>').text(courses[i].xf),
                                  $('<td>').text(courses[i].xdrs),
+                                 $('<td>').text(courses[i].xkrs),
                                  $('<td>').text(courses[i].syrs),
-                                 $('<td>').text(courses[i].syrs))
+                                 $('<td>').text(courses[i].kkdwmc || ""),
+                                 $('<td>').text(CampusTable[courses[i].skjsszxq]),
+                                 $('<td>').html($('<button>').text('选课')
+                                          .addClass('btn btn-success select-class-btn')
+                                          .val(courses[i].jxbh)))
               );
             };
             // combine head and body of the form
@@ -137,45 +181,7 @@ $(document).ready(function(event) {
             $('#selecting-course-result').empty().append($tbl);
           });
 
-          // get course have been selected 
-          $.get('./selected_course', {'year': '2011-2012', 'term': 2, 'course_type': courseType}, 
-                function(data) {
-                  eval('data=' + data);
-                  debug = data;
 
-                  var $tblHead = $('<thead>');
-                  $tblHead.append(
-                    $('<tr>').append($('<td>').text('操作'),
-                                     $('<td>').text('课程名称'),
-                                     $('<td>').text('上课时间地点'),
-                                     $('<td>').text('任课老师'),
-                                     $('<td>').text('学分'),
-                                     $('<td>').text('课容量'),
-                                     $('<td>').text('待筛选人数'),
-                                     $('<td>').text('空位'))
-                  );
-
-                  // create table body
-                  var $tblBody = $('<tbody>');
-                  var courses = data.body.dataStores.table1yxkcStore.rowSet.primary;
-
-                  for (var i=0; i < courses.length; i++) {
-                    $tblBody.append(
-                      $('<tr>').append($('<td>').html($('<button>').addClass('remove-class-btn').text('退选').val(courses[i].resourceID)),
-                                       $('<td>').text(courses[i].kcmc),
-                                       $('<td>').text(courses[i].sksjjd),
-                                       $('<td>').text(courses[i].zjjszc),
-                                       $('<td>').text(courses[i].xf),
-                                       $('<td>').text(courses[i].xdrs),
-                                       $('<td>').text(courses[i].syrs),
-                                       $('<td>').text(courses[i].syrs))
-                    );
-                  };
-                  // combine head and body of the form
-                  var $tbl = $('<table>').attr({'class': 'table table-striped table-bordered table-condensed'})
-                  .append($tblHead, $tblBody);
-                  $('#selected-course-result').empty().append($tbl);
-                });
   });
 
   // bind event to btn get course result
@@ -195,12 +201,14 @@ $(document).ready(function(event) {
                                $('<td>').text('课程类别'),
                                $('<td>').text('学分'),
                                $('<td>').text('选课状态'),
-							   $('<td>').text('考核方式'))
+				                       $('<td>').text('考核方式'),
+                               $('<td>').text('退课'))
             );
 
             // create table body
             var $tblBody = $('<tbody>');
             var courses = data.body.dataStores.xsxkjgStore.rowSet.primary;
+            console.log(courses)
 
             for (var i=0; i < courses.length; i++) {
               $tblBody.append(
@@ -208,7 +216,10 @@ $(document).ready(function(event) {
                                  $('<td>').text(courseTypeTable[courses[i].kclbm]),
                                  $('<td>').text(courses[i].xf),
                                  $('<td>').text(courseStatusTable[courses[i].xkcgbz]),
-                                 $('<td>').text(examineTypeTable[courses[i].khfs] || ''))	 
+                                 $('<td>').text(examineTypeTable[courses[i].khfs] || ""),
+                                 $('<td>').html($('<button>').text('退课')
+                                                             .addClass('btn btn-danger remove-class-btn')
+                                                             .val(courses[i].resource_id)))
               );
             };
             // combine head and body of the form

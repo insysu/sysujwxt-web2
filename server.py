@@ -97,12 +97,13 @@ def get_score():
 def get_selecting_course():
     sno = request.cookies.get('sno') 
     cookie = request.cookies.get('JSESSIONID')
-    year, term , course_type= [request.args[x] for x in ['year', 'term', 'course_type']]
+    year, term , course_type, campus = [request.args[x] for x in ['year', 'term', 'course_type', 'campus']]
     print 'Query seleting course with sno:', sno
-    ret = jwxt.get_selecting_course(year.encode('ascii'),
+    ret = jwxt.get_selecting_course(cookie.encode('ascii'),
+            year.encode('ascii'),
             term.encode('ascii'),
             course_type.encode('ascii'),
-            cookie.encode('ascii'))
+            campus.encode('ascii'))
     return ret
 
 @app.route('/selected_course')
@@ -116,6 +117,7 @@ def get_selected_course():
             course_type.encode('ascii'),
             cookie.encode('ascii'))
     return ret
+
 
 @app.route('/course_result')
 def get_course_result():
@@ -135,6 +137,18 @@ def remove_course():
     id  = request.args.get('id')
     print sno, 'is removing course result with id:', id
     ret = jwxt.remove_course(id.encode('ascii'), cookie.encode('ascii'))
+    return ret
+
+@app.route('/select_course')
+def select_course():
+    sno = request.cookies.get('sno') 
+    cookie = request.cookies.get('JSESSIONID')
+    id, year, term = [request.args[x] for x in ['id', 'year', 'term']]
+    print sno, 'is removing course result with id:', id
+    ret = jwxt.select_course(cookie.encode('ascii'), 
+            id.encode('ascii'), 
+            year.encode('ascii'),
+            term.encode('ascii'))
     return ret
 
 @app.route('/info')

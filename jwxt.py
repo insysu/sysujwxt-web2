@@ -27,7 +27,7 @@ def login(username, passward):
     url = 'http://uems.sysu.edu.cn/jwxt/j_unieap_security_check.do'
     ch = pycurl.Curl()
     ch.setopt(pycurl.URL, url)
-    ch.setopt(pycurl.TIMEOUT, 100)
+    ch.setopt(pycurl.TIMEOUT, 15)
     ch.setopt(pycurl.POST, True)
     data = urllib.urlencode({'j_username': username, 'j_password': passward})
     ch.setopt(pycurl.POSTFIELDS, data)
@@ -313,25 +313,59 @@ def get_gpa(sno, cookie):
     """ %(sno)
     return retrive_data(url, cookie, query_json)
 
-
-selecting_course_url = 'http://uems.sysu.edu.cn/jwxt/xsxk/xsxk.action?method=getJxbxxFunc'
-def get_selecting_course(year, term, course_type, cookie):
+def get_selecting_course(cookie, year, term, course_type, campus):
     print year, term, course_type, cookie
+    url = 'http://uems.sysu.edu.cn/jwxt/xsxk/xsxk.action?method=getJxbxxFunc'
     srt = '{header:{"code": -100, "message": {"title": "", "detail": ""}},body:{dataStores:{table1kxkcStore:{rowSet:{"primary":[],"filter":[],"delete":[]},name:"table1kxkcStore",pageNumber:1,pageSize:280,recordCount:9,rowSetName:"pojo_com.neusoft.education.sysu.xk.zxxkgg.model.KkblbModel"}},parameters:{"table1kxkcStore-params": [], "args": ["'+year+'", "'+str(term)+'", "'+course_type+'"]}}}';
-    ch = pycurl.Curl()
-    ch.setopt(pycurl.URL, selecting_course_url)
-    ch.setopt(pycurl.POST, True)
-    ch.setopt(pycurl.POSTFIELDS, srt)
-    ret = StringIO.StringIO()
-    ch.setopt(pycurl.WRITEFUNCTION, ret.write)
-    ch.setopt(pycurl.HTTPHEADER, ['Content-Type: multipart/form-data', 'render: unieap'])
-    ch.setopt(pycurl.COOKIE, "JSESSIONID="+cookie)
+    if course_type == '30':
+        campus_para = """
+        {
+            "name": "curxiaoqu",
+            "type": "String",
+            "value": "'%s'",
+            "condition": " = ",
+            "property": "A.SKJSSZXQ"
+        }
+        """ %(campus)
+    else: 
+        campus_para = ""
 
-    ch.perform()
-    ret_code = ch.getinfo(pycurl.HTTP_CODE)
-    ret_body = ret.getvalue() 
-    ch.close()
-    return ret_body
+    query_json = """
+    {
+        header: {
+            "code": -100,
+            "message": {
+                "title": "",
+                "detail": ""
+            }
+        },
+        body: {
+            dataStores: {
+                table1kxkcStore: {
+                    rowSet: {
+                        "primary": [],
+                        "filter": [],
+                        "delete": []
+                    },
+                    name: "table1kxkcStore",
+                    pageNumber: 1,
+                    pageSize: 280,
+                    recordCount: 9,
+                    rowSetName: "pojo_com.neusoft.education.sysu.xk.zxxkgg.model.KkblbModel"
+                }
+            },
+            parameters: {
+                "table1kxkcStore-params": [""" + campus_para +"""],
+                "args": [
+                    "%s",
+                    "%s",
+                    "%s"
+                ]
+            }
+        }
+    }
+    """ %(year, term, course_type)
+    return retrive_data(url, cookie, query_json)
 
 selected_course_url = 'http://uems.sysu.edu.cn/jwxt/xsxk/xsxk.action?method=getTab1YxkcByxndxqkclbmpylbmxh'
 def get_selected_course(year, term, course_type, cookie):
@@ -350,24 +384,30 @@ def get_selected_course(year, term, course_type, cookie):
     ch.close()
     return ret_body
 
-remove_course_url = 'http://uems.sysu.edu.cn/jwxt/xsxk/xsxk.action?method=delXsxkjgFuncChanged'
 def remove_course(id, cookie):
+    url = 'http://uems.sysu.edu.cn/jwxt/xsxk/xsxk.action?method=delXsxkjgFuncChanged'
     srt = '{header:{"code": -100, "message": {"title": "", "detail": ""}},body:{dataStores:{},parameters:{"args": ["'+id+'"], "responseParam": "dataSave"}}}'
-    ch = pycurl.Curl()
-    ch.setopt(pycurl.URL, remove_course_url)
-    ch.setopt(pycurl.POST, True)
-    ch.setopt(pycurl.POSTFIELDS, srt)
-    ret = StringIO.StringIO()
-    ch.setopt(pycurl.WRITEFUNCTION, ret.write)
-    ch.setopt(pycurl.HTTPHEADER, ['Content-Type: multipart/form-data', 'render: unieap'])
-    ch.setopt(pycurl.COOKIE, "JSESSIONID="+cookie)
-    ch.perform()
-    ret_code = ch.getinfo(pycurl.HTTP_CODE)
-    ret_body = ret.getvalue() 
-    ch.close()
-    return ret_body
+    query_json = """
+    {
+        header: {
+            "code": -100,
+            "message": {
+                "title": "",
+                "detail": ""
+            }
+        },
+        body: {
+            dataStores: {},
+            parameters: {
+                "args": ["%s"],
+                "responseParam": "dataSave"
+            }
+        }
+    }
+    """ %(id)
+    return retrive_data(url, cookie, query_json)
 
-def select_course(cookie):
+def select_course(cookie, id, year, term):
     url = 'http://uems.sysu.edu.cn/jwxt/xsxk/xsxk.action?method=selectCoursesChanged'
     query_json = """
     {
@@ -382,11 +422,11 @@ def select_course(cookie):
             dataStores: {},
             parameters: {
                 "args": [
-                    "02080023121001",
-                    "30",
+                    "%s",
                     "",
-                    "2012-2013",
-                    "1",
+                    "",
+                    "%s",
+                    "%s",
                     "",
                     "",
                     "",
@@ -398,7 +438,7 @@ def select_course(cookie):
             }
         }
     }
-    """
+    """ %(id, year, term)
     return retrive_data(url, cookie, query_json)
 
 def get_aaa(cookie):

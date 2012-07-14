@@ -14,7 +14,8 @@
     <li class="active"><a data-toggle="tab" href="#tabs-1">分数查询</a></li>
     <li><a data-toggle="tab" href="#tabs-2">学分绩点</a></li>
     <li><a data-toggle="tab" href="#tabs-3">课表查询</a></li>
-    <li><a data-toggle="tab" href="#tabs-4">选课结果</a></li>
+    <li><a data-toggle="tab" href="#tabs-4">选课结果/退课</a></li>
+    <li><a data-toggle="tab" href="#tabs-5">选课</a></li>
   </ul>
   <div class="tab-content">
     <div class="active tab-pane" id="tabs-1">
@@ -105,6 +106,7 @@
     </div>
 
     <div class="tab-pane" id="tabs-4">
+      <p>表乱退课哈，退了就选不回来了哦，然后就毕不了业啦 >﹏<</p>
       <form class="form-horizontal">
         <div class="control-group">
           <label class="control-label" for="course-result-year">学年</label>
@@ -139,6 +141,67 @@
         </div>
       </form>
       <div id="course-result"></div>
+    </div>
+
+    <div class="tab-pane" id="tabs-5">
+      <p>表乱选课哈，比如不要选超过2门的公选，跨校区选公选，教务员找你喝茶表找我 ╮(╯▽╰)╭ </p>
+      <p>公选需要选择你所在的校区，其他的不需要的哈</p>
+      <form class="form-horizontal">
+        <div class="control-group">
+          <label class="control-label" for="selecting-course-year">学年</label>
+          <div class="controls">
+            <select class="span2" name="selecting-course-year" id="selecting-course-year">
+              <option>2005-2006</option>
+              <option>2006-2007</option>
+              <option>2007-2008</option>
+              <option>2008-2009</option>
+              <option>2009-2010</option>
+              <option>2010-2011</option>
+              <option>2011-2012</option>
+              <option selected="selected">2012-2013</option>
+              <option>2013-2014</option>
+              <option>2014-2015</option>
+              <option>2015-2016</option>
+            </select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="selecting-course-term">学期</label>
+          <div class="controls">
+            <select class="span2" name="selecting-course-term" id="selecting-course-term">
+              <option selected="selected">1</option>
+              <option>2</option>
+              <option>3</option>
+            </select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="selecting-course-type">类型</label>
+          <div class="controls">
+            <select class="span2" name="selecting-course-type" id="selecting-course-type">
+              <option value="30" selected="selected">公选</option>
+              <option value="21" >专选</option>
+              <!-- <option value="10" >公必</option> -->
+              <option value="11" >专必</option>
+            </select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="selecting-course-campus">校区</label>
+          <div class="controls">
+            <select class="span2" name="selecting-course-campus" id="selecting-course-campus">
+              <option value="1" selected="selected">南校区</option>
+              <option value="2" >北校区</option>
+              <option value="3" >猪海校区</option>
+              <option value="4" >中东</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="selecting-course-query-btn"><i class="icon-search icon-white"></i> 获得可选课程</button>
+        </div>
+      </form>
+      <div id="selecting-course-result"></div>
     </div>
   </div>
   {% endblock %}
