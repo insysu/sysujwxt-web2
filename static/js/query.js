@@ -39,9 +39,10 @@ $(document).ready(function(event) {
   $("#selecting-course-type").change(function() {
     if ($(this).val() == "30") {
       $("#selecting-course-campus").attr('disabled', false);
+      $("#campus").show('fast');
     }
     else {
-      $("#selecting-course-campus").attr('disabled', true);
+      $("#campus").hide('slow');
     }
   })
 

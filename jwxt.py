@@ -9,6 +9,7 @@ import StringIO
 def retrive_data(url, cookie, request_json):
     ch = pycurl.Curl()
     ch.setopt(pycurl.URL, url)
+    ch.setopt(pycurl.TIMEOUT, 20)
     ch.setopt(pycurl.POST, True)
     ch.setopt(pycurl.POSTFIELDS, request_json)
     ret = StringIO.StringIO()
