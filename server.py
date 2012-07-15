@@ -7,6 +7,12 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 import jwxt
 import re
 
+from jinja2 import Environment
+import time
+
+def get_timestamp():
+    return time.time()
+
 # configuration
 SITENAME = 'SYSU JWXT'
 DEBUG = True
@@ -15,6 +21,7 @@ SECRET_KEY = 'development key'
 # create application
 app = Flask(__name__)
 app.config.from_object(__name__)
+app.jinja_env.globals['get_timestamp'] = get_timestamp
 
 # check whether a user is  logged in
 def logged_in():
@@ -23,11 +30,12 @@ def logged_in():
 @app.before_request
 def check_handheld_device():
     user_agent = request.headers['User-Agent']
+    g.is_handheld_device = False
+    g.is_ie = False
     if re.search('iPod|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile', user_agent):
         g.is_handheld_device = True
-    else:
-        g.is_handheld_device = False
-
+    if re.search('MSIE', user_agent):
+        g.is_ie = True
 
 @app.route('/')
 def index():

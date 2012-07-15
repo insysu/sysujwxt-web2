@@ -65,7 +65,6 @@ $(document).ready(function(event) {
                                 'year': $('#selecting-course-year').val(), 
                                 'term': $('#selecting-course-term').val()}, function(data) {
         eval('data = ' + data);
-        console.log(data);
         $(that).replaceWith("<span>" + "选课状态:" + data.body.parameters.dataSave + "(请查询选课结果进行确认)" + "</span>");
       });
     }
@@ -209,7 +208,6 @@ $(document).ready(function(event) {
             // create table body
             var $tblBody = $('<tbody>');
             var courses = data.body.dataStores.xsxkjgStore.rowSet.primary;
-            console.log(courses)
 
             for (var i=0; i < courses.length; i++) {
               $tblBody.append(

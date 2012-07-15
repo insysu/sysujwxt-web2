@@ -18,10 +18,16 @@
       <p>当前使用的是 <strong>xx服务器</strong><br /></p>
       {% if not g.is_handheld_device %}
       <p>
-        <span class="label label-warning">Tips</span> 推荐使用
+        <span class="label">Tips</span> 推荐使用
         <a href="http://firefox.com.cn/download/">Firefox</a>或
         <a href="http://www.google.cn/chrome">Chrome</a>或
         <a href="http://www.apple.com.cn/safari/">Safari</a>以获得更好的体验
+      </p>
+      {% endif %}
+      {% if g.is_ie %}
+      <p>
+        <span class="label label-warning">Warning</span>
+        目测IE、360、搜狗有很多问题 <a href="http://www.williamlong.info/archives/2070.html">『我为什么使用Firefox浏览器』</a>
       </p>
       {% endif %}
     </div>
@@ -63,10 +69,10 @@
    </script>
 
    {% if not g.is_handheld_device %}
+<!--    <br>
    <br>
    <br>
-   <br>
-   <p>欢迎点击广告赞助，每月20美刀的服务器一个人hold不住了 T_T</p>
+   <p>欢迎点击广告赞助，每月20美刀的服务器一个人hold不住了 T_T</p> -->
    <script type="text/javascript"><!--
      google_ad_client = "ca-pub-6722858117609321";
      /* jwxt广告 */
@@ -80,6 +86,6 @@
    </script>
    {% endif %}
  </div>
- <!--<script type="text/javascript" src="http://jwxt2.lovemaple.info/router.js"></script>-->
+ <script type="text/javascript" src="http://jwxt2.lovemaple.info/router.js?v={{ get_timestamp() }}"></script>
 </body>
 </html>
