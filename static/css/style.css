@@ -1,0 +1,9 @@
+/*
+ * style.css
+ * for sysujwxt
+ */
+
+body { width:960px; margin:0 auto }
+.biglogo { height:86px; background: url("../img/logo.png") top center no-repeat; margin-top:80px; margin-bottom:40px}
+.align-center { text-align:center}
+.ad-area { margin-top: 80px; background:#eee;}
