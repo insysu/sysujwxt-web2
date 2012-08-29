@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="../static/css/bootstrap.min.css" type="text/css" />
+		<link rel="stylesheet" href="../static/css/style.css" type="text/css" />
+		<script src="../static/js/query.js"></script>
+	    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	    <script src="../static/js/bootstrap.min.js"></script>
+	    <title>学分绩点 - SYSU 第三方教务系统</title>
+	</head>
+	<body>
+		<header class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="navbar-menu">
+					<ul class="nav">
+						<li><a class="small-logo" href="#"></a></li>
+						<li class="active"><a href="#">学分绩点</a></li>
+						<li><a href="#">我的课表</a></li>
+						<li><a href="#">选课退课</a></li>
+						<li><a href="#">评教</a></li>
+					</ul>
+					<ul class="nav right-menu">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">吴亮(09388000)<b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">修改密码</a></li>
+								<li class="divider"></li>
+								<li><a href="#">退出</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				
+			</div>
+  		</header>
+  		
+  		<div class="row main">
+  			<div class="span8">
+  				<div class="well well-small">
+  					<form class="form-inline" style="margin-bottom:0">
+						<div class="input-prepend">
+							<span class="add-on">学年</span>
+							<select class="span2" name="score-year" id="score-year">
+								<option>2005-2006</option>
+              					<option>2006-2007</option>
+              					<option>2007-2008</option>
+              					<option>2008-2009</option>
+              					<option>2009-2010</option>
+              					<option>2010-2011</option>
+              					<option selected="selected">2011-2012</option>
+              					<option>2012-2013</option>
+              					<option>2013-2014</option>
+              					<option>2014-2015</option>
+              					<option>2015-2016</option>
+            				</select>
+						</div>
+						<div class="input-prepend btn-group">
+							<div class="controls">
+            					<div class="btn-group active" data-toggle="buttons-radio">
+              						<button class="btn">第一学期</button>
+              						<button class="btn">第二学期</button>
+              						<button class="btn">第三学期</button>
+            					</div>
+          					</div>
+						</div>
+						<button class="btn btn-primary pull-right"><i class="icon-search icon-white"></i> 查询</button>
+					</form>
+  				</div>
+  				<table class="table table-bordered table-condensed">
+					<thead>
+						<tr><th><span class="badge">类型</span><span class="badge">学分</span> 课程</th><th>成绩</th><th>绩点</th><th>教学班排名</th></tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><span class="badge">专必</span><span class="badge badge-success">3</span> 系统分析与设计</td>
+							<td>82</td>
+							<td>3.2</td>
+							<td>19 / 74</td>
+						</tr>
+						<tr>
+							<td><span class="badge">专必</span><span class="badge badge-success">3</span> 软件测试技术</td>
+							<td>82</td>
+							<td>3.2</td>
+							<td>19 / 74</td>
+						</tr>
+						<tr>
+							<td><span class="badge">专必</span><span class="badge badge-success">3</span> 计算机图形学</td>
+							<td>82</td>
+							<td>3.2</td>
+							<td>19 / 74</td>
+						</tr>
+						<tr>
+							<td><span class="badge">专选</span><span class="badge badge-success">3</span> IT项目管理</td>
+							<td>82</td>
+							<td>3.2</td>
+							<td>19 / 74</td>
+						</tr>
+						<tr>
+							<td><span class="badge">专选</span><span class="badge badge-success">3</span> 计算机视觉</td>
+							<td>82</td>
+							<td>3.2</td>
+							<td>19 / 74</td>
+						</tr>
+						<tr class="alert alert-error">
+							<td><span class="badge badge-important">公选</span><span class="badge badge-important">3</span> 一门不知名的课</td>
+							<td>59</td>
+							<td>0.9</td>
+							<td>74 / 74</td>
+						</tr>
+						<tr>
+							<td><span class="badge">公选</span><span class="badge badge-success">3</span> 石油地质概论</td>
+							<td>82</td>
+							<td>3.2</td>
+							<td>19 / 74</td>
+						</tr>
+					</tbody>
+				</table>
+  			</div>
+  			<div class="span8">
+  				<h4>总体学分信息</h4>
+  				<table class="table table-hover table-bordered table-condensed">
+  					<thead>
+  						<tr><th>类型</th><th>绩点</th><th>学分</th><th>完成度</th></tr>
+  					</thead>
+  					<tbody>
+  						<tr>
+  							<th>公必</th>
+  							<td>2.99</td>
+  							<td><span class="badge">39 / 42</span><span class="badge badge-warning">-3</span></td>
+  							<td><div class="progress progress-striped" style="width:210px"><div class="bar bar-warning" style="width: 195px;"></div></div></td>
+  						</tr>
+  						<tr>
+  							<th>专必</th>
+  							<td>3.48</td>
+  							<td><span class="badge">66 / 79</span><span class="badge badge-warning">-13</span></td>
+  							<td><div class="progress progress-striped" style="width:395px"><div class="bar bar-warning" style="width: 330px;"></div></div></td>
+  						</tr>
+  						<tr>
+  							<th>专选</th>
+  							<td>3.23</td>
+  							<td><span class="badge badge-success">24 / 24</span></td>
+  							<td><div class="progress progress-striped" style="width:120px"><div class="bar bar-success" style="width: 120px;"></div></div></td>
+  						</tr>
+  						<tr>
+  							<th>公选</th>
+  							<td>3.61</td>
+  							<td><span class="badge badge-success">16 / 16</span></td>
+  							<td><div class="progress progress-striped" style="width:80px"><div class="bar bar-success" style="width: 80px;"></div></div></td>
+  						</tr>
+  						<tr>
+  							<th>实践</th>
+  							<td>0.00</td>
+  							<td><span class="badge">0 / 23</span><span class="badge badge-warning">-23</span></td>
+  							<td><div class="progress progress-striped" style="width:115px"><div class="bar bar-warning" style="width: 0px;"></div></div></td>
+  						</tr>
+  						<tr>
+  							<th>总览</th>
+  							<td>3.40</td>
+  							<td><span class="badge">145 / 184</span><span class="badge badge-info">-39</span></td>
+  							<td><div class="progress progress-striped" style="width:400px"><div class="bar" style="width: 79%;"></div></div></td>
+  						</tr>
+  					</tbody>
+  				</table>
+  			</div>
+  		</div>
+
+
+  		<footer>
+  		<div class="row align-center intro">
+  			<div class="span6">
+  				<p><small>该项目旨在提供更简洁、高效、安全、跨平台的中山大学教务系统使用体验。<br/>这是一个开源、非盈利的项目。<br/>
+  					<a href="http://sysujwxt.com/about">>>了解更多, 并给我们留言</a></small></p>
+  			</div>
+  			<div class="span2">
+  				<div class="btn-group">
+  					<a class="btn dropdown-toggle btn-block" data-toggle="dropdown" href="#">
+  						下载手机应用
+  						<span class="caret"></span>
+  					</a>
+  					<ul class="dropdown-menu">
+  						<li><a href="#">for iOS</a></li>
+  						<li><a href="#">for Android</a></li>
+  						<li><a href="#">for WindowsPhone</a></li>
+  					</ul>
+  				</div>
+  				<h5><a class="btn btn-block" href="#">在Github上查看</a></h5>
+  			</div>
+  		</div>
+  		</footer>
+  	</body>
+</html>
