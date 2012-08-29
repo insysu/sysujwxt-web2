@@ -4,13 +4,28 @@
  */
 
 body { width:640px; margin:0 auto }
-.index-body {width:640px}
-.biglogo { height:86px; background: url("../img/logo.png") top center no-repeat; margin-top:80px; margin-bottom:40px}
+.biglogo { height:86px; background: url("../img/logo.png") top center no-repeat; margin-top:100px; margin-bottom:40px}
 .align-center { text-align:center}
 .ad-area { margin-top: 80px; background:#eee;}
 .holder-span2 {width:140px;height:1px;clear:both}
-.index-button-area {margin-top:50px}
-.index-button {float:left;width:140px;height:100px;margin-top:20px;background: url("../img/button.png") no-repeat}
-.btn-0 {background-position: 0 0}
-.btn-0:hover {background-position: 0 -100px}
-.btn-0:active {background-position: 0 -200px}
+.index-footer {margin-top:100px}
+.footer-button-area {margin-bottom:20px}
+.footer-button {float:left;width:140px;height:100px;margin-top:20px;background: url("../img/button.png") no-repeat}
+.footer-button:hover{background-position: 0 -100px}
+.footer-button:active {background-position: 0 -200px}
+.footer-button a {float:left;width:140px;height:100px;background: url("../img/button-content.png") no-repeat}
+.footer-button .btn-1 {background-position: 0 0}
+.footer-button .btn-2 {background-position: 0 -100px}
+.footer-button .btn-3 {background-position: 0 -200px}
+.footer-button .btn-4 {background-position: 0 -300px}
+.intro {color:#888;border-top:solid thin #ccc;border-bottom:solid thin #ccc;border-radius:10px;padding-top:10px;padding-bottom:10px}
+.intro p {text-align:left}
+.intro h5 {margin-bottom:5px}
+.nav {margin:0 !important}
+.navbar-menu {width:640px; margin:0 auto}
+.small-logo {float:left;width:120px;height:40px;background:url("../img/small-logo.png") 0 0 no-repeat;padding:0 !important}
+.small-logo:active {background-position:0 -40px}
+.navbar-menu .nav li a {font-size:12px;padding:10px}
+.navbar-menu .nav .dropdown-menu li a {padding:3px 20px}
+.navbar-menu .right-menu {float:right !important;}
+.main {margin-top:50px;}
