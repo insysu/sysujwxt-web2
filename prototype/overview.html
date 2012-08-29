@@ -15,11 +15,10 @@
 				<div class="navbar-menu">
 					<ul class="nav">
 						<li class="active"><a class="small-logo" href="#"></a></li>
-						<li><a href="#">分数查询</a></li>
 						<li><a href="#">学分绩点</a></li>
 						<li><a href="#">我的课表</a></li>
-						<li><a href="#">选课结果/退课</a></li>
-						<li><a href="#" class="disabled">选课</a></li>
+						<li><a href="#">选课退课</a></li>
+						<li><a href="#">评教</a></li>
 					</ul>
 					<ul class="nav right-menu">
 						<li class="dropdown">
@@ -38,36 +37,50 @@
   		
   		<div class="row main">
   			<div class="span6">
-  				<p><span class="lead"><strong>欢迎回来，李玮(08356054)。</strong><br/>这是你来到中山大学的第<strong>1564</strong>天。</span></p>
-  				<div class="alert alert-block">
-  					<h4>你现在有评教任务</h4>
-  					<p>2012-2013学年第一学期评教活动正在进行中，截止时间为2013年1月23日。请在截至时间前完成评教。<br/>
-  					<a href="#" class="btn"><i class="icon-hand-right"></i> 现在就去评教</a></p>
-  				</div>
-  				<div class="alert alert-info">
-  					<h4>四六级报名要开始啦</h4>
-  					<p>下一次大学英语四六级考试将于2012年10月1日开始报名。四级、六级考试时间分别为2012年6月20日上午10:00和下午2:00。<br/>
-  					<a href="#" class="btn"><i class="icon-hand-right"></i> 现在报名</a></p>
-  				</div>
-  				<div class="alert alert-info">
-  					<h4>开始选课啦</h4>
-  					<p>2012-2013学年第一学期体育课选课将要开始，第一阶段为2013年1月23日~1月30日，第二阶段为2月1日~2月20日，第三阶段为2月20日~3月20日。<br/>
-  					<a href="#" class="btn"><i class="icon-hand-right"></i> 现在就去选课</a></p>
-  				</div>
+  				<p><span class="lead"><strong>欢迎回来，李玮(08356054)。</strong><br/>今天是你来到中大的第<strong>1564</strong>天。</span></p>
+  				<table class="table table-hover table-bordered">
+  					<thead>
+  						<tr><th>今日课程</th><th>时间</th><th>教室</th></tr>
+  					</thead>
+  					<tbody>
+  						<tr><td>工口主义概论</td><td>上午8:00-9:00</td><td>东校区 公共教学楼F000</td></tr>
+  						<tr><td>挨踢翔母管理</td><td>上午10:00-12:25</td><td>东校区 公共教学楼F000</td></tr>
+  						<tr><td>软贱攻成实训</td><td>下午2:25-4:15</td><td>东校区 北实验中心B202</td></tr>
+  						<tr><td>怎样做一枚傲娇的受</td><td>下午2:25-4:15</td><td>东校区 公共教学楼F000</td></tr>
+  					</tbody>
+  				</table>
+  				<table class="table table-bordered">
+  					<thead>
+  						<tr><th>当前事项</th><th>截止日期</th><th>状态</th></tr>
+  					</thead>
+  					<tbody>
+  						<tr class="alert"><td>本学期评教</td><td>2013年11月11日 12:00</td><td><a href="#" class="btn btn-primary"><i class="icon-hand-right icon-white"></i> 评教</a></td></tr>
+  						<tr class="alert-success"><td>四六级报名</td><td>2013年11月11日 12:00</td><td>已报名</td></tr>
+  						<tr class="alert-info"><td>下学期体育课选课</td><td>2013年11月11日 12:00</td><td><a href="#" class="btn btn-primary"><i class="icon-hand-right icon-white"></i> 选课</a></td></tr>
+  						<tr class="alert"><td>注册</td><td>2013年11月11日 12:00</td><td>尚未注册</td></tr>
+  					</tbody>
+  				</table>
   			</div>
   			<div class="span2">
   				<div class="well well-small">
   					<p><small>2012-08-29 星期三</small></p>
-  					<p><small><strong>你正处于：</strong><br/>大四 / 第一学期</small></p>
-  					<p><small><strong>你已报名参加：</strong><br/>2012年6月20日<br/>上午10:00<br/>大学英语四级考试</small></p>
-  					<p><small><strong>你现在有评教任务</small></p>
-  					<p><small><strong>本学期的课程：</strong><br/>
+  					<p><small><strong>你正处于</strong><br/>大四 / 第一学期</small></p>
+  					<p><small><strong>当前绩点</strong></small><br/><span class="badge badge-warning gpa">1.20 大学完整</span></p>
+  					<p><small><strong>当前绩点</strong></small><br/><span class="badge badge-warning gpa">4.20 学霸去死</span></p>
+  					<p><small><strong>当前绩点</strong></small><br/><span class="badge badge-warning gpa">3.20 骚年努力</span></p>
+  					<p><small><strong>当前正在进行</strong><br/>
+  						<span class="label label-warning"><i class="icon-time icon-white"></i></span> 本学期评教<br/>
+  						<span class="label label-success"><i class="icon-ok icon-white"></i></span> 四六级报名<br/>
+  						<span class="label label-info"><i class="icon-bookmark icon-white"></i></span> 体育课选课
+  					</small></p>
+  					<p><small><strong>你已报名参加</strong><br/>2012年6月20日<br/>上午10:00<br/>大学英语四级考试</small></p>
+  					<p><small><strong>本学期的课程</strong><br/>
   						<span class="badge">5</span> 公共必修<br/>
   						<span class="badge">5</span> 专业必修<br/>
   						<span class="badge">2</span> 专业选修<br/>
   						<span class="badge">2</span> 公共必修<br/>
   						<span class="badge badge-info">14</span> 所有课程</small></p>
-  					<p><small><strong>离下一长假还有：</strong><br/><span class="badge badge-success">54</span> 天</small></p>
+  					<p><small><strong>离下一长假还有</strong><br/><span class="badge badge-success">54</span> 天</small></p>
   				</div>
   			</div>
   		</div>

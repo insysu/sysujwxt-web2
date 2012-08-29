@@ -28,4 +28,5 @@ body { width:640px; margin:0 auto }
 .navbar-menu .nav li a {font-size:12px;padding:10px}
 .navbar-menu .nav .dropdown-menu li a {padding:3px 20px}
 .navbar-menu .right-menu {float:right !important;}
-.main {margin-top:50px;}
+.main {margin-top:70px;margin-bottom:20px}
+.gpa {font-size:16px;font-weight:bold;line-height:20px;margin-top:5px;}
