@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  {% if g.is_handheld_device %}
+  <meta content="width=device-width; initial-scale=0.8; maximum-scale=1.5; user-scalable=1" name="viewport">
+  {% endif %}
+  <title>{% block title %}{% endblock %} - SYSU 第三方教务系统</title>
+   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+   <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+   <script type="text/javascript" src="{{ url_for('static', filename='js/query.js')}}"></script>
+   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+</head>
+ <body>
+   <div class="container">
+     <div id="header">
+      {% block header %}{% endblock %}
+      <p>当前使用的是 <strong>xx服务器</strong><br /></p>
+      {% if not g.is_handheld_device %}
+      <p>
+        <span class="label">Tips</span> 推荐使用
+        <a href="http://firefox.com.cn/download/">Firefox</a>或
+        <a href="http://www.google.cn/chrome">Chrome</a>或
+        <a href="http://www.apple.com.cn/safari/">Safari</a>以获得更好的体验
+      </p>
+      {% endif %}
+      {% if g.is_ie %}
+      <p>
+        <span class="label label-warning">Warning</span>
+        目测IE、360、搜狗有很多问题 <a href="http://www.williamlong.info/archives/2070.html">『我为什么使用Firefox浏览器』</a>
+      </p>
+      {% endif %}
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">
+      <button class="close" data-dismiss="alert">×</button>
+      <span>{{ message|safe }}</span>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+      <div class="pull-right">
+        {% if not g.is_handheld_device %}
+        <p>欢迎提出意见或者提交bug，更多功能敬请期待。</p>
+        {% endif %}
+        <p>联系方式：<a href="http://weibo.com/maplevalley8">性浪微博</a></p>
+        <p>Android版 <a href="http://bepanda.me/mysysu/SYSU_jw.apk">下载</a> ，感谢<a href="http://weibo.com/erweiyu">尔威404</a>!</p>
+      </div>
+    </div>
+  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-25802717-1']);
+    _gaq.push(['_setDomainName', '.lovemaple.info']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+     })();
+
+   </script>
+
+   {% if not g.is_handheld_device %}
+<!--    <br>
+   <br>
+   <br>
+   <p>欢迎点击广告赞助，每月20美刀的服务器一个人hold不住了 T_T</p> -->
+   <script type="text/javascript"><!--
+     google_ad_client = "ca-pub-6722858117609321";
+     /* jwxt广告 */
+     google_ad_slot = "9493323507";
+     google_ad_width = 728;
+     google_ad_height = 90;
+     //-->
+   </script>
+   <script type="text/javascript"
+     src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+   </script>
+   {% endif %}
+ </div>
+ <script type="text/javascript" src="http://jwxt2.lovemaple.info/router.js?v={{ get_timestamp() }}"></script>
+</body>
+</html>

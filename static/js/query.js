@@ -1,7 +1,4 @@
-var debug0;
 var debug;
-var debug2;
-var debug3;
 var courseTypeTable = {
   '30': '公选',
   '21': '专选',
@@ -44,7 +41,7 @@ $(document).ready(function(event) {
     else {
       $("#campus").hide('slow');
     }
-  })
+  });
 
   $('.remove-class-btn').live('click', function(){
     var choice = confirm('确定退课？');
@@ -73,6 +70,8 @@ $(document).ready(function(event) {
   // get score results
   $('#score-query-btn').click(function(event) {
     event.preventDefault();
+    var year = $('#year').val();
+    var term = $('#term').val();
     $('#score-result').empty().append($('<img>').attr('src', './static/img/loading.gif'));
 
     var year = $('#score-year').val();

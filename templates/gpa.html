@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block title %}学分绩点{% endblock %}
+{% block content %}
+<div class="row main">
+ <div class="span8">
+  <div class="well well-small">
+   <form class="form-inline" style="margin-bottom:0">
+    <div class="input-prepend">
+     <span class="add-on">学年</span>
+     <select class="span2" name="score-year" id="score-year">
+      <option>2005-2006</option>
+      <option>2006-2007</option>
+      <option>2007-2008</option>
+      <option>2008-2009</option>
+      <option>2009-2010</option>
+      <option>2010-2011</option>
+      <option selected="selected">2011-2012</option>
+      <option>2012-2013</option>
+      <option>2013-2014</option>
+      <option>2014-2015</option>
+      <option>2015-2016</option>
+    </select>
+  </div>
+  <div class="input-prepend btn-group">
+   <div class="controls">
+     <div class="btn-group active" data-toggle="buttons-radio">
+      <button class="btn">第一学期</button>
+      <button class="btn">第二学期</button>
+      <button class="btn">第三学期</button>
+    </div>
+  </div>
+</div>
+<button type="submit" id="score-query-btn" class="btn btn-primary pull-right"><i class="icon-search icon-white"></i> 查询</button>
+</form>
+</div>
+<table class="table table-condensed table-hover">
+ <thead>
+  <tr><th><span class="label">类型</span> 课程</th><th>学分</th><th>成绩</th><th>绩点</th><th>教学班排名</th></tr>
+</thead>
+<tbody>
+  <tr>
+   <td><span class="label">专必</span> 系统分析与设计</td>
+   <td>3</td>
+   <td>82</td>
+   <td>3.2</td>
+   <td>19 / 74</td>
+ </tr>
+ <tr>
+   <td><span class="label">专必</span> 软件测试技术</td>
+   <td>3</td>
+   <td>82</td>
+   <td>3.2</td>
+   <td>19 / 74</td>
+ </tr>
+ <tr>
+   <td><span class="label">专必</span> 计算机图形学</td>
+   <td>3</td>
+   <td>82</td>
+   <td>3.2</td>
+   <td>19 / 74</td>
+ </tr>
+ <tr>
+   <td><span class="label">专选</span> IT项目管理</td>
+   <td>2</td>
+   <td>82</td>
+   <td>3.2</td>
+   <td>19 / 74</td>
+ </tr>
+ <tr>
+   <td><span class="label">专选</span> 计算机视觉</td>
+   <td>2</td>
+   <td>82</td>
+   <td>3.2</td>
+   <td>19 / 74</td>
+ </tr>
+ <tr class="alert alert-error">
+   <td><span class="label label-important">公选</span> 一门不知名的课</td>
+   <td>3</td>
+   <td>59</td>
+   <td>0.9</td>
+   <td>74 / 74</td>
+ </tr>
+ <tr>
+   <td><span class="label">公选</span> 石油地质概论</td>
+   <td>2</td>
+   <td>82</td>
+   <td>3.2</td>
+   <td>19 / 74</td>
+ </tr>
+</tbody>
+</table>
+</div>
+
+<!-- gpa info -->
+<div class="span8">
+  <table class="table table-hover table-condensed">
+   <thead>
+    <tr><th>课程</th><td>绩点</td><td>学分</td><td></td><td>完成度</td></tr>
+  </thead>
+  <tbody>
+    <tr>
+     <th>公必</th>
+     <td>2.99</td>
+     <td>39 / 42</td>
+     <td><span class="label">-3</span></td>
+     <td><div class="progress progress-striped" style="width:210px"><div class="bar bar-info" style="width: 195px;"></div></div></td>
+   </tr>
+   <tr>
+     <th>专必</th>
+     <td>3.48</td>
+     <td>66 / 79 </td>
+     <td><span class="label">-13</span></td>
+     <td><div class="progress progress-striped" style="width:395px"><div class="bar bar-info" style="width: 330px;"></div></div></td>
+   </tr>
+   <tr>
+     <th>专选</th>
+     <td>3.23</td>
+     <td>24 / 24 </td>
+     <td><span class="label label-success">完成!</span></td>
+     <td><div class="progress progress-striped" style="width:120px"><div class="bar bar-success" style="width: 120px;"></div></div></td>
+   </tr>
+   <tr>
+     <th>公选</th>
+     <td>3.61</td>
+     <td>16 / 16 </td>
+     <td><span class="label label-success">完成!</span></td>
+     <td><div class="progress progress-striped" style="width:80px"><div class="bar bar-success" style="width: 80px;"></div></div></td>
+   </tr>
+   <tr>
+     <th>实践</th>
+     <td>0.00</td>
+     <td>0 / 23 </td>
+     <td><span class="label">-23</span></td>
+     <td><div class="progress progress-striped" style="width:115px"><div class="bar bar-info" style="width: 0px;"></div></div></td>
+   </tr>
+   <tr>
+     <th>总览</th>
+     <td>3.40</td>
+     <td>145 / 184 </td>
+     <td><span class="label">-39</span></td>
+     <td><div class="progress progress-striped" style="width:400px"><div class="bar" style="width: 79%;"></div></div></td>
+   </tr>
+ </tbody>
+</table>
+</div>
+</div>
+{% endblock %}

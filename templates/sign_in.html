@@ -1,28 +1,97 @@
-{% extends "base.html" %}
-{% block title %}登录{% endblock title %}
-{% block content %}
-<form action="/sign_in" method="post" class="form-horizontal"> 
-  <fieldset>
-    <legend>登录</legend>
-    <div class="control-group">
-      <label class="control-label" for="username">学号</label>
-      <div class="controls">
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../static/css/bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="../static/css/style.css" type="text/css" />
+  <title>登录 - SYSU 第三方教务系统</title>
+</head>
+<body>
+  <div class="row">
+    <div class="align-center">
+      <div class="biglogo"></div>
+      
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">
+      <button class="close" data-dismiss="alert">×</button>
+      <span>{{ message|safe }}</span>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+      <form action="/sign_in" class="form-inline" method="post">
         <div class="input-prepend">
-          <span class="add-on"><i class="icon-user"></i></span><input type="text" name="username" autofocus = "autofocus" value="{{ username }}" placeholder="填入学号，如0938ooxx" />
+          <span class="add-on"><i class="icon-user"></i></span><input class="input-small" type="text" name="username" autofocus = "autofocus" value="{{ username }}" placeholder="学号" />
         </div>
-      </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label" for="password">密码</label>
-      <div class="controls">
         <div class="input-prepend">
-          <span class="add-on"><i class="icon-qrcode"></i></span><input type="password" name="password" placeholder="填入教务系统密码" />
+          <span class="add-on"><i class="icon-qrcode"></i></span><input class="input-medium" type="password" name="password" placeholder="教务系统密码" />
         </div>
-      </div>
+        <button class="btn">登录 <i class="icon-arrow-right"></i></button>
+      </form>
+      
+      <p><small>提供课表/分数查询，选课/退课操作，支持手机访问<br/>不支持IE6-8，推荐使用<a href="https://www.google.com/chrome?hl=zh-CN">Chrome</a>浏览器</small></p>
+        <!--
+        <div class="ad-area well">
+          <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-25802717-1']);
+    _gaq.push(['_setDomainName', 'sysujwxt.com']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+     })();
+            </script>
+            <script type="text/javascript">
+     google_ad_client = "ca-pub-6722858117609321";
+     /* jwxt广告 */
+     google_ad_slot = "9493323507";
+     google_ad_width = 728;
+     google_ad_height = 90;
+            </script>
+            <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+        </div>
+      -->
     </div>
-    <div class="form-actions">
-      <button class="btn btn-primary"><i class="icon-plane icon-white"></i> 登录</button>
+  </div>
+  <footer class="index-footer">
+    <div class="row align-center footer-button-area">
+      <div class="span2"><div class="footer-button"><a href="#" class="btn-1"></a></div></div>
+      <div class="span2"><div class="footer-button"><a href="#" class="btn-2"></a></div></div>
+      <div class="span2"><div class="footer-button"><a href="#" class="btn-3"></a></div></div>
+      <div class="span2"><div class="footer-button"><a href="#" class="btn-4"></a></div></div>
     </div>
-  </fieldset>
-</form>
-{% endblock content %}
+    <div class="row align-center intro">
+      <div class="span2">
+        <h5>关于本项目</h5>
+        <p><small>SYSU-JWXT旨在提供更简洁、高效、易用、跨平台的中山大学教务系统使用体验。这是一个开源、非盈利的项目。<br/>
+          <a href="http://sysujwxt.com/about">>>了解更多...</a></small></p>
+        </div>
+        <div class="span2">
+          <h5>主要贡献者</h5>
+          <p><small>
+            网页版开发者 - <a href="#">Maple_ist</a><br/>
+            iOS+WP7 - <a href="#">小土刀</a><br/>
+            Android - <a href="#">尔威404</a><br/>
+            推广 - <a href="#">中大Din</a><br/>
+            用户体验 - <a href="#">LuminsenNg</a><br/></small></p>
+          </div>
+          <div class="span2">
+            <h5>参与到项目中</h5>
+            <p><small>这是一个开源项目，他的源码托管在<a href="https://github.com/sysu/py-sysu-jwxt/">Github</a>，我们欢迎任何人提出问题或者建议，以及贡献源码。<br/>
+<!--               <a href="http://weibo.com/maplevalley8">>>在Weibo联系Maple</a><br/>
+              <a href="http://sysujwxt.com/about">>>给我们留言</a></small></p> -->
+            </div>
+            <div class="span2">
+              <h5>资助我们</h5>
+              <p><small>我们感谢大家的慷慨相助，您的捐助将全部用于购买服务器和完善系统。<br/>
+               <a target="_blank" class="donate" href='http://me.alipay.com/humiaozuzu'></a></small></p>
+             </div>
+           </div>
+         </footer>
+       </body>
+       </html>

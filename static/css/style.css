@@ -4,11 +4,11 @@
  */
 
 body { width:640px; margin:0 auto }
-.biglogo { height:86px; background: url("../img/logo.png") top center no-repeat; margin-top:100px; margin-bottom:40px}
+.biglogo { height:86px; background: url("../img/logo.png") top center no-repeat; margin-top:80px; margin-bottom:40px}
 .align-center { text-align:center}
 .ad-area { margin-top: 80px; background:#eee;}
 .holder-span2 {width:140px;height:1px;clear:both}
-.index-footer {margin-top:100px}
+.index-footer {margin-top:60px}
 .footer-button-area {margin-bottom:20px}
 .footer-button {float:left;width:140px;height:100px;margin-top:20px;background: url("../img/button.png") no-repeat}
 .footer-button:hover{background-position: 0 -100px}
@@ -34,10 +34,24 @@ table .progress {margin:0 !important;background:#ddd;}
 .overview-bg {position:relative;width:640px;height:240px;background:url("../img/bg.jpg") 0 0 no-repeat;margin-top:-20px;margin-bottom:20px}
 .overview-bg .welcome {position:absolute;left:20px;bottom:10px;text-shadow:0 0 10px #000;color:#fff}
 .overview-bg .welcome-info {position:absolute;right:20px;bottom:10px;text-shadow:0 0 10px #000;color:#999;text-align:right}
-.main .span2 {width:160px;}
+.main .span8 {width:640px;}
 thead {background:#eee}
 .donate {float:left;margin-top:5px;width:140px;height:40px;background:url("../img/donate.png") 0 0 no-repeat}
 .donate:hover {background-position:0 -40px}
 .donate:active {background-position:0 -80px}
 .tab-content {padding-top:10px;}
 .main small {color:#999}
+.table .error-item {color:#c00}
+.main .alert {padding-right:14px}
+.main .alert .btn {margin-left:10px}
+
+#score-result {
+  min-height: 200px;
+}
+
+.loading-img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 80px;
+}

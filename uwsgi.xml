@@ -3,6 +3,6 @@
     <module>server</module> 
     <callable>app</callable> 
     <processes>10</processes> 
-    <socket>/tmp/jwxt_uwsgi.sock</socket> 
+    <socket>/tmp/sysujwxt_uwsgi.sock</socket> 
     <master/> 
 </uwsgi> 

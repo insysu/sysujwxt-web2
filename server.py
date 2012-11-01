@@ -1,31 +1,48 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 from __future__ import with_statement
+from functools import wraps
 from contextlib import closing
-from flask import Flask, request, session, g, redirect, url_for, abort, \
+from flask import Flask, request, g, redirect, url_for, abort, \
         render_template, flash, make_response
-import jwxt
 import re
 
-from jinja2 import Environment
-import time
+import fakesysujwxt as sysujwxt
 
-def get_timestamp():
-    return time.time()
-
-# configuration
+# basic config
 SITENAME = 'SYSU JWXT'
 DEBUG = True
 SECRET_KEY = 'development key'
+SESSION_TIMEOUT = 60*30
 
 # create application
 app = Flask(__name__)
 app.config.from_object(__name__)
-app.jinja_env.globals['get_timestamp'] = get_timestamp
 
-# check whether a user is  logged in
+# -----------------
+# useful functions
+# -----------------
 def logged_in():
+    """Check whether a user is logged in"""
     return request.cookies.get('JSESSIONID') and request.cookies.get('sno')
+
+def requires_login(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not logged_in():
+            flash(u'矮油，登录后再看吧.', 'error')
+            return redirect(url_for('sign_in', next=request.path))
+        return f(*args, **kwargs)
+    return decorated_function
+
+def requires_api_login(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not logged_in():
+            return 'expired'
+        return f(*args, **kwargs)
+    return decorated_function
 
 @app.before_request
 def check_handheld_device():
@@ -37,15 +54,39 @@ def check_handheld_device():
     if re.search('MSIE', user_agent):
         g.is_ie = True
 
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html'), 404
+
+# ------
+# Pages
+# ------
+@app.route('/score')
+@requires_login
+def score():
+    name, sno = [request.cookies[x] for x in ['name', 'sno']] 
+    return render_template('score.html', name=name, sno=sno)
+
+@app.route('/timetable')
+@requires_login
+def timetable():
+    name, sno = [request.cookies[x] for x in ['name', 'sno']] 
+    return render_template('timetable.html', name=name, sno=sno)
+
+@app.route('/course')
+@requires_login
+def course():
+    name, sno = [request.cookies[x] for x in ['name', 'sno']] 
+    return render_template('course.html', name=name, sno=sno)
+
 @app.route('/')
 def index():
-    print request.headers['User-Agent']
-    # check whether logged in
     if not logged_in():
-        return redirect(url_for('sign_in'))
+        return sign_in()
 
-    # logged in
-    return render_template('index.html', sno = request.cookies.get('sno'))
+    name, school, major, sno = [request.cookies[x] for x in ['name', 'school', 'major', 'sno']] 
+    return render_template('dashboard.html', name=name, school=school,
+                           major=major, sno=sno)
 
 @app.route('/sign_in', methods=['POST', 'GET'])
 def sign_in():
@@ -58,25 +99,36 @@ def sign_in():
     # POST
     username, password = [request.form[x] for x in ['username', 'password']]
 
-    #login in with jwxt module here
-    ret = jwxt.login(username, password)
+    #login in with sysujwxt module here
+    success, result = sysujwxt.login(username, password)
 
-    if ret:
-        if ret == 'timeout':
-            flash(u'= =哦希特, 貌似学校的系统挂了，换个时间再来试试吧', 'info')
-            print username, "login timeout"
-            return render_template('sign_in.html', username=username)
-
-        # if succeed
+    if success:
         flash(u'登录成功', 'success')
         print username, "successfully logged in"
 
-        # set cookie here
-        response = make_response(redirect(url_for('index')))
-        response.set_cookie('sno', username, 15*60)
-        response.set_cookie('JSESSIONID', ret, 15*60)
-        return response
-    else:
+        info_success, info_result = sysujwxt.get_info(result)
+        if info_success:
+            info = re.match(r'.+"xm":"(?P<name>.+?)".+"xymc":"(?P<school>.+?)".+"zyfxmc":"(?P<major>.+?)"',
+                            info_result)
+            name, school, major = info.groups()
+            # set cookie here
+            next_url = request.args.get('next', '/')
+            response = make_response(redirect(next_url))
+            response.set_cookie('sno', username, SESSION_TIMEOUT)
+            response.set_cookie('name', name, SESSION_TIMEOUT)
+            response.set_cookie('school', school, SESSION_TIMEOUT)
+            response.set_cookie('major', major, SESSION_TIMEOUT)
+            response.set_cookie('JSESSIONID', result, SESSION_TIMEOUT)
+            return response
+        elif info_result == 'timeout' or info_result == 'expired':
+            flash(u'= =哦希特, 貌似学校的系统挂了，换个时间再来试试吧', 'info')
+            print username, "login timeout"
+            return render_template('sign_in.html', username=username)
+    elif result == 'timeout':
+        flash(u'= =哦希特, 貌似学校的系统挂了，换个时间再来试试吧', 'info')
+        print username, "login timeout"
+        return render_template('sign_in.html', username=username)
+    elif result == 'errorpass':
         flash(u'密码错误', 'error')
         print username, "wrong password"
         return render_template('sign_in.html', username=username)
@@ -89,127 +141,135 @@ def sign_out():
     response.set_cookie('JSESSIONID', '', expires=-1)
     return response
 
-@app.route('/score')
+# -----
+# APIs
+# -----
+@app.route('/api/timetable')
+@requires_api_login
+def get_timetable():
+    cookie = request.cookies.get('JSESSIONID')
+    sno = request.cookies.get('sno')
+    year, term = [request.args[x] for x in ['year', 'term']]
+    print 'Query course schedule with sno:', sno
+    _, result = sysujwxt.get_timetable(cookie.encode('ascii'),
+                                       year.encode('ascii'),
+                                       term.encode('ascii'))
+    return result
+
+@app.route('/api/score')
+@requires_api_login
 def get_score():
     sno = request.cookies.get('sno') 
     cookie = request.cookies.get('JSESSIONID')
     year, term = [request.args[x] for x in ['year', 'term']]
     print 'Query score with sno: ', sno
-    ret = jwxt.get_score(sno.encode('ascii'),
-            year.encode('ascii'),
-            term.encode('ascii'),
-            cookie.encode('ascii'))
-    return ret
+    ret = sysujwxt.get_score(cookie.encode('ascii'),
+                             sno.encode('ascii'),
+                             year.encode('ascii'),
+                             term.encode('ascii'))
+    return ret[1]
 
-@app.route('/selecting_course')
-def get_selecting_course():
-    sno = request.cookies.get('sno') 
-    cookie = request.cookies.get('JSESSIONID')
-    year, term , course_type, campus = [request.args[x] for x in ['year', 'term', 'course_type', 'campus']]
-    print 'Query seleting course with sno:', sno
-    ret = jwxt.get_selecting_course(cookie.encode('ascii'),
-            year.encode('ascii'),
-            term.encode('ascii'),
-            course_type.encode('ascii'),
-            campus.encode('ascii'))
-    return ret
-
-@app.route('/selected_course')
+@app.route('/api/available_courses')
+@requires_api_login
 def get_selected_course():
     sno = request.cookies.get('sno') 
     cookie = request.cookies.get('JSESSIONID')
-    year, term , course_type= [request.args[x] for x in ['year', 'term', 'course_type']]
+    year, term , course_type, campus = [request.args[x] for x in ['year', 'term', 'course_type', 'campus']]
     print 'Query seleted course with sno: ', sno
-    ret = jwxt.get_selected_course(year.encode('ascii'),
-            term.encode('ascii'),
-            course_type.encode('ascii'),
-            cookie.encode('ascii'))
+    ret = sysujwxt.get_available_courses(cookie.encode('ascii'),
+                                         year.encode('ascii'),
+                                         term.encode('ascii'),
+                                         course_type.encode('ascii'),
+                                         campus.encode('ascii'))
+    return ret[1]
+
+@app.route('/api/add_course')
+@requires_api_login
+def add_course():
+    sno = request.cookies.get('sno') 
+    cookie = request.cookies.get('JSESSIONID')
+    id, year, term = [request.args[x] for x in ['id', 'year', 'term']]
+    print sno, 'is removing course result with id:', id
+    ret = sysujwxt.add_course(cookie.encode('ascii'), 
+                              id.encode('ascii'), 
+                              year.encode('ascii'),
+                              term.encode('ascii'))
     return ret
 
-
-@app.route('/course_result')
+@app.route('/api/course_result')
+@requires_api_login
 def get_course_result():
     sno = request.cookies.get('sno') 
     cookie = request.cookies.get('JSESSIONID')
     year, term = [request.args[x] for x in ['year', 'term']]
     print 'Query course result with sno:', sno
-    ret = jwxt.get_course_result(year.encode('ascii'),
-            term.encode('ascii'),
-            cookie.encode('ascii'))
-    return ret
+    ret = sysujwxt.get_course_result(cookie.encode('ascii'),
+                                     year.encode('ascii'), 
+                                     term.encode('ascii'))
+    return ret[1]
 
-@app.route('/remove_course')
+@app.route('/api/remove_course')
+@requires_api_login
 def remove_course():
     sno = request.cookies.get('sno') 
     cookie = request.cookies.get('JSESSIONID')
     id  = request.args.get('id')
     print sno, 'is removing course result with id:', id
-    ret = jwxt.remove_course(id.encode('ascii'), cookie.encode('ascii'))
-    return ret
+    ret = sysujwxt.remove_course(cookie.encode('ascii'), id.encode('ascii'))
+    return ret[1]
 
-@app.route('/select_course')
-def select_course():
-    sno = request.cookies.get('sno') 
-    cookie = request.cookies.get('JSESSIONID')
-    id, year, term = [request.args[x] for x in ['id', 'year', 'term']]
-    print sno, 'is removing course result with id:', id
-    ret = jwxt.select_course(cookie.encode('ascii'), 
-            id.encode('ascii'), 
-            year.encode('ascii'),
-            term.encode('ascii'))
-    return ret
 
-@app.route('/info')
+@app.route('/api/info')
+@requires_api_login
 def get_info():
     sno = request.cookies.get('sno') 
     cookie = request.cookies.get('JSESSIONID')
     print 'Get info with sno:', sno
-    ret = jwxt.get_info(cookie.encode('ascii'))
+    ret = sysujwxt.get_info(cookie.encode('ascii'))
     return ret
 
-@app.route('/overall_credit')
+@app.route('/api/tno')
+@requires_api_login
+def get_tno():
+    sno = request.cookies.get('sno') 
+    cookie = request.cookies.get('JSESSIONID')
+    print 'Get info with sno:', sno
+    ret = sysujwxt.get_tno(cookie.encode('ascii'))
+    return ret
+
+@app.route('/api/required_credit')
+@requires_api_login
 def get_overall_credit():
     sno = request.cookies.get('sno') 
     cookie = request.cookies.get('JSESSIONID')
     grade, tno = [request.args[x] for x in ['grade', 'tno']]
     print 'Query overall credit with sno:', sno
-    ret = jwxt.get_overall_credit(grade.encode('ascii'),
-            tno.encode('ascii'),
-            cookie.encode('ascii'))
+    ret = sysujwxt.get_required_credit(cookie.encode('ascii'),
+                                       grade.encode('ascii'),
+                                       tno.encode('ascii'))
     return ret
 
-@app.route('/obtained_credit')
+@app.route('/api/earned_credit')
+@requires_api_login
 def get_obtained_credit():
     sno = request.cookies.get('sno') 
     cookie = request.cookies.get('JSESSIONID')
     print 'Query obtained credit with sno:', sno
-    ret = jwxt.get_obtained_credit(sno.encode('ascii'),
-            cookie.encode('ascii'))
+    ret = sysujwxt.get_earned_credit(cookie.encode('ascii'), sno.encode('ascii'))
     return ret
 
-@app.route('/gpa')
+@app.route('/api/gpa')
+@requires_api_login
 def get_gpa():
     sno = request.cookies.get('sno') 
     cookie = request.cookies.get('JSESSIONID')
     print 'Query gpa with sno:', sno
-    ret = jwxt.get_gpa(sno.encode('ascii'),
-            cookie.encode('ascii'))
+    ret = sysujwxt.get_gpa(cookie.encode('ascii'), sno.encode('ascii'))
     return ret
 
-@app.route('/course_schedule', methods=['POST', 'GET'])
-def get_course_schedule():
-    cookie = request.cookies.get('JSESSIONID')
-    year, term = [request.form[x] for x in ['class-year', 'class-term']]
-    sno = request.cookies.get('sno') 
-    print 'Query course schedule with sno:', sno
-    ret = jwxt.get_course_schedule(year.encode('ascii'),
-            term.encode('ascii'),
-            cookie.encode('ascii'))
-    return ret
-
-@app.route('/router.js')
-def router():
-    return 'window.location.replace("http://jwxt2.lovemaple.info");'
+@app.route('/api/tips')
+def tips():
+    return redirect(url_for('static', filename='tips.json'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
