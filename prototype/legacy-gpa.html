@@ -38,7 +38,7 @@
   		<div class="row main">
   			<div class="span8">
   				<div class="well well-small">
-  					<form class="form-inline" style="margin-bottom:0">
+  					<form class="form-inline" style="margin-bottom:10px">
 						<div class="input-prepend">
 							<span class="add-on">学年</span>
 							<select class="span2" name="score-year" id="score-year">
@@ -66,10 +66,9 @@
 						</div>
 						<button type="submit" class="btn btn-primary pull-right"><i class="icon-search icon-white"></i> 查询</button>
 					</form>
-  				</div>
-  				<table class="table table-condensed table-hover">
+					<table class="table table-condensed">
 					<thead>
-						<tr><th><span class="label">类型</span> 课程</th><th>学分</th><th>成绩</th><th>绩点</th><th>教学班排名</th></tr>
+						<tr><th><span class="label">类型</span> 课程</th><td>学分</td><td>成绩</td><td>绩点</td><td>教学班排名</td></tr>
 					</thead>
 					<tbody>
 						<tr>
@@ -107,7 +106,7 @@
 							<td>3.2</td>
 							<td>19 / 74</td>
 						</tr>
-						<tr class="alert alert-error">
+						<tr class="error-item">
 							<td><span class="label label-important">公选</span> 一门不知名的课</td>
 							<td>3</td>
 							<td>59</td>
@@ -123,6 +122,8 @@
 						</tr>
 					</tbody>
 				</table>
+  				</div>
+  				
   			</div>
   			<div class="span8">
   				<table class="table table-hover table-condensed">
@@ -148,14 +149,14 @@
   							<th>专选</th>
   							<td>3.23</td>
   							<td>24 / 24 </td>
-  							<td><span class="label label-success">完成!</span></td>
+  							<td><span class="label label-success"><i class="icon-ok icon-white"></i></span></td>
   							<td><div class="progress progress-striped" style="width:120px"><div class="bar bar-success" style="width: 120px;"></div></div></td>
   						</tr>
   						<tr>
   							<th>公选</th>
   							<td>3.61</td>
   							<td>16 / 16 </td>
-  							<td><span class="label label-success">完成!</span></td>
+  							<td><span class="label label-success"><i class="icon-ok icon-white"></i></span></td>
   							<td><div class="progress progress-striped" style="width:80px"><div class="bar bar-success" style="width: 80px;"></div></div></td>
   						</tr>
   						<tr>
@@ -182,21 +183,11 @@
   		<div class="row align-center intro">
   			<div class="span6">
   				<p><small>该项目旨在提供更简洁、高效、安全、跨平台的中山大学教务系统使用体验。<br/>这是一个开源、非盈利的项目。<br/>
-  					<a href="http://sysujwxt.com/about">>>了解更多, 并给我们留言</a></small></p>
+  					<a href="http://sysujwxt.com/about">>>了解更多, 并给我们留言</a><br/>
+  					<a href="#">>>在Github上查看</a></small></p>
   			</div>
   			<div class="span2">
-  				<div class="btn-group">
-  					<a class="btn dropdown-toggle btn-block" data-toggle="dropdown" href="#">
-  						下载手机应用
-  						<span class="caret"></span>
-  					</a>
-  					<ul class="dropdown-menu">
-  						<li><a href="#">for iOS</a></li>
-  						<li><a href="#">for Android</a></li>
-  						<li><a href="#">for WindowsPhone</a></li>
-  					</ul>
-  				</div>
-  				<h5><a class="btn btn-block" href="#">在Github上查看</a></h5>
+  				<p><small>下载本系统手机应用：<br/><a href="#">iOS</a><br/><a href="#">Android</a><br/><a href="#">WindowsPhone</a></small></p>
   			</div>
   		</div>
   		</footer>

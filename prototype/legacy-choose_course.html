@@ -48,13 +48,35 @@
 								<form class="form-inline" style="margin-bottom:0">
 								<div class="btn-group">
 			            			<div class="btn-group">
-			              				<button class="btn btn-large">公必</button>
-			              				<button class="btn btn-large">专必</button>
-			              				<button class="btn btn-large">专选</button>
-			              				<button class="btn btn-large active">公选</button>
+			              				<button class="btn">公必</button>
+			              				<button class="btn">专必</button>
+			              				<button class="btn active">专选</button>
+			              				<button class="btn">公选</button>
 			            			</div>
 								</div>
-								<small class="pull-right" style="text-align:right">2012-2013学年第一学期选课, 第二阶段(随机筛选)<br/>本阶段于9月10日结束。你在: 东校区</small>
+								<small class="pull-right" style="text-align:right">下第二阶段(随机筛选)于9月10日结束</small>
+								</form>
+  							</div>
+  							
+  							<!--如果选择公选选课，则出现下面的well，选课阶段信息变为校区选择-->
+  							<div class="well well-small">
+								<form class="form-inline" style="margin-bottom:0">
+								<div class="btn-group">
+			            			<div class="btn-group">
+			              				<button class="btn">公必</button>
+			              				<button class="btn">专必</button>
+			              				<button class="btn">专选</button>
+			              				<button class="btn active">公选</button>
+			            			</div>
+								</div>
+								<div class="btn-group pull-right">
+			            			<div class="btn-group">
+			              				<button class="btn">南校区</button>
+			              				<button class="btn active">东校区</button>
+			              				<button class="btn">北校区</button>
+			              				<button class="btn">珠海校区</button>
+			            			</div>
+								</div>
 								</form>
   							</div>
   							
@@ -62,53 +84,47 @@
   								<thead>
   									<tr>
   										<th>可选课程</th>
-  										<td>学分</td>
   										<td>时间地点</td>
   										<td>任课老师</td>
-  										<td>筛选情况</td>
+  										<td>人数</td>
   										<td>选课</td>
   									</tr>
   								</thead>
   								<tbody>
   									<tr>
-  										<td>企业竞争情报研究<br/><small>咨询管理学院</small></td>
-  										<td>2</td>
+  										<td>企业竞争情报研究<br/><small>2学分 | 咨询管理学院</small></td>
   										<td>星期三 13-15节(2-13周)<br/>东B202</td>
   										<td>老师名<br/><small>教授</small></td>
-  										<td>59 / 60<br/><span class="badge badge-success">1 空位</span></td>
-  										<td><a href="#" class="btn">选!</a></td>
+  										<td><span class="label label-success">59 / 60</span></td>
+  										<td><a href="#" class="btn">选课</a></td>
   									</tr>
   									<tr>
-  										<td>财政与公共卫生<br/><small>公共卫生学院</small></td>
-  										<td>2</td>
+  										<td>财政与公共卫生<br/><small>2学分 | 公共卫生学院</small></td>
   										<td>星期三 13-15节(2-13周)<br/>东B202</td>
   										<td>老师名<br/><small>教授</small></td>
-  										<td>59 / 60<br/><span class="badge badge-success">1 空位</span></td>
-  										<td><a href="#" class="btn">选!</a></td>
+  										<td><span class="label label-success">59 / 60</span></td>
+  										<td><a href="#" class="btn disabled">已选</a></td>
   									</tr>
   									<tr>
-  										<td>单片机应用系统设计<br/><small>工学院</small></td>
-  										<td>2</td>
+  										<td>单片机应用系统设计<br/><small>2学分 | 工学院</small></td>
   										<td>星期三 13-15节(2-13周)<br/>东B202</td>
   										<td>老师名<br/><small>教授</small></td>
-  										<td>60 / 60<br/><span class="badge badge-important">无空位</span></td>
-  										<td><a href="#" class="btn">选!</a></td>
+  										<td><span class="label label-important">60 / 60</span></td>
+  										<td><a href="#" class="btn">选课</a></td>
   									</tr>
   									<tr>
-  										<td>东南亚文化与古代文明<br/><small>社会学与人类学学院</small></td>
-  										<td>2</td>
+  										<td>东南亚文化与古代文明<br/><small>2学分 | 社会学与人类学学院</small></td>
   										<td>星期三 13-15节(2-13周)<br/>东B202</td>
   										<td>老师名<br/><small>教授</small></td>
-  										<td>60 / 60<br/><span class="badge badge-important">无空位</span></td>
-  										<td><a href="#" class="btn">选!</a></td>
+  										<td><span class="label label-important">60 / 60</span></td>
+  										<td><a href="#" class="btn">选课</a></td>
   									</tr>
   									<tr>
-  										<td>数字影视技术<br/><small>广州东校区教学实验中心</small></td>
-  										<td>2</td>
+  										<td>数字影视技术<br/><small>2学分 | 广州东校区教学实验中心</small></td>
   										<td>星期三 13-15节(2-13周)<br/>东B202</td>
   										<td>老师名<br/><small>教授</small></td>
-  										<td>59 / 60<br/><span class="badge badge-success">1 空位</span></td>
-  										<td><a href="#" class="btn">选!</a></td>
+  										<td><span class="label label-success">59 / 60</span></td>
+  										<td><a href="#" class="btn">选课</a></td>
   									</tr>
   								</tbody>
   							</table>
@@ -197,21 +213,11 @@
   		<div class="row align-center intro">
   			<div class="span6">
   				<p><small>该项目旨在提供更简洁、高效、安全、跨平台的中山大学教务系统使用体验。<br/>这是一个开源、非盈利的项目。<br/>
-  					<a href="http://sysujwxt.com/about">>>了解更多, 并给我们留言</a></small></p>
+  					<a href="http://sysujwxt.com/about">>>了解更多, 并给我们留言</a><br/>
+  					<a href="#">>>在Github上查看</a></small></p>
   			</div>
   			<div class="span2">
-  				<div class="btn-group">
-  					<a class="btn dropdown-toggle btn-block" data-toggle="dropdown" href="#">
-  						下载手机应用
-  						<span class="caret"></span>
-  					</a>
-  					<ul class="dropdown-menu">
-  						<li><a href="#">for iOS</a></li>
-  						<li><a href="#">for Android</a></li>
-  						<li><a href="#">for WindowsPhone</a></li>
-  					</ul>
-  				</div>
-  				<h5><a class="btn btn-block" href="#">在Github上查看</a></h5>
+  				<p><small>下载本系统手机应用：<br/><a href="#">iOS</a><br/><a href="#">Android</a><br/><a href="#">WindowsPhone</a></small></p>
   			</div>
   		</div>
   		</footer>
