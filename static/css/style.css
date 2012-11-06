@@ -3,7 +3,7 @@
  * for sysujwxt
  */
 
-body { width:640px; margin:0 auto }
+body { width:640px; margin:0 auto; background-color:#fdfdfd; }
 .biglogo { height:86px; background: url("../img/logo.png") top center no-repeat; margin-top:80px; margin-bottom:40px}
 .align-center { text-align:center}
 .ad-area { margin-top: 80px; background:#eee;}
@@ -44,7 +44,11 @@ thead {background:#eee}
 .table .error-item {color:#c00}
 .main .alert {padding-right:14px}
 .main .alert .btn {margin-left:10px}
-
+.well {background-color:#ffffff}
+h5{margin:5px 0 5px 10px}
+h6{margin:5px 0 5px 0; font-size:14px; font-weight:normal}
+.table {border-radius:5px; webkit-border-radius:5px; moz-border-radius:5px; overflow:hidden; margin-bottom:0}
+.table thead {background-color:#eee;}
 #score-result {
   min-height: 200px;
 }

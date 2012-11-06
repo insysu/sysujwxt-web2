@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="../static/css/bootstrap.min.css" type="text/css" />
+		<link rel="stylesheet" href="../static/css/style.css" type="text/css" />
+		<script src="../static/js/query.js"></script>
+	    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	    <script src="../static/js/bootstrap.min.js"></script>
+	    <title>选课退课 - SYSU 第三方教务系统</title>
+	</head>
+	<body>
+		<header class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="navbar-menu">
+					<ul class="nav">
+						<li><a class="small-logo" href="#"></a></li>
+						<li><a href="#">总览</a></li>
+						<li><a href="#">课程表</a></li>
+						<li class="active"><a href="#">选课退课</a></li>
+						<li><a href="#">学分绩点</a></li>
+					</ul>
+					<ul class="nav right-menu">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">吴亮(09388000)<b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">修改密码</a></li>
+								<li><a href="#">评教</a></li>
+								<li><a href="#">四六级报名</a></li>
+								<li class="divider"></li>
+								<li><a href="#">退出</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+  		</header>
+  		
+  		<div class="row main">
+  			<div class="span8">
+  				<div class="well well-small">
+					<!--<button type="submit" class="btn btn-primary pull-right"><i class="icon-search icon-white"></i> 查询</button>-->
+					<table class="table table-condensed table-hover">
+  								<thead>
+  									<tr>
+  										<th><h5>本次已选课程</h5></th>
+  										<td></td>
+  										<td></td>
+  										<td></td>
+  										<td><a href="#" class="btn btn pull-right">隐藏</a></td>
+  									</tr>
+  								</thead>
+  								<tbody>
+  									<tr>
+  										<td><span class="label">专必</span> 企业竞争情报研究<br/><small>2学分 | 咨询管理学院</small></td>
+  										<td>星期三 13-15节(2-13周)<br/>东B202</td>
+  										<td>老师名<br/><small>教授</small></td>
+  										<td><span class="label label-warning"><i class="icon-time icon-white"></i></span> 筛选中</td>
+  										<td><a href="#" class="btn-danger btn pull-right">退课</a></td>
+  									</tr>
+  									<tr>
+  										<td><span class="label">专必</span> 财政与公共卫生<br/><small>2学分 | 公共卫生学院</small></td>
+  										<td>星期三 13-15节(2-13周)<br/>东B202</td>
+  										<td>老师名<br/><small>教授</small></td>
+  										<td><span class="label label-warning"><i class="icon-time icon-white"></i></span> 筛选中</td>
+  										<td><a href="#" class="btn-danger btn pull-right">退课</a></td>
+  									</tr>
+  									<tr>
+  										<td><span class="label">专必</span> 单片机应用系统设计<br/><small>2学分 | 工学院</small></td>
+  										<td>星期三 13-15节(2-13周)<br/>东B202</td>
+  										<td>老师名<br/><small>教授</small></td>
+  										<td><span class="label label-warning"><i class="icon-time icon-white"></i></span> 筛选中</td>
+  										<td><a href="#" class="btn-danger btn pull-right">退课</a></td>
+  									</tr>
+  									<tr>
+  										<td><span class="label">公选</span> 东南亚文化与古代文明<br/><small>2学分 | 社会学与人类学学院</small></td>
+  										<td>星期三 13-15节(2-13周)<br/>东B202</td>
+  										<td>老师名<br/><small>教授</small></td>
+  										<td><span class="label label-success"><i class="icon-ok icon-white"></i></span> 已选课</td>
+  										<td><a href="#" class="btn-danger btn pull-right">退课</a></td>
+  									</tr>
+  									<tr>
+  										<td><span class="label">公选</span> 数字影视技术<br/><small>2学分 | 广州东校区教学实验中心</small></td>
+  										<td>星期三 13-15节(2-13周)<br/>东B202</td>
+  										<td>老师名<br/><small>教授</small></td>
+  										<td><span class="label label-success"><i class="icon-ok icon-white"></i></span> 已选课</td>
+  										<td><a href="#" class="btn-danger btn pull-right">退课</a></td>
+  									</tr>
+  								</tbody>
+  					</table>
+  				</div>
+  			</div>
+  			
+  			<div class="span8">
+  				<div class="well well-small">
+  					<form class="form-inline" style="margin-bottom:10px">
+			            <div class="btn-group">
+			             	<button class="btn">公必</button>
+			             	<button class="btn">专必</button>
+			            	<button class="btn">专选</button>
+			             	<button class="btn active">公选</button>
+			           	</div>
+			           	<div class="btn-group pull-right">
+			           		<div class="btn-group">
+			           			<button class="btn">南校区</button>
+			           			<button class="btn active">东校区</button>
+			           			<button class="btn">北校区</button>
+			           			<button class="btn">珠海校区</button>
+			           		</div>
+						</div>
+					</form>
+					<table class="table table-condensed table-hover">
+  						<thead>
+  							<tr>
+  								<th><h5>可选课程</h5></th>
+  								<td><h6>时间地点</h6></td>
+  								<td><h6>教师</h6></td>
+  								<td><h6>人数</h6></td>
+  								<td></td>
+  							</tr>
+  						</thead>
+  						<tbody>
+  							<tr>
+  								<td>企业竞争情报研究<br/><small>2学分 | 咨询管理学院</small></td>
+  								<td>星期三 13-15节(2-13周)<br/>东B202</td>
+  								<td>老师名<br/><small>教授</small></td>
+  								<td><span class="label label-success">59 / 60</span></td>
+  								<td><a href="#" class="btn pull-right">选课</a></td>
+  							</tr>
+  							<tr>
+  								<td>财政与公共卫生<br/><small>2学分 | 公共卫生学院</small></td>
+  								<td>星期三 13-15节(2-13周)<br/>东B202</td>
+  								<td>老师名<br/><small>教授</small></td>
+  								<td><span class="label label-success">59 / 60</span></td>
+  								<td><a href="#" class="btn disabled pull-right">时间冲突</a></td>
+  							</tr>
+  							<tr>
+  								<td>单片机应用系统设计<br/><small>2学分 | 工学院</small></td>
+  								<td>星期三 13-15节(2-13周)<br/>东B202</td>
+  								<td>老师名<br/><small>教授</small></td>
+  								<td><span class="label label-important">60 / 60</span></td>
+  								<td><a href="#" class="btn disabled pull-right">无空位</a></td>
+  							</tr>
+  							<tr>
+  								<td>东南亚文化与古代文明<br/><small>2学分 | 社会学与人类学学院</small></td>
+  								<td>星期三 13-15节(2-13周)<br/>东B202</td>
+  								<td>老师名<br/><small>教授</small></td>
+  								<td><span class="label label-important">60 / 60</span></td>
+  								<td><a href="#" class="btn disabled pull-right">无空位</a></td>
+  							</tr>
+  							<tr>
+  								<td>数字影视技术<br/><small>2学分 | 广州东校区教学实验中心</small></td>
+  								<td>星期三 13-15节(2-13周)<br/>东B202</td>
+  								<td>老师名<br/><small>教授</small></td>
+  								<td><span class="label label-success">59 / 60</span></td>
+  								<td><a href="#" class="btn pull-right">选课</a></td>
+  							</tr>
+  						</tbody>
+  					</table>
+  				</div>
+  			</div>
+  		</div>
+  		
+
+  		<footer>
+  		<div class="row align-center intro">
+  			<div class="span6">
+  				<p><small>该项目旨在提供更简洁、高效、安全、跨平台的中山大学教务系统使用体验。<br/>这是一个开源、非盈利的项目。<br/>
+  					<a href="http://sysujwxt.com/about">>>了解更多, 并给我们留言</a><br/>
+  					<a href="#">>>在Github上查看</a></small></p>
+  			</div>
+  			<div class="span2">
+  				<p><small>下载本系统手机应用：<br/><a href="#">iOS</a><br/><a href="#">Android</a><br/><a href="#">WindowsPhone</a></small></p>
+  			</div>
+  		</div>
+  		</footer>
+  	</body>
+</html>
