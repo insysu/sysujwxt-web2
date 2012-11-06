@@ -15,58 +15,50 @@
 				<div class="navbar-menu">
 					<ul class="nav">
 						<li><a class="small-logo" href="#"></a></li>
-						<li class="active"><a href="#">学分绩点</a></li>
-						<li><a href="#">我的课表</a></li>
+						<li><a href="#">总览</a></li>
+						<li><a href="#">课程表</a></li>
 						<li><a href="#">选课退课</a></li>
-						<li><a href="#">评教</a></li>
+						<li class="active"><a href="#">学分绩点</a></li>
 					</ul>
 					<ul class="nav right-menu">
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">吴亮(09388000)<b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="#">修改密码</a></li>
+								<li><a href="#">评教</a></li>
+								<li><a href="#">四六级报名</a></li>
 								<li class="divider"></li>
 								<li><a href="#">退出</a></li>
 							</ul>
 						</li>
 					</ul>
 				</div>
-				
 			</div>
   		</header>
   		
   		<div class="row main">
   			<div class="span8">
   				<div class="well well-small">
-  					<form class="form-inline" style="margin-bottom:10px">
-						<div class="input-prepend">
-							<span class="add-on">学年</span>
-							<select class="span2" name="score-year" id="score-year">
-								<option>2005-2006</option>
-              					<option>2006-2007</option>
-              					<option>2007-2008</option>
-              					<option>2008-2009</option>
-              					<option>2009-2010</option>
-              					<option>2010-2011</option>
-              					<option selected="selected">2011-2012</option>
-              					<option>2012-2013</option>
-              					<option>2013-2014</option>
-              					<option>2014-2015</option>
-              					<option>2015-2016</option>
+  					<form class="form-inline" style="margin-bottom:40px">
+  						<div style="width:200px;float:left"><h5>成绩查询</h5></div>
+						<div class="input-prepend pull-right">
+							<span class="add-on">选择学期</span>
+							<select class="span3" name="score-year" id="score-year">
+              					<option>2009-2010 学期1</option>
+              					<option>2009-2010 学期2</option>
+              					<option>2009-2010 学期3</option>
+              					<option>--------------</option>
+              					<option>2010-2011 学期1</option>
+              					<option>2010-2011 学期2</option>
+              					<option>2010-2011 学期3</option>
+              					<option>--------------</option>
+              					<option>2011-2012 学期1</option>
+              					<option>2011-2012 学期2</option>
+              					<option selected="selected">2011-2012 学期3</option>
             				</select>
 						</div>
-						<div class="input-prepend btn-group">
-							<div class="controls">
-            					<div class="btn-group active" data-toggle="buttons-radio">
-              						<button class="btn">第一学期</button>
-              						<button class="btn">第二学期</button>
-              						<button class="btn">第三学期</button>
-            					</div>
-          					</div>
-						</div>
-						<button type="submit" class="btn btn-primary pull-right"><i class="icon-search icon-white"></i> 查询</button>
 					</form>
-					<table class="table table-condensed">
+					<table class="table table-condensed table-hover">
 					<thead>
 						<tr><th><span class="label">类型</span> 课程</th><td>学分</td><td>成绩</td><td>绩点</td><td>教学班排名</td></tr>
 					</thead>
@@ -120,15 +112,24 @@
 							<td>3.2</td>
 							<td>19 / 74</td>
 						</tr>
+						<tr>
+							<th>总览</th>
+							<th>15</th>
+							<th>82</th>
+							<th>3.2</th>
+							<th></th>
+						</tr>
 					</tbody>
 				</table>
   				</div>
-  				
   			</div>
+  			
   			<div class="span8">
-  				<table class="table table-hover table-condensed">
+  				<div class="well well-small">
+  					<h5 style="margin-bottom:10px">学分总览</h5>
+  					<table class="table table-hover table-condensed">
   					<thead>
-  						<tr><th>课程</th><td>绩点</td><td>学分</td><td></td><td>完成度</td></tr>
+  						<tr><th>类型</th><td>绩点</td><td>学分</td><td></td><td>完成度</td></tr>
   					</thead>
   					<tbody>
   						<tr>
@@ -175,21 +176,46 @@
   						</tr>
   					</tbody>
   				</table>
+  				</div>
   			</div>
+  			
+  			<div class="span8">
+  				<div class="well well-small">
+  					<form class="form-inline" style="margin-bottom:40px">
+  						<div style="width:200px;float:left"><h5>成绩分布与绩点换算</h5></div>
+						<div class="input-prepend pull-right">
+							<span class="add-on">选择学期</span>
+							<select class="span3" name="score-year" id="score-year">
+              					<option>2009-2010 学期1</option>
+              					<option>2009-2010 学期2</option>
+              					<option>2009-2010 学期3</option>
+              					<option>--------------</option>
+              					<option>2010-2011 学期1</option>
+              					<option>2010-2011 学期2</option>
+              					<option>2010-2011 学期3</option>
+              					<option>--------------</option>
+              					<option>2011-2012 学期1</option>
+              					<option>2011-2012 学期2</option>
+              					<option>2011-2012 学期3</option>
+              					<option>--------------</option>
+              					<option selected="selected">总览</option>
+            				</select>
+						</div>
+					</form>
+  				</div>
+  			</div>
+  			
   		</div>
 
 
-  		<footer>
-  		<div class="row align-center intro">
-  			<div class="span6">
-  				<p><small>该项目旨在提供更简洁、高效、安全、跨平台的中山大学教务系统使用体验。<br/>这是一个开源、非盈利的项目。<br/>
-  					<a href="http://sysujwxt.com/about">>>了解更多, 并给我们留言</a><br/>
-  					<a href="#">>>在Github上查看</a></small></p>
-  			</div>
-  			<div class="span2">
-  				<p><small>下载本系统手机应用：<br/><a href="#">iOS</a><br/><a href="#">Android</a><br/><a href="#">WindowsPhone</a></small></p>
+  		<div class="row align-center">
+  			<div class="footer span8 intro">
+  				<p>Designed and built by: <a href="#">Maple</a> · <a href="#">L-Ng</a> · <a href="#">TXX</a> · <a href="#">Will404</a><br/>
+  					Special thanks to <a href="#">Kitty钱</a> for her photographs.<br/>
+	  				<a href="#">关于项目</a> · <a href="#">在Github上查看</a> · <a href="#">iOS客户端</a> · <a href="#">向我们捐赠</a>
+	  			</p>
+  				<p>Licensed under <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/cn/">CC BY-NC-ND 3.0 CN</a>.</p>
   			</div>
   		</div>
-  		</footer>
   	</body>
 </html>

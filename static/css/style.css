@@ -18,9 +18,9 @@ body { width:640px; margin:0 auto; background-color:#fdfdfd; }
 .footer-button .btn-2 {background-position: 0 -100px}
 .footer-button .btn-3 {background-position: 0 -200px}
 .footer-button .btn-4 {background-position: 0 -300px}
-.intro {color:#888;border-top:solid thin #ccc;border-bottom:solid thin #ccc;border-radius:10px;padding-top:10px;padding-bottom:10px}
-.intro p {text-align:left}
-.intro h5 {margin-bottom:5px}
+/************/
+.footer p{text-align:center}
+.intro {color:#666;border-top:solid thin #ccc;padding-top:10px;padding-bottom:10px;font-size:12px}
 .nav {margin:0 !important}
 .navbar-menu {width:640px; margin:0 auto}
 .small-logo {float:left;width:120px;height:40px;background:url("../img/small-logo.png") 0 0 no-repeat;padding:0 !important}
@@ -44,11 +44,15 @@ thead {background:#eee}
 .table .error-item {color:#c00}
 .main .alert {padding-right:14px}
 .main .alert .btn {margin-left:10px}
-.well {background-color:#ffffff}
+.well {background-color:#ffffff; border-color:#ccc}
+h4{margin-top:0; margin-bottom:20px}
+h4 a {font-weight:normal; margin-top:-5px}
 h5{margin:5px 0 5px 10px}
 h6{margin:5px 0 5px 0; font-size:14px; font-weight:normal}
 .table {border-radius:5px; webkit-border-radius:5px; moz-border-radius:5px; overflow:hidden; margin-bottom:0}
-.table thead {background-color:#eee;}
+.table thead {background-color:#f3f3f3;}
+
+
 #score-result {
   min-height: 200px;
 }
