@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="../static/css/bootstrap.min.css" type="text/css" />
+		<link rel="stylesheet" href="../static/css/style.css" type="text/css" />
+		<script src="../static/js/query.js"></script>
+	    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	    <script src="../static/js/bootstrap.min.js"></script>
+	    <title>选课退课 - SYSU 第三方教务系统</title>
+	</head>
+	<body>
+		<header class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="navbar-menu">
+					<ul class="nav">
+						<li><a class="small-logo" href="#"></a></li>
+						<li><a href="#">总览</a></li>
+						<li><a href="#">课程表</a></li>
+						<li class="active"><a href="#">选课退课</a></li>
+						<li><a href="#">学分绩点</a></li>
+					</ul>
+					<ul class="nav right-menu">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">吴亮(09388000)<b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">修改密码</a></li>
+								<li><a href="#">评教</a></li>
+								<li><a href="#">四六级报名</a></li>
+								<li class="divider"></li>
+								<li><a href="#">退出</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+  		</header>
+  		
+  		<div class="row main">
+  			<div class="span8">
+  				<h4>当前没有正在进行的选课</h4>
+  			</div>
+  			
+  			<div class="span8">
+  				<div class="well well-small">
+  					<form class="form-inline" style="margin-bottom:40px">
+  						<div style="width:200px;float:left"><h5>以往选课结果查询</h5></div>
+						<div class="input-prepend pull-right">
+							<span class="add-on">选择学期</span>
+							<select class="span3" name="score-year" id="score-year">
+              					<option>2009-2010 学期1</option>
+              					<option>2009-2010 学期2</option>
+              					<option>2009-2010 学期3</option>
+              					<option>--------------</option>
+              					<option>2010-2011 学期1</option>
+              					<option>2010-2011 学期2</option>
+              					<option>2010-2011 学期3</option>
+              					<option>--------------</option>
+              					<option>2011-2012 学期1</option>
+              					<option>2011-2012 学期2</option>
+              					<option selected="selected">2011-2012 学期3</option>
+            				</select>
+						</div>
+					</form>
+					<table class="table table-condensed table-hover">
+  								<thead>
+  									<tr>
+  										<th><h5>课程</h5></th>
+  										<td><h6>时间地点</h6></td>
+  										<td><h6>教师</h6></td>
+  										<td><h6>状态</h6></td>
+  										<td><h6>成绩</h6></td>
+  									</tr>
+  								</thead>
+  								<tbody>
+  									<tr>
+  										<td><span class="label">专必</span> 企业竞争情报研究<br/><small>2学分 | 咨询管理学院</small></td>
+  										<td>星期三 13-15节(2-13周)<br/>东B202</td>
+  										<td>老师名<br/><small>教授</small></td>
+  										<td><span class="label label-success"><i class="icon-ok icon-white"></i></span> 已通过</td>
+  										<td>83 (3.3)<br/><small>教学班排名17/40</small></td>
+  									</tr>
+  									<tr>
+  										<td><span class="label">专必</span> 财政与公共卫生<br/><small>2学分 | 公共卫生学院</small></td>
+  										<td>星期三 13-15节(2-13周)<br/>东B202</td>
+  										<td>老师名<br/><small>教授</small></td>
+  										<td><span class="label label-success"><i class="icon-ok icon-white"></i></span> 已通过</td>
+  										<td>83 (3.3)<br/><small>教学班排名17/40</small></td>
+  									</tr>
+  									<tr>
+  										<td><span class="label">专必</span> 单片机应用系统设计<br/><small>2学分 | 工学院</small></td>
+  										<td>星期三 13-15节(2-13周)<br/>东B202</td>
+  										<td>老师名<br/><small>教授</small></td>
+  										<td><span class="label label-warning"><i class="icon-time icon-white"></i></span> 未通过</td>
+  										<td>83 (3.3)<br/><small>教学班排名17/40</small></td>
+  									</tr>
+  									<tr>
+  										<td><span class="label">公选</span> 东南亚文化与古代文明<br/><small>2学分 | 社会学与人类学学院</small></td>
+  										<td>星期三 13-15节(2-13周)<br/>东B202</td>
+  										<td>老师名<br/><small>教授</small></td>
+  										<td><span class="label label-success"><i class="icon-ok icon-white"></i></span> 已通过</td>
+  										<td>83 (3.3)<br/><small>教学班排名17/40</small></td>
+  									</tr>
+  									<tr>
+  										<td><span class="label">公选</span> 数字影视技术<br/><small>2学分 | 广州东校区教学实验中心</small></td>
+  										<td>星期三 13-15节(2-13周)<br/>东B202</td>
+  										<td>老师名<br/><small>教授</small></td>
+  										<td><span class="label label-success"><i class="icon-ok icon-white"></i></span> 已通过</td>
+  										<td>83 (3.3)<br/><small>教学班排名17/40</small></td>
+  									</tr>
+  								</tbody>
+  					</table>
+  				</div>
+  			</div>
+  		</div>
+  		
+
+  		<div class="row align-center">
+  			<div class="footer span8 intro">
+  				<p>Designed and built by: <a href="#">Maple</a> · <a href="#">L-Ng</a> · <a href="#">TXX</a> · <a href="#">Will404</a><br/>
+  					Special thanks to <a href="#">Kitty钱</a> for her photographs.<br/>
+	  				<a href="#">关于项目</a> · <a href="#">在Github上查看</a> · <a href="#">iOS客户端</a> · <a href="#">向我们捐赠</a>
+	  			</p>
+  				<p>Licensed under <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/cn/">CC BY-NC-ND 3.0 CN</a>.</p>
+  			</div>
+  		</div>
+  	</body>
+</html>
