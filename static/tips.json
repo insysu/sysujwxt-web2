@@ -1,3 +1,7 @@
 {
-  "sfd":"asdd"
+  "schoolStartTime": "2012-9-17",
+  "selectCourse": false,
+  "selectRound": 1,
+  "selectSport": false,
+  "selectEnglish": false
 }
