@@ -1,0 +1,9 @@
+[uwsgi]
+socket = /tmp/sysujwxt-web.sock
+workers = 10
+
+pp = /home/maple/sysujwxt-web
+module = server
+callable = app
+master = true
+daemonize = /var/log/uwsgid-web.log

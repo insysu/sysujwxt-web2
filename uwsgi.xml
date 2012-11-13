@@ -1,8 +1,0 @@
-<uwsgi> 
-    <pythonpath>/home/USERNAME/jwxt</pythonpath> 
-    <module>server</module> 
-    <callable>app</callable> 
-    <processes>10</processes> 
-    <socket>/tmp/sysujwxt_uwsgi.sock</socket> 
-    <master/> 
-</uwsgi> 
