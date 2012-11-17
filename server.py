@@ -67,26 +67,26 @@ def index():
     if not logged_in():
         return sign_in()
 
-    name, school, major, sno = [request.cookies[x] for x in ['name', 'school', 'major', 'sno']] 
+    name, school, major, sno = [request.cookies[x] for x in ['name', 'school', 'major', 'sno']]
     return render_template('dashboard.html', name=name, school=school,
                            major=major, sno=sno)
 
 @app.route('/score')
 @requires_login
 def score():
-    name, sno = [request.cookies[x] for x in ['name', 'sno']] 
+    name, sno = [request.cookies[x] for x in ['name', 'sno']]
     return render_template('score.html', name=name, sno=sno)
 
 @app.route('/timetable')
 @requires_login
 def timetable():
-    name, sno = [request.cookies[x] for x in ['name', 'sno']] 
+    name, sno = [request.cookies[x] for x in ['name', 'sno']]
     return render_template('timetable.html', name=name, sno=sno)
 
 @app.route('/course')
 @requires_login
 def course():
-    name, sno = [request.cookies[x] for x in ['name', 'sno']] 
+    name, sno = [request.cookies[x] for x in ['name', 'sno']]
     return render_template('course.html', name=name, sno=sno)
 
 
@@ -156,9 +156,10 @@ def get_timetable():
 @app.route('/api/score')
 @requires_api_login
 def get_score():
-    sno = request.cookies.get('sno') 
+    sno = request.cookies.get('sno')
     cookie = request.cookies.get('JSESSIONID')
-    year, term = [request.args[x] for x in ['year', 'term']]
+    year = request.args.get('year', '')
+    term = request.args.get('term', '')
     _, result = sysujwxt.get_score(cookie.encode('ascii'),
                                    sno.encode('ascii'),
                                    year.encode('ascii'),
@@ -168,7 +169,7 @@ def get_score():
 @app.route('/api/available_courses')
 @requires_api_login
 def get_selected_course():
-    sno = request.cookies.get('sno') 
+    sno = request.cookies.get('sno')
     cookie = request.cookies.get('JSESSIONID')
     year, term , course_type, campus = [request.args[x] for x in ['year', 'term', 'course_type', 'campus']]
     _, result = sysujwxt.get_available_courses(cookie.encode('ascii'),
@@ -181,11 +182,11 @@ def get_selected_course():
 @app.route('/api/add_course')
 @requires_api_login
 def add_course():
-    sno = request.cookies.get('sno') 
+    sno = request.cookies.get('sno')
     cookie = request.cookies.get('JSESSIONID')
     id, year, term = [request.args[x] for x in ['id', 'year', 'term']]
-    _, result = sysujwxt.add_course(cookie.encode('ascii'), 
-                                    id.encode('ascii'), 
+    _, result = sysujwxt.add_course(cookie.encode('ascii'),
+                                    id.encode('ascii'),
                                     year.encode('ascii'),
                                     term.encode('ascii'))
     return result
@@ -193,22 +194,22 @@ def add_course():
 @app.route('/api/course_result')
 @requires_api_login
 def get_course_result():
-    sno = request.cookies.get('sno') 
+    sno = request.cookies.get('sno')
     cookie = request.cookies.get('JSESSIONID')
     year, term = [request.args[x] for x in ['year', 'term']]
     _, result = sysujwxt.get_course_result(cookie.encode('ascii'),
-                                     year.encode('ascii'), 
+                                     year.encode('ascii'),
                                      term.encode('ascii'))
     return result
 
 @app.route('/course_result_by_type')
 @requires_api_login
 def get_course_result_by_type():
-    sno = request.cookies.get('sno') 
+    sno = request.cookies.get('sno')
     cookie = request.cookies.get('JSESSIONID')
     year, term, course_type = [request.args[x] for x in ['year', 'term', 'course_type']]
     _, result = sysujwxt.get_course_result_by_type(cookie.encode('ascii'),
-                                                   year.encode('ascii'), 
+                                                   year.encode('ascii'),
                                                    term.encode('ascii'),
                                                    course_type.encode('ascii'))
     return result
@@ -216,7 +217,7 @@ def get_course_result_by_type():
 @app.route('/api/remove_course')
 @requires_api_login
 def remove_course():
-    sno = request.cookies.get('sno') 
+    sno = request.cookies.get('sno')
     cookie = request.cookies.get('JSESSIONID')
     id  = request.args.get('id')
     _, result = sysujwxt.remove_course(cookie.encode('ascii'), id.encode('ascii'))
@@ -225,7 +226,7 @@ def remove_course():
 @app.route('/api/info')
 @requires_api_login
 def get_info():
-    sno = request.cookies.get('sno') 
+    sno = request.cookies.get('sno')
     cookie = request.cookies.get('JSESSIONID')
     _, result = sysujwxt.get_info(cookie.encode('ascii'))
     return result
@@ -233,7 +234,7 @@ def get_info():
 @app.route('/api/tno')
 @requires_api_login
 def get_tno():
-    sno = request.cookies.get('sno') 
+    sno = request.cookies.get('sno')
     cookie = request.cookies.get('JSESSIONID')
     _, result = sysujwxt.get_tno(cookie.encode('ascii'))
     return result
@@ -241,7 +242,7 @@ def get_tno():
 @app.route('/api/required_credit')
 @requires_api_login
 def get_required_credit():
-    sno = request.cookies.get('sno') 
+    sno = request.cookies.get('sno')
     cookie = request.cookies.get('JSESSIONID')
     grade, tno = [request.args[x] for x in ['grade', 'tno']]
     _, result = sysujwxt.get_required_credit(cookie.encode('ascii'),
@@ -252,7 +253,7 @@ def get_required_credit():
 @app.route('/api/earned_credit')
 @requires_api_login
 def get_earned_credit():
-    sno = request.cookies.get('sno') 
+    sno = request.cookies.get('sno')
     cookie = request.cookies.get('JSESSIONID')
     year = request.args.get('year', '')
     term = request.args.get('term', '')
@@ -265,7 +266,7 @@ def get_earned_credit():
 @app.route('/api/gpa')
 @requires_api_login
 def get_gpa():
-    sno = request.cookies.get('sno') 
+    sno = request.cookies.get('sno')
     cookie = request.cookies.get('JSESSIONID')
     year = request.args.get('year', '')
     term = request.args.get('term', '')
