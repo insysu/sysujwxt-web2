@@ -1,3 +1,4 @@
+exports = this
 courseTypeTable =
   '30': '公选'
   '21': '专选'
@@ -35,7 +36,7 @@ $lol = $('<img>').attr({
   'class': 'lol-img'
 })
 
-toggleLoadingScene = (selector, html, animation=no) ->
+exports.toggleLoadingScene = (selector, html, animation=no) ->
   if animation
     $(selector).empty().append(html).fadeOut(0).fadeIn()
   else
@@ -48,6 +49,7 @@ getData = (url, param, callback) ->
     cache: false
     data: param
   ).done(callback)
+
 
 loadClassesToday = ->
   $.ajax(
@@ -98,7 +100,9 @@ loadClassesToday = ->
 
   toggleLoadingScene '#class-today', $loadingSpinner
 
+
 $ ->
+
   $('.remove-class-btn').live 'click', ->
     choice = confirm '确定退课？'
 

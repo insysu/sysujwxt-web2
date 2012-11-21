@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block title %}学分绩点{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="https://www.google.com/uds/api/visualization/1.0/351cbc565e06280bb093b00ce39323d9/format+zh_CN,default,corechart.I.js"></script>
+<script type="text/javascript" src="/static/js/score.js"></script>
+{% endblock %}
 {% block content %}
 <div class="row main">
   <div class="span8">
@@ -32,66 +37,99 @@
         </div>
         <button type="submit" id="score-query-btn" class="btn btn-primary pull-right"><i class="icon-search icon-white"></i> 查询</button>
       </form>
-    </div>
-
-    <div id="score-result">
+        <div id="score-result">
       <table class="table table-condensed table-hover">
-        <thead>
-          <tr><th><span class="label">类型</span> 课程</th><th>学分</th><th>成绩</th><th>绩点</th><th>教学班排名</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><span class="label">专必</span> 系统分析与设计</td>
-            <td>3</td>
-            <td>82</td>
-            <td>3.2</td>
-            <td>19 / 74</td>
-          </tr>
-          <tr>
-            <td><span class="label">专必</span> 软件测试技术</td>
-            <td>3</td>
-            <td>82</td>
-            <td>3.2</td>
-            <td>19 / 74</td>
-          </tr>
-          <tr>
-            <td><span class="label">专必</span> 计算机图形学</td>
-            <td>3</td>
-            <td>82</td>
-            <td>3.2</td>
-            <td>19 / 74</td>
-          </tr>
-          <tr>
-            <td><span class="label">专选</span> IT项目管理</td>
-            <td>2</td>
-            <td>82</td>
-            <td>3.2</td>
-            <td>19 / 74</td>
-          </tr>
-          <tr>
-            <td><span class="label">专选</span> 计算机视觉</td>
-            <td>2</td>
-            <td>82</td>
-            <td>3.2</td>
-            <td>19 / 74</td>
-          </tr>
-          <tr class="alert alert-error">
-            <td><span class="label label-important">公选</span> 一门不知名的课</td>
-            <td>3</td>
-            <td>59</td>
-            <td>0.9</td>
-            <td>74 / 74</td>
-          </tr>
-          <tr>
-            <td><span class="label">公选</span> 石油地质概论</td>
-            <td>2</td>
-            <td>82</td>
-            <td>3.2</td>
-            <td>19 / 74</td>
-          </tr>
-        </tbody>
+        
       </table>
     </div>
-  </div>
+
+    </div>
+
+    </div>
+   <div class="span8">
+          <div class="well well-small">
+            <h5 style="margin-bottom:10px">学分总览</h5>
+            <table class="table table-hover table-condensed">
+            <thead>
+              <tr><th>类型</th><td>绩点</td><td>学分</td><td></td><td>完成度</td></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>公必</th>
+                <td>2.99</td>
+                <td>39 / 42</td>
+                <td><span class="label">-3</span></td>
+                <td><div class="progress progress-striped" style="width:210px"><div class="bar bar-info" style="width: 195px;"></div></div></td>
+              </tr>
+              <tr>
+                <th>专必</th>
+                <td>3.48</td>
+                <td>66 / 79 </td>
+                <td><span class="label">-13</span></td>
+                <td><div class="progress progress-striped" style="width:395px"><div class="bar bar-info" style="width: 330px;"></div></div></td>
+              </tr>
+              <tr>
+                <th>专选</th>
+                <td>3.23</td>
+                <td>24 / 24 </td>
+                <td><span class="label label-success"><i class="icon-ok icon-white"></i></span></td>
+                <td><div class="progress progress-striped" style="width:120px"><div class="bar bar-success" style="width: 120px;"></div></div></td>
+              </tr>
+              <tr>
+                <th>公选</th>
+                <td>3.61</td>
+                <td>16 / 16 </td>
+                <td><span class="label label-success"><i class="icon-ok icon-white"></i></span></td>
+                <td><div class="progress progress-striped" style="width:80px"><div class="bar bar-success" style="width: 80px;"></div></div></td>
+              </tr>
+              <tr>
+                <th>实践</th>
+                <td>0.00</td>
+                <td>0 / 23 </td>
+                <td><span class="label">-23</span></td>
+                <td><div class="progress progress-striped" style="width:115px"><div class="bar bar-info" style="width: 0px;"></div></div></td>
+              </tr>
+              <tr>
+                <th>总览</th>
+                <th>3.40</th>
+                <th>145 / 184 </th>
+                <td><span class="label">-39</span></td>
+                <td><div class="progress progress-striped" style="width:400px"><div class="bar" style="width: 79%;"></div></div></td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+        
+        <div class="span8">
+          <div class="well well-small">
+          <span>成绩分布与绩点换算</span>
+          <button  id="gpa-query-btn" class="btn btn-primary pull-right"><i class="icon-search icon-white"></i> 查询</button>
+           <!--  <div class="input-prepend pull-right">
+              <span class="add-on">选择学期</span>
+              <select class="span3" name="score-year" id="score-year">
+                <option selected="selected">总览</option>
+                <option>--------------</option>
+                        <option>2009-2010 学期1</option>
+                        <option>2009-2010 学期2</option>
+                        <option>2009-2010 学期3</option>
+                        <option>--------------</option>
+                        <option>2010-2011 学期1</option>
+                        <option>2010-2011 学期2</option>
+                        <option>2010-2011 学期3</option>
+                        <option>--------------</option>
+                        <option>2011-2012 学期1</option>
+                        <option>2011-2012 学期2</option>
+                        <option>2011-2012 学期3</option>
+                    </select>
+            </div> -->
+          <div id="gpa-chart">
+            
+          </div>
+
+          </div>
+        </div>
 </div>
+
+
 {% endblock %}

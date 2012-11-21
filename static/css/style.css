@@ -53,8 +53,12 @@ h6{margin:5px 0 5px 0; font-size:14px; font-weight:normal}
 .table thead {background-color:#f3f3f3;}
 
 
-#score-result {
-  min-height: 200px;
+#score-result, #gpa-chart {
+  padding-top: 10px;
+}
+#gpa-chart{
+	width: 620px;
+	height: 400px;
 }
 
 .loading-img {
