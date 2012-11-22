@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 {% block title %}学分绩点{% endblock %}
-{% block scripts %}
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript" src="/static/js/google-chart.js"></script>
-<script type="text/javascript" src="/static/js/score.js"></script>
-{% endblock %}
+
 {% block content %}
 <div class="row main">
   <div class="span8">
@@ -88,4 +84,9 @@
 </div>
 
 
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="/static/js/google-chart.js"></script>
+<script type="text/javascript" src="/static/js/score.js"></script>
 {% endblock %}
