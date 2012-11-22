@@ -42,6 +42,14 @@ exports.toggleLoadingScene = (selector, html, animation=no) ->
   else
     $(selector).empty().append(html)
 
+exports.checkRes = (res, ele) ->
+  if res is "expired"
+    $(ele).html("已超时，请重新登录")
+    return no
+  if res is "timeout"
+    $(ele).html("教务系统挂了，再试一次？")
+    return no
+  return yes
 getData = (url, param, callback) ->
   $.ajax(
     type: 'GET'
@@ -121,64 +129,7 @@ $ ->
   if $('#class-today').length
     loadClassesToday()
 
-  # -----------------------
-  # bind query score event
-  # -----------------------
-  $('.term-btn-group .btn').click((event) ->
-    event.preventDefault()
-    console.log ($ this).val()
-    console.log ($ '#year').val()
-    term = $(this).val()
-    year = $('#year').val()
 
-    $.ajax(
-      type: 'GET'
-      url: '/api/score'
-      cache: false
-      data: {term: term, year: year}
-    ).done((response) ->
-      console.log response
-
-      # genetate table
-      eval('tableJson = ' + response)
-      scores = tableJson.body.dataStores.kccjStore.rowSet.primary
-      console.log tableJson
-
-      if scores.length == 0
-        toggleLoadingScene '#score-result', $lol
-        return
-
-      $tblHead = $('<thead>').append(
-        $('<tr>').append(
-          $('<th>').html($('<span>').attr('class', 'label').text('类型'))
-            .append(' 课程')
-          $('<th>').text('学分')
-          $('<th>').text('成绩')
-          $('<th>').text('绩点')
-          $('<th>').text('教学班排名'))
-      )
-
-      $tblBody = $('<tbody>')
-      for score in scores
-        $tblBody.append(
-          $('<tr>').append(
-            $('<th>').html($('<span>').attr('class', 'label').text(courseTypeTable[score.kclb]))
-              .append(' '+score.kcmc)
-            $('<td>').text(score.xf)
-            $('<td>').text(score.zzcj)
-            $('<td>').text(score.jd)
-            $('<td>').text(score.jxbpm))
-        )
-      
-      $tbl = $('<table>')
-        .attr({'class': 'table table-condensed table-hover'})
-        .append $tblHead, $tblBody
-      toggleLoadingScene '#score-result', $tbl, yes
-    )
-
-    toggleLoadingScene '#score-result', $loadingSpinner
-
-  )
 
   # bind query available courses event
   $('.course-type-btn-group .btn').click((event) ->

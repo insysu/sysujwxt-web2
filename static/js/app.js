@@ -39,12 +39,12 @@
 
   currentTerm = '1';
 
-  $loadingSpinner = $('<img>').attr({
+  exports.$loadingSpinner = $('<img>').attr({
     'src': './static/img/loader.gif',
     'class': 'loading-img'
   });
 
-  $lol = $('<img>').attr({
+  exports.$lol = $('<img>').attr({
     'src': './static/img/lol.png',
     'class': 'lol-img'
   });
@@ -58,6 +58,18 @@
     } else {
       return $(selector).empty().append(html);
     }
+  };
+
+  exports.checkRes = function(res, ele) {
+    if (res === "expired") {
+      $(ele).html("已超时，请重新登录");
+      return false;
+    }
+    if (res === "timeout") {
+      $(ele).html("教务系统挂了，再试一次？");
+      return false;
+    }
+    return true;
   };
 
   getData = function(url, param, callback) {
