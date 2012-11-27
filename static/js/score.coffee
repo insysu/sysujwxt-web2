@@ -60,7 +60,10 @@ organizeCredits = (req_cdts, earn_cdts, gpas) ->
   for key of credits
     if key is "总览" or not credits[key]["req_cdt"] 
       break
-    else 
+    else
+      if not credits[key]["earn_cdt"] 
+        credits[key]["earn_cdt"] = 0
+        credits[key]["gpa"] = 0
       credits[key]["req_cdt_now"] = if credits[key]["earn_cdt"] >= credits[key]["req_cdt"] then 0 else credits[key]["earn_cdt"] - credits[key]["req_cdt"]
       allRequiredCreditsForNow += credits[key]["req_cdt_now"]
   credits["总览"]["req_cdt_now"] = allRequiredCreditsForNow
@@ -78,16 +81,6 @@ genCreditRow = (credit, rowName) ->
   tr.append($("<td>").text(credit.earn_cdt + "/" + credit.req_cdt))
   if credit.req_cdt_now is 0
     tr.append(successTd)
-    tr.append(
-      $("<td>").append(
-         $("<div>").addClass("progress")
-                   .addClass("progress-striped")
-                   .data("length",  if (length = credit.req_cdt / maxCredit * maxWidth) > maxWidth then maxWidth else length)
-                   .width(0)
-                   .append(     
-                     $("<div>").addClass("bar")
-                               .addClass("bar-success")
-                               .data("length", credit.earn_cdt / credit.req_cdt * 100 + "%")))).width(0)
   else
     tr.append(
       $("<td>").append(
@@ -101,6 +94,8 @@ genCreditRow = (credit, rowName) ->
                    .width(0)
                    .append(     
                      $("<div>").addClass("bar")
+                               .addClass(if credit.req_cdt_now is 0 then "bar-success" else null)
+                               .addClass(if credit.req_cdt_now isnt 0 and rowName isnt "总览" then "bar-info" else null)
                                .data("length", credit.earn_cdt / credit.req_cdt * 100 + "%")))).width(0)
     return tr
 calculateGpa = (scores) ->
