@@ -6,6 +6,11 @@ getScore = (ctx, year, term) ->
     data:
       year: year
       term: term
+getScript = (url) ->
+  $.ajax
+    url: url
+    cache: yes
+    dataType: "script"
 getGpa = (year, term) ->
   $.ajax
     url: "/api/gpa"
@@ -20,17 +25,14 @@ getTno = ()->
       nums = eval("nums = " + res).body.parameters.result
       exports.grade = nums.split(",")[1]
       exports.tno = nums.split(",")[2]
-
 getRequiredCredit = ()->
   if not grade? or not tno?
     getTno()
   $.get "/api/required_credit", grade: grade, tno: tno, (res)->
     console.log(res)
-
 getEarnedCredit = ->
   $.get "/api/earned_credit", (res)->
     console.log(res)
-
 organizeCredits = (req_cdts, earn_cdts, gpas) ->
   credits = 
     "公必": {}
@@ -54,8 +56,18 @@ organizeCredits = (req_cdts, earn_cdts, gpas) ->
     credits["总览"]["gpa"] += gpaWeight
   credits["总览"]["gpa"] /= credits["总览"]["earn_cdt"] 
   credits["总览"]["gpa"] = credits["总览"]["gpa"].toFixed(3)
-  return credits
 
+  #calculate required credits for now. Extra earned credits cannot be summed in.
+  allRequiredCreditsForNow = 0
+  for key of credits
+    if key is "总览" or not credits[key]["req_cdt"] 
+      break
+    else 
+      credits[key]["req_cdt_now"] = if credits[key]["earn_cdt"] >= credits[key]["req_cdt"] then 0 else credits[key]["earn_cdt"] - credits[key]["req_cdt"]
+      allRequiredCreditsForNow += credits[key]["req_cdt_now"]
+  credits["总览"]["req_cdt_now"] = allRequiredCreditsForNow
+
+  return credits
 genCreditRow = (credit, rowName) ->
   if not credit.gpa? or not credit.req_cdt? or not credit.earn_cdt?
     return
@@ -66,7 +78,7 @@ genCreditRow = (credit, rowName) ->
   tr.append($("<th>").text(rowName))
   tr.append($("<td>").text(credit.gpa))
   tr.append($("<td>").text(credit.earn_cdt + "/" + credit.req_cdt))
-  if credit.earn_cdt == credit.req_cdt
+  if credit.req_cdt_now is 0
     tr.append(successTd)
     tr.append(
       $("<td>").append(
@@ -82,7 +94,7 @@ genCreditRow = (credit, rowName) ->
     tr.append(
       $("<td>").append(
         $("<span>").addClass("label")
-                   .text(credit.earn_cdt - credit.req_cdt)))
+                   .text(credit.req_cdt_now)))
     tr.append(
       $("<td>").append(
          $("<div>").addClass("progress")
@@ -93,12 +105,168 @@ genCreditRow = (credit, rowName) ->
                      $("<div>").addClass("bar")
                                .data("length", credit.earn_cdt / credit.req_cdt * 100 + "%")))).width(0)
     return tr
+calculateGpa = (scores) ->
+  gpaWeight = 0
+  totalCredits = 0
+  for score in scores
+    gpaWeight += parseFloat(score.jd) * parseInt(score.xf)
+    totalCredits += parseInt score.xf
+  gpa = (gpaWeight / totalCredits).toFixed(3)
+  $("#gpa_origin").text(gpa)
 
-
+  # for 4.0
+  gpaWeight = 0
+  for score in scores
+    if 85 <= score.zzcj <= 100 
+      zzcj = 4.0
+    else if 80 <= score.zzcj <= 84
+      zzcj = 3.5
+    else if 75 <= score.zzcj <= 79
+      zzcj = 3.0
+    else if 70 <= score.zzcj <= 74
+      zzcj = 2.5
+    else if 65 <= score.zzcj <= 69
+      zzcj = 2.0
+    else if 60 <= score.zzcj <= 64
+      zzcj = 1.5
+    else if score.zzcj < 60
+      zzcj = 1.0
+    gpaWeight += zzcj * parseInt(score.xf)
+  gpa = (gpaWeight / totalCredits).toFixed(3)
+  $("#gpa_new").text(gpa)
 genGChartUrl = (scores, type) ->
   scores = scores.join(",")
   url = "http://chart.apis.google.com/chart?chs=600x200&chd=t:#{scores}&cht=p3&chhco=ff0000&chl=<60|60-69|70-79|80-89|90-100"
+formatScoreForBar = (scores) ->
+  map = {}
+  data = []
+  for score in scores
+    if not map[score.xnd] 
+      map[score.xnd] = [0,0,0,0,0,0,0,0,0]
+  for score in scores
+    count = 1
+    for i in [60...100] by 5
+      if i <= score.zzcj < i + 5  
+        console.log score.zzcj
+        map[score.xnd][count]++ 
+        break
+      if i > score.zzcj 
+        map[score.xnd][0]++
+      count++
+    if parseInt(score.zzcj) is 100
+      map[score.xnd][count - 1]++  
+  j = 0
+  for key of map
+    data[j] = 
+      name: key
+      data: map[key]
+    j++
+  data.sort((a, b)->
+    return a.name < b.name
+    )
+formatScoreForPie = (scores) ->
+  data = [["<60", 0]];
+  for i in [60...100] by 5
+    if (i == 95)
+      data.push [i + "-" + (i + 5), 0]
+    else
+      data.push [i + "-" + (i + 4), 0]
+  
+  #data = [["<60", 0], ["60-64", 0], ["65-69", 0], ["70-74", 0], ["75-79", 0], ["80-84", 0], ["85-89", 0], ["90-94", 0], ["95-100", 0]]
+  for score in scores
+    count = 1
+    for i in [60...100] by 5
+      if i <= score.zzcj < i + 5  
+        data[count][1]++ 
+        break
+      if i > score.zzcj 
+        data[0][1]++
+      count++
+    if parseInt(score.zzcj) is 100
+      data[count - 1][1]++
+  return data
+drawChart = (scores, type, ele) ->
+  switch type
+    when 'pie' then drawPieChart(scores, ele)
+    when 'bar' then drawBarChart(scores, ele)
+    when 'bubble' then drawBubbleChart(scores, ele)
+drawPieChart = (scores, ele) ->
 
+  chart = new Highcharts.Chart(
+            chart:
+              renderTo: ele
+              plotBackgroundColor: null
+              plotBorderWidth: null
+              plotShadow: false
+            title:
+              text: '大学成绩分布图'
+            credits:
+              href: 'http://sysujwxt.com'
+              text: '中大第三方教务系统'
+            tooltip:
+              pointFormat: '{series.name}: <b>{point.y}</b>'
+              percentageDecimals: 1
+            
+            plotOptions:
+                pie:
+                    allowPointSelect: true
+                    cursor: 'pointer'
+                    showInLegend: true
+                    dataLabels:
+                        enabled: true
+                        color: '#000000'
+                        connectorColor: '#000000'
+                        formatter: -> 
+                            '<b>'+ this.point.name + '</b>: ' + this.percentage.toFixed(2) + ' %';
+            series:[
+              type: "pie"
+              name: "科目数量"
+              data: formatScoreForPie(scores)
+            ]
+  );
+drawBarChart = (scores, ele) ->
+  chart = new Highcharts.Chart(
+            chart:
+                renderTo: ele
+                type: 'column'
+            credits:
+              href: 'http://sysujwxt.com'
+              text: '中大第三方教务系统'
+            title:
+                text: '大学成绩分布图'
+            xAxis: 
+                categories: ['<60', '60-64', '65-69', "70-74","75-79","80-84","85-89","90-94","95-100"]
+            
+            yAxis: 
+                min: 0
+                title: 
+                    text: '科目数量'
+                stackLabels: 
+                    enabled: true
+                    style:
+                        fontWeight: 'bold'
+                        color: (Highcharts.theme and Highcharts.theme.textColor) or 'gray'
+                    
+            legend: 
+                backgroundColor: '#FFFFFF'
+                reversed: true
+                align: 'right'
+                x: -100
+                verticalAlign: 'top'
+                y: 20
+                floating: true
+                shadow: true
+            tooltip: 
+                formatter: ->
+                    return '' + this.series.name + '学年: ' + this.y + ''; 
+            plotOptions: 
+                column: 
+                    stacking: 'normal'
+                    dataLabels: 
+                        enabled: true
+                        color: (Highcharts.theme and Highcharts.theme.dataLabelsColor) or 'white'
+            series: formatScoreForBar(scores)
+        );
 getDistributedScore = (scores) ->
   ret = [['ID', '分数', '学分', '时间', '绩点']]
   for score in scores
@@ -110,9 +278,9 @@ getDistributedScore = (scores) ->
     detail.push parseFloat(score.jd)
     ret.push detail
   ret
-
-drawData = (data, ele) ->
-  data = google.visualization.arrayToDataTable(data);
+drawBubbleChart = (scores, ele) ->
+  scores = getDistributedScore(scores)
+  data = google.visualization.arrayToDataTable(scores);
   options = 
     title: '大学成绩分布图'
     hAxis: 
@@ -127,6 +295,7 @@ drawData = (data, ele) ->
   chart = new google.visualization.BubbleChart ele;
   chart.draw data, options;
 $ ->
+
   $.when(getRequiredCredit(), getEarnedCredit(), getGpa()).done ->
     req_cdts = eval("req_cdts = " + arguments[0][0]).body.dataStores.zxzyxfStore.rowSet.primary
     earn_cdts = eval("earn_cdts = " + arguments[1][0]).body.dataStores.xfStore.rowSet.primary
@@ -158,7 +327,7 @@ $ ->
       $tblHead = $('<thead>').append(
         $('<tr>').append(
           $('<th>').html($('<span>').attr('class', 'label').text('类型'))
-            .append(' 课程')
+                   .append(' 课程')
           $('<th>').text('学分')
           $('<th>').text('成绩')
           $('<th>').text('绩点')
@@ -184,30 +353,15 @@ $ ->
     ).fail ->
       $(this).html "请求失败，再试一次？"
   )
-  $("#gpa-query-btn").click ->
+  $(".chart-type-btn-group .btn").click (e)->
+    e.preventDefault();
     toggleLoadingScene '#gpa-chart', $loadingSpinner
+    type = $(this).val()
     getScore($("#gpa-chart")[0]).done (res) ->
       if checkRes(res, this)
         scores = eval("scores =" + res).body.dataStores.kccjStore.rowSet.primary
-        distributedScore = getDistributedScore scores
-        console.log distributedScore
-        drawData distributedScore, this
+        calculateGpa(scores)
+        drawChart(scores, type, this)
     .fail ->
-      $(this).html "请求失败，再试一次？"
-  # $.when.apply($, getAllScore(2009)).done ->
-  #   score_dist = [0,0,0,0,0]
-  #   for res in arguments
-  #     data = eval("data =" + res[0]).body.dataStores.kccjStore.rowSet.primary
-  #     for score in data
-  #       switch 
-  #         when score.zzcj<60 then score_dist[0]++
-  #         when 60<score.zzcj<69 then score_dist[1]++
-  #         when 70<score.zzcj<79 then score_dist[2]++
-  #         when 80<score.zzcj<89 then score_dist[3]++
-  #         when 90<score.zzcj<100 then score_dist[4]++
-  #       # console.log score.xnd + " " + score.xq + " " + score.kcmc + " " + score.zzcj 
-  #   console.log score_dist
-  #   console.log genGChartUrl(score_dist, "bing")
-  #   gchart = $("<img>").attr("src", genGChartUrl(score_dist, "bing"))
-  #   toggleLoadingScene("#gpa-chart", gchart, yes)
-  # 
+      toggleLoadingScene this, $lol
+  $(".chart-type-btn-group button[value=pie]").click()

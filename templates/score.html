@@ -55,26 +55,20 @@
         
         <div class="span8">
           <div class="well well-small">
-          <span>成绩分布与绩点换算</span>
-          <button  id="gpa-query-btn" class="btn btn-primary pull-right"><i class="icon-search icon-white"></i> 查询</button>
-           <!--  <div class="input-prepend pull-right">
-              <span class="add-on">选择学期</span>
-              <select class="span3" name="score-year" id="score-year">
-                <option selected="selected">总览</option>
-                <option>--------------</option>
-                        <option>2009-2010 学期1</option>
-                        <option>2009-2010 学期2</option>
-                        <option>2009-2010 学期3</option>
-                        <option>--------------</option>
-                        <option>2010-2011 学期1</option>
-                        <option>2010-2011 学期2</option>
-                        <option>2010-2011 学期3</option>
-                        <option>--------------</option>
-                        <option>2011-2012 学期1</option>
-                        <option>2011-2012 学期2</option>
-                        <option>2011-2012 学期3</option>
-                    </select>
-            </div> -->
+          <h5>成绩分布与绩点换算</h5>
+          <p><a class="label" title="(A)90-100=4.0-5.0&#13;(B)80-89=3.0-3.9&#13;(C)70-79=2.0-2.9&#13;(D)60-69=1.0-1.9&#13;(E)0-59=0">第一种</a>算法的GPA是: <span class="label" id="gpa_origin">2.1</span></p>
+          <p><a class="label" title="(A):85-100=4.0&#13;(B)80-84=3.5&#13;(C)75-79=3.0&#13;(D)70-74=2.5&#13;(E)60-69=2.0&#13;(F)0-59=1.0">第二种</a>算法的GPA是: <span class="label" id="gpa_new">2.1</span></p>
+          <form class="form-inline" style="margin-bottom:0">
+      
+        <div class="input-prepend btn-group">
+          <div class="controls">
+            <div class="chart-type-btn-group btn-group active" data-toggle="buttons-radio">
+              <button value="pie" class="btn">饼图</button>
+              <button value="bar" class="btn">条形图</button>
+            </div>
+          </div>
+        </div>
+      </form>
           <div id="gpa-chart">
             
           </div>
@@ -86,7 +80,6 @@
 
 {% endblock %}
 {% block scripts %}
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript" src="/static/js/google-chart.js"></script>
+<script type="text/javascript" src="/static/js/highcharts.js"></script>
 <script type="text/javascript" src="/static/js/score.js"></script>
 {% endblock %}
