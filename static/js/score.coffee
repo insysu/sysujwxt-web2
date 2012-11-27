@@ -163,7 +163,7 @@ formatScoreForBar = (scores) ->
     return a.name < b.name
     )
 formatScoreForPie = (scores) ->
-  data = [["<60", 0]];
+  data = [["&lt;60", 0]];
   for i in [60...100] by 5
     if (i == 95)
       data.push [i + "-" + (i + 5), 0]
@@ -202,7 +202,9 @@ drawPieChart = (scores, ele) ->
               href: 'http://sysujwxt.com'
               text: '中大第三方教务系统'
             tooltip:
-              pointFormat: '{series.name}: <b>{point.y}</b>'
+              formatter: ->
+                return '<b>' + this.point.name + '分</b><br>' + this.series.name + ':<b>'+ this.point.y + '</b>'
+
               percentageDecimals: 1
             
             plotOptions:
@@ -233,7 +235,7 @@ drawBarChart = (scores, ele) ->
             title:
                 text: '大学成绩分布图'
             xAxis: 
-                categories: ['<60', '60-70', "70-80","80-90","90-100"]
+                categories: ['&lt;60', '60-70', "70-80","80-90","90-100"]
             yAxis: 
                 min: 0
                 title: 
@@ -256,6 +258,10 @@ drawBarChart = (scores, ele) ->
                     dataLabels: 
                         enabled: true
                         color: (Highcharts.theme and Highcharts.theme.dataLabelsColor) or 'white'
+                        formatter: ->
+                          if this.y is 0
+                            return null
+                          return this.y
             series: formatScoreForBar(scores)
         );
 $ ->
@@ -331,4 +337,7 @@ $ ->
   $(".chart-type-btn-group button[value=pie]").click()
   $("[rel=tooltip]").tooltip(
     trigger:'click'
+  )
+  $("[rel=tooltip]").tooltip(
+    trigger:'hover'
   )

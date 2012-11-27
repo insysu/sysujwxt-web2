@@ -211,7 +211,7 @@
 
   formatScoreForPie = function(scores) {
     var count, data, i, score, _i, _j, _k, _len, _ref;
-    data = [["<60", 0]];
+    data = [["&lt;60", 0]];
     for (i = _i = 60; _i < 100; i = _i += 5) {
       if (i === 95) {
         data.push([i + "-" + (i + 5), 0]);
@@ -267,7 +267,9 @@
         text: '中大第三方教务系统'
       },
       tooltip: {
-        pointFormat: '{series.name}: <b>{point.y}</b>',
+        formatter: function() {
+          return '<b>' + this.point.name + '分</b><br>' + this.series.name + ':<b>' + this.point.y + '</b>';
+        },
         percentageDecimals: 1
       },
       plotOptions: {
@@ -310,7 +312,7 @@
         text: '大学成绩分布图'
       },
       xAxis: {
-        categories: ['<60', '60-70', "70-80", "80-90", "90-100"]
+        categories: ['&lt;60', '60-70', "70-80", "80-90", "90-100"]
       },
       yAxis: {
         min: 0,
@@ -339,7 +341,13 @@
           stacking: 'normal',
           dataLabels: {
             enabled: true,
-            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+            formatter: function() {
+              if (this.y === 0) {
+                return null;
+              }
+              return this.y;
+            }
           }
         }
       },
@@ -414,8 +422,11 @@
       });
     });
     $(".chart-type-btn-group button[value=pie]").click();
-    return $("[rel=tooltip]").tooltip({
+    $("[rel=tooltip]").tooltip({
       trigger: 'click'
+    });
+    return $("[rel=tooltip]").tooltip({
+      trigger: 'hover'
     });
   });
 
