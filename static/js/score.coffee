@@ -28,11 +28,9 @@ getTno = ()->
 getRequiredCredit = ()->
   if not grade? or not tno?
     getTno()
-  $.get "/api/required_credit", grade: grade, tno: tno, (res)->
-    console.log(res)
+  $.get "/api/required_credit", grade: grade, tno: tno
 getEarnedCredit = ->
-  $.get "/api/earned_credit", (res)->
-    console.log(res)
+  $.get "/api/earned_credit"
 organizeCredits = (req_cdts, earn_cdts, gpas) ->
   credits = 
     "公必": {}
@@ -117,19 +115,20 @@ calculateGpa = (scores) ->
   # for 4.0
   gpaWeight = 0
   for score in scores
-    if 85 <= score.zzcj <= 100 
+    zzcj = Math.round score.zzcj
+    if 85 <= zzcj <= 100 
       zzcj = 4.0
-    else if 80 <= score.zzcj <= 84
+    else if 80 <= zzcj <= 84
       zzcj = 3.5
-    else if 75 <= score.zzcj <= 79
+    else if 75 <= zzcj <= 79
       zzcj = 3.0
-    else if 70 <= score.zzcj <= 74
+    else if 70 <= zzcj <= 74
       zzcj = 2.5
-    else if 65 <= score.zzcj <= 69
+    else if 65 <= zzcj <= 69
       zzcj = 2.0
-    else if 60 <= score.zzcj <= 64
+    else if 60 <= zzcj <= 64
       zzcj = 1.5
-    else if score.zzcj < 60
+    else if zzcj < 60
       zzcj = 1.0
     gpaWeight += zzcj * parseInt(score.xf)
   gpa = (gpaWeight / totalCredits).toFixed(3)
@@ -142,12 +141,11 @@ formatScoreForBar = (scores) ->
   data = []
   for score in scores
     if not map[score.xnd] 
-      map[score.xnd] = [0,0,0,0,0,0,0,0,0]
+      map[score.xnd] = [0,0,0,0,0]
   for score in scores
     count = 1
-    for i in [60...100] by 5
-      if i <= score.zzcj < i + 5  
-        console.log score.zzcj
+    for i in [60...100] by 10
+      if i <= score.zzcj < i + 10  
         map[score.xnd][count]++ 
         break
       if i > score.zzcj 
@@ -235,8 +233,7 @@ drawBarChart = (scores, ele) ->
             title:
                 text: '大学成绩分布图'
             xAxis: 
-                categories: ['<60', '60-64', '65-69', "70-74","75-79","80-84","85-89","90-94","95-100"]
-            
+                categories: ['<60', '60-70', "70-80","80-90","90-100"]
             yAxis: 
                 min: 0
                 title: 
@@ -250,12 +247,6 @@ drawBarChart = (scores, ele) ->
             legend: 
                 backgroundColor: '#FFFFFF'
                 reversed: true
-                align: 'right'
-                x: -100
-                verticalAlign: 'top'
-                y: 20
-                floating: true
-                shadow: true
             tooltip: 
                 formatter: ->
                     return '' + this.series.name + '学年: ' + this.y + ''; 
@@ -267,40 +258,13 @@ drawBarChart = (scores, ele) ->
                         color: (Highcharts.theme and Highcharts.theme.dataLabelsColor) or 'white'
             series: formatScoreForBar(scores)
         );
-getDistributedScore = (scores) ->
-  ret = [['ID', '分数', '学分', '时间', '绩点']]
-  for score in scores
-    detail = []
-    detail.push if score.jxbmc and score.kcmc then score.jxbmc + score.kcmc else score.jxbmc || score.kcmc
-    detail.push parseFloat(score.zzcj)
-    detail.push parseFloat(score.xf)
-    detail.push score.xnd
-    detail.push parseFloat(score.jd)
-    ret.push detail
-  ret
-drawBubbleChart = (scores, ele) ->
-  scores = getDistributedScore(scores)
-  data = google.visualization.arrayToDataTable(scores);
-  options = 
-    title: '大学成绩分布图'
-    hAxis: 
-      title: '分数' 
-    vAxis: 
-      title: '学分'
-      minValue: 0
-      maxValue: 7
-    bubble: 
-      textStyle: 
-        color: 'none'
-  chart = new google.visualization.BubbleChart ele;
-  chart.draw data, options;
 $ ->
 
   $.when(getRequiredCredit(), getEarnedCredit(), getGpa()).done ->
     req_cdts = eval("req_cdts = " + arguments[0][0]).body.dataStores.zxzyxfStore.rowSet.primary
     earn_cdts = eval("earn_cdts = " + arguments[1][0]).body.dataStores.xfStore.rowSet.primary
     gpas = eval("gpas = " + arguments[2][0]).body.dataStores.jdStore.rowSet.primary
-    console.log credits = organizeCredits(req_cdts, earn_cdts, gpas)
+    credits = organizeCredits(req_cdts, earn_cdts, gpas)
     tbody = $("<tbody>")
     for rowName in ["公必", "专必", "专选", "公选", "实践", "总览"]
       tbody.append(genCreditRow(credits[rowName], rowName))
@@ -365,3 +329,6 @@ $ ->
     .fail ->
       toggleLoadingScene this, $lol
   $(".chart-type-btn-group button[value=pie]").click()
+  $("[rel=tooltip]").tooltip(
+    trigger:'click'
+  )
