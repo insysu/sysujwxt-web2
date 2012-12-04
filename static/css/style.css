@@ -34,6 +34,7 @@ table .progress {margin:0 !important;background:#ddd;}
 .overview-bg {position:relative;width:640px;height:240px;background:url("../img/bg.jpg") 0 0 no-repeat;margin-top:-20px;margin-bottom:20px}
 .overview-bg .welcome {position:absolute;left:20px;bottom:10px;text-shadow:0 0 10px #000;color:#fff}
 .overview-bg .welcome-info {position:absolute;right:20px;bottom:10px;text-shadow:0 0 10px #000;color:#999;text-align:right}
+.overview-bg .weather-info {position:absolute;right:20px;top:10px;text-shadow:0 0 10px #000;color:#999;text-align:right}
 .main .span8 {width:640px;}
 thead {background:#eee}
 .donate {float:left;margin-top:5px;width:140px;height:40px;background:url("../img/donate.png") 0 0 no-repeat}

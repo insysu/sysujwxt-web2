@@ -122,12 +122,12 @@
     tr.append($("<td>").text(credit.gpa));
     tr.append($("<td>").text(credit.earn_cdt + "/" + credit.req_cdt));
     if (credit.req_cdt_now === 0) {
-      return tr.append(successTd);
+      tr.append(successTd);
     } else {
       tr.append($("<td>").append($("<span>").addClass("label").text(credit.req_cdt_now)));
-      tr.append($("<td>").append($("<div>").addClass("progress").addClass("progress-striped").data("length", (length = credit.req_cdt / maxCredit * maxWidth) > maxWidth ? maxWidth : length).width(0).append($("<div>").addClass("bar").addClass(credit.req_cdt_now === 0 ? "bar-success" : null).addClass(credit.req_cdt_now !== 0 && rowName !== "总览" ? "bar-info" : null).data("length", credit.earn_cdt / credit.req_cdt * 100 + "%")))).width(0);
-      return tr;
     }
+    tr.append($("<td>").append($("<div>").addClass("progress").addClass("progress-striped").data("length", (length = credit.req_cdt / maxCredit * maxWidth) > maxWidth ? maxWidth : length).width(0).append($("<div>").addClass("bar").addClass(credit.req_cdt_now === 0 ? "bar-success" : null).addClass(credit.req_cdt_now !== 0 && rowName !== "总览" ? "bar-info" : null).data("length", credit.earn_cdt / credit.req_cdt * 100 + "%")))).width(0);
+    return tr;
   };
 
   calculateGpa = function(scores) {

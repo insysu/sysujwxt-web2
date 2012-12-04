@@ -4,13 +4,19 @@
 <div class="row main">
  <div class="span8 overview-bg">
   <p class="welcome"><span class="lead"><strong>欢迎回来，{{ name }}！</strong></span><br/>今天是2012年8月30日星期四，你在中大度过的第<strong>999</strong>天。</p>
-  <p class="welcome-info">{{ school }}<br/>{{ major }}</p>
+  <p class="welcome-info">{{ school }}</br>{{ major }}</p>
+  <p class="weather-info">
+    <span id="city-name"></span>
+    <span id="weather"></span>
+    </br>
+    <span id="min-tem"></span>-<span id="max-tem"></span>℃
+  </p>
 </div>
-<div class="span6">
-  <div class="alert alert-info">
-   <a href="#" class="btn btn-primary btn-large pull-right"><i class="icon-hand-right icon-white"></i> 选课</a>
-   <strong>正在进行选课</strong><br/>体育课选课第二轮筛选阶段，8月30日结束。
- </div>
+<div class="span6" >
+  <div id="tips">
+  </div>
+ 
+
 <div id="class-today">
  <table class="table table-hover">
    <thead>
@@ -27,15 +33,13 @@
 </div>
 <div class="span2">
   <div class="well well-small">
-   <p><small><strong>当前绩点</strong></small><br/>1.20, 年级340/342</p>
+   <!-- <p><small><strong>当前绩点</strong></small><br/>1.20, 年级340/342</p> -->
    <p><small><strong>你已报名参加</strong><br/><abbr title="2012年6月20日 上午10:00 东校区公共教学楼B202">大学英语四级考试</abbr></small></p>
-   <p><small><strong>本学期的课程</strong><br/>
-    <span class="badge">5</span> 公共必修<br/>
-    <span class="badge">5</span> 专业必修<br/>
-    <span class="badge">2</span> 专业选修<br/>
-    <span class="badge">2</span> 公共必修<br/>
-    <span class="badge badge-info">14</span> 所有课程</small></p>
-    <p><small><strong>离下一长假还有</strong><br/><span class="badge badge-success">54</span> 天</small></p>
+   <p>
+      <small id="courses"><strong>本学期的课程</strong><br/>
+    </small>
+  </p>
+    <p><small id="holidayCount"><strong>离下一<a id="holidayName" class="badge">长假</a>还有</strong><br/><span id="daysCount" class="badge badge-success"></span> 天</small></p>
   </div>
 </div>
 </div>

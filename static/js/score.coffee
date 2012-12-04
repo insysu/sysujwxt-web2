@@ -86,18 +86,18 @@ genCreditRow = (credit, rowName) ->
       $("<td>").append(
         $("<span>").addClass("label")
                    .text(credit.req_cdt_now)))
-    tr.append(
-      $("<td>").append(
-         $("<div>").addClass("progress")
-                   .addClass("progress-striped")
-                   .data("length",  if (length = credit.req_cdt / maxCredit * maxWidth) > maxWidth then maxWidth else length)
-                   .width(0)
-                   .append(     
-                     $("<div>").addClass("bar")
-                               .addClass(if credit.req_cdt_now is 0 then "bar-success" else null)
-                               .addClass(if credit.req_cdt_now isnt 0 and rowName isnt "总览" then "bar-info" else null)
-                               .data("length", credit.earn_cdt / credit.req_cdt * 100 + "%")))).width(0)
-    return tr
+  tr.append(
+    $("<td>").append(
+       $("<div>").addClass("progress")
+                 .addClass("progress-striped")
+                 .data("length",  if (length = credit.req_cdt / maxCredit * maxWidth) > maxWidth then maxWidth else length)
+                 .width(0)
+                 .append(     
+                   $("<div>").addClass("bar")
+                             .addClass(if credit.req_cdt_now is 0 then "bar-success" else null)
+                             .addClass(if credit.req_cdt_now isnt 0 and rowName isnt "总览" then "bar-info" else null)
+                             .data("length", credit.earn_cdt / credit.req_cdt * 100 + "%")))).width(0)
+  return tr
 calculateGpa = (scores) ->
   gpaWeight = 0
   totalCredits = 0

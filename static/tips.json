@@ -1,7 +1,26 @@
 {
   "schoolStartTime": "2012-9-17",
-  "selectCourse": false,
-  "selectRound": 1,
-  "selectSport": false,
-  "selectEnglish": false
+  "selectCourse": [
+  	{
+  	  "name": "公选/专选",
+  	  "status": true,
+  	  "round": 1,
+  	  "end": "8月29号下午3点"
+  	},{
+  	  "name": "体育",
+  	  "status": false,
+  	  "round": 0,
+  	  "end": "8月30号下午3点"
+  	},{
+  	  "name": "英语",
+  	  "status": true,
+  	  "round": 2,
+  	  "end": "8月30号下午1点"
+  	}
+  ],
+  "nextHoliday": {
+  	"name": "圣诞节",
+  	"start": "2012-12-25 0:0:0",
+  	"days": 3
+  }
 }
