@@ -25,9 +25,9 @@
         <div class="input-prepend btn-group">
           <div class="controls">
             <div class="term-btn-group btn-group active" data-toggle="buttons-radio">
-              <button value="1" class="btn">第一学期</button>
-              <button value="2" class="btn">第二学期</button>
-              <button value="3" class="btn">第三学期</button>
+              <button value="1" type="button" class="btn">第一学期</button>
+              <button value="2" type="button" class="btn">第二学期</button>
+              <button value="3" type="button" class="btn">第三学期</button>
             </div>
           </div>
         </div>
@@ -64,8 +64,8 @@
         <div class="input-prepend btn-group">
           <div class="controls">
             <div class="chart-type-btn-group btn-group active" data-toggle="buttons-radio">
-              <button value="pie" class="btn">饼图</button>
-              <button value="bar" class="btn">条形图</button>
+              <button value="pie" type="button" class="btn">饼图</button>
+              <button value="bar" type="button" class="btn">条形图</button>
             </div>
           </div>
         </div>
@@ -80,9 +80,8 @@
       {% endif %}
 </div>
 
-
+<script type="text/javascript" src="/static/js/highcharts.js"></script>
 {% endblock %}
 {% block scripts %}
-<script type="text/javascript" src="/static/js/highcharts.js"></script>
 <script type="text/javascript" src="/static/js/score.js"></script>
 {% endblock %}

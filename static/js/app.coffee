@@ -1,5 +1,5 @@
 exports = this
-courseTypeTable =
+exports.courseTypeTable =
   '30': '公选'
   '21': '专选'
   '11': '专必'
@@ -57,16 +57,16 @@ weatherImageTable = [
 
 ]
 
-currentYear = '2011-2012'
+currentYear = '2012-2013'
 currentTerm = '1'
 
-exports.loadingSpinner
-$loadingSpinner = $('<img>').attr({
+
+exports.$loadingSpinner = $('<img>').attr({
   'src': './static/img/loader.gif'
   'class': 'loading-img'
 })
 
-$lol = $('<img>').attr({
+exports.$lol = $('<img>').attr({
   'src': './static/img/lol.png'
   'class': 'lol-img'
 })

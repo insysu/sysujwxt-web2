@@ -319,7 +319,6 @@ $ ->
       $(this).html "请求失败，再试一次？"
   )
   $(".chart-type-btn-group .btn").click (e)->
-    e.preventDefault();
     toggleLoadingScene '#gpa-chart', $loadingSpinner
     type = $(this).val()
     getScore($("#gpa-chart")[0]).done (res) ->

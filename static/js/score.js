@@ -410,7 +410,6 @@
     });
     $(".chart-type-btn-group .btn").click(function(e) {
       var type;
-      e.preventDefault();
       toggleLoadingScene('#gpa-chart', $loadingSpinner);
       type = $(this).val();
       return getScore($("#gpa-chart")[0]).done(function(res) {
