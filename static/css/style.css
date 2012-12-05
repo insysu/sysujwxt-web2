@@ -3,7 +3,7 @@
  * for sysujwxt
  */
 
-body { width:640px; margin:0 auto; background-color:#fdfdfd; }
+body { margin:0 auto; background-color:#fdfdfd; }
 .biglogo { height:86px; background: url("../img/logo.png") top center no-repeat; margin-top:80px; margin-bottom:40px}
 .align-center { text-align:center}
 .ad-area { margin-top: 80px; background:#eee;}
@@ -25,9 +25,9 @@ body { width:640px; margin:0 auto; background-color:#fdfdfd; }
 .navbar-menu {width:640px; margin:0 auto}
 .small-logo {float:left;width:120px;height:40px;background:url("../img/small-logo.png") 0 0 no-repeat;padding:0 !important}
 .small-logo:active {background-position:0 -40px}
-.navbar-menu .nav li a {font-size:12px;padding:10px}
-.navbar-menu .nav .dropdown-menu li a {padding:3px 20px}
-.navbar-menu .right-menu {float:right !important;}
+.container .nav li a {font-size:12px;padding:10px}
+.container .nav .dropdown-menu li a {padding:3px 20px}
+.container .right-menu {float:right !important;}
 .main {margin-top:60px;margin-bottom:20px;}
 .gpa {font-size:16px;line-height:20px;margin-top:5px;}
 table .progress {margin:0 !important;background:#ddd;}
@@ -52,7 +52,16 @@ h5{margin:5px 0 5px 10px}
 h6{margin:5px 0 5px 0; font-size:14px; font-weight:normal}
 .table {border-radius:5px; webkit-border-radius:5px; moz-border-radius:5px; overflow:hidden; margin-bottom:0}
 .table thead {background-color:#f3f3f3;}
+.container {
+    max-width: 640px;
+}
 
+@media (max-width: 980px) {
+   /*Remove any padding from the body*/
+  #main-content {
+    margin-top: -60px;
+  }
+}
 
 #score-result, #gpa-chart {
   padding-top: 10px;

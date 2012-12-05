@@ -35,7 +35,7 @@
       </form>
         <div id="score-result">
       <table class="table table-condensed table-hover">
-        
+
       </table>
     </div>
 
@@ -52,14 +52,15 @@
           </table>
           </div>
         </div>
-        
+
+{% if not g.is_handheld_device %}
         <div class="span8">
           <div class="well well-small">
           <h5>成绩分布与绩点换算</h5>
           <p><a rel="tooltip" class="label" title="(A)90-100=4.0-5.0<br>(B)80-89=3.0-3.9<br>(C)70-79=2.0-2.9<br>(D)60-69=1.0-1.9<br>(E)0-59=0">第一种</a>算法的GPA是: <span class="label" id="gpa_origin">0</span></p>
           <p><a rel="tooltip" class="label" title="(A)85-100=4.0<br>(B)80-84=3.5<br>(C)75-79=3.0<br>(D)70-74=2.5<br>(E)60-69=2.0<br>(F)0-59=1.0">第二种</a>算法的GPA是: <span class="label" id="gpa_new">0</span></p>
           <form class="form-inline" style="margin-bottom:0">
-      
+
         <div class="input-prepend btn-group">
           <div class="controls">
             <div class="chart-type-btn-group btn-group active" data-toggle="buttons-radio">
@@ -69,12 +70,14 @@
           </div>
         </div>
       </form>
+
           <div id="gpa-chart">
-            
+
           </div>
 
           </div>
         </div>
+      {% endif %}
 </div>
 
 

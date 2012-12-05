@@ -1,42 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width; initial-scale=1; maximum-scale=1.2; user-scalable=1" name="viewport">
 	<title>{% block title %}{% endblock %} - SYSU 第三方教务系统</title>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" type="text/css" />
+    {% if g.is_handheld_device %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-responsive.min.css') }}" type="text/css" />
+    {% endif %}
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" />
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 	<script src="../static/js/app.js"></script>
-	
+
 	<!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 </head>
 <body>
-	<header class="navbar navbar-fixed-top">
+	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
-			<div class="navbar-menu">
+			<div class="container">
+             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+            </a>
+            <a class="small-logo" href="/"></a>
+            <div class="nav pull-right">
+                <li class="dropdown">
+           {% if g.is_handheld_device %}
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ name }} <b class="caret"></b></a>
+            {% else %}
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ name }} ({{ sno }}) <b class="caret"></b></a>
+            {% endif %}
+                 <ul class="dropdown-menu">
+                     <li><a href="#">修改密码</a></li>
+                     <!--<li class="divider"></li>-->
+                     <li><a href="/sign_out">退出</a></li>
+                 </ul>
+                </li>
+            </div>
+                <div class="nav-collapse" id="main-menu">
 				<ul class="nav">
-					<li {% if request.path == "/" %}class="active"{% endif %}><a class="small-logo" href="/"></a></li>
+					<li {% if request.path == "/" %}class="active"{% endif %}><a href="/">总览</a></li>
 					<li {% if request.path == "/score" %}class="active"{% endif %}><a href="/score">我的成绩</a></li>
 					<li {% if request.path == "/timetable" %}class="active"{% endif %}><a href="/timetable">我的课表</a></li>
 					<li {% if request.path == "/course" %}class="active"{% endif %}><a href="/course">选课退课</a></li>
-					<li><a href="#">评教</a></li>
 				</ul>
-				<ul class="nav right-menu">
-					<li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ name }} ({{ sno }}) <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="#">修改密码</a></li>
-							<!--<li class="divider"></li>-->
-							<li><a href="/sign_out">退出</a></li>
-						</ul>
-					</li>
-				</ul>
+              </div>
 			</div>
 		</div>
-	</header>
+	</div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -49,29 +64,20 @@
     {% endif %}
     {% endwith %}
 
+<div class="container" id="main-content">
 	{% block content %}{% endblock %}
-	<footer>
-		<div class="row align-center intro">
-			<div class="span6">
-				<p><small>该项目旨在提供更简洁、高效、安全、跨平台的中山大学教务系统使用体验。<br/>这是一个开源、非盈利的项目。<br/>
-					<a href="http://sysujwxt.com/about">>>了解更多, 并给我们留言</a></small></p>
-				</div>
-				<div class="span2">
-					<div class="btn-group">
-						<a class="btn dropdown-toggle btn-block" data-toggle="dropdown" href="#">
-							下载手机应用
-							<span class="caret"></span>
-						</a>
-						<ul class="dropdown-menu">
-							<li><a href="#">for iOS</a></li>
-							<li><a href="#">for Android</a></li>
-							<li><a href="#">for WindowsPhone</a></li>
-						</ul>
-					</div>
-					<h5><a class="btn btn-block" href="#">在Github上查看</a></h5>
-				</div>
-			</div>
-		</footer>
+    <footer id="footer">
+        <div class="row pagination-centered">
+            <div class="footer intro">
+                <p>Designed and built by: <a href="#">Maple</a> · <a href="#">L-Ng</a> · <a href="#">TXX</a> · <a href="#">Will404</a><br/>
+                    Special thanks to <a href="#">Kitty钱</a> for her photographs.<br/>
+                    <a href="#">关于项目</a> · <a href="#">在Github上查看</a> · <a href="#">iOS客户端</a> · <a href="#">向我们捐赠</a>
+                </p>
+                <p>Licensed under <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/cn/">CC BY-NC-ND 3.0 CN</a>.</p>
+            </div>
+        </div>
+    </footer>
+    </div>
 		{% block scripts %}{% endblock %}
 	</body>
 	</html>
